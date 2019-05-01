@@ -11,7 +11,7 @@ public class App {
         String currentPath = System.getProperty("user.dir");
         String fileDir = currentPath + "/data/bus/20190124기준_서울시_버스노선정보.xls";
         //System.out.println(System.getProperty("user.dir"));
-        ParseFileClass parse1 = new ParseFileClass(fileDir, false);
+        ParseFileClass parse1 = new ParseFileClass(fileDir, false, true);
 
         System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
     }
