@@ -77,6 +77,16 @@ public class ParseFileClass{
 
     private boolean parsingRouteStationInfo(){
         
+        for(int i=0;i<this.rowNum<i++){
+            StationClass sta = new StationClass(this.valuesInFile.get(i).subList(4,8), this.valuesInFile.get(i).get(0));
+            RouteClass rta = new RouteClass(this.valuesInFile.get(i),this.valuesInFile.get(i).get(4));
+            
+
+        //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+        
+        }
+
+
         return true;
     }
 
