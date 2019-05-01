@@ -1,7 +1,9 @@
+package app;
 import java.util.HashMap;
 
 public class BusInfoClass{
     // 싱글톤객체
+    // 
     private static BusInfoClass busInfo = new BusInfoClass();
 
     public static BusInfoClass getInstance(){
@@ -22,20 +24,23 @@ public class BusInfoClass{
     }
 
     // HashMap에 경로 추가
-    public void addRoute(){
-
+    public void addRoute(RouteClass instance){
+        this.RouteList.put(instance.routeId, instance);
     }
 
     // HashMap에 정류장 추가
-    public void addStation(){
-
+    public void addStation(StationClass instance){
+        this.StationList.put(instance.stnd_bsst_id, instance);
     }
 
-    // 특정  Route
+    // 특정  Route 정보 불러오기 
+    // return 값은 Route class instance
     public RouteClass getRouteInfo(String routeId){
         return this.RouteList.get(routeId);
     }
 
+    // 특정 Station 정보 불러오기
+    // return 값은 Station class instance
     public StationClass getStationInfo(String stationId){
         return this.StationList.get(stationId);
     }
