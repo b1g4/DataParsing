@@ -76,9 +76,8 @@ public class ParseFileClass{
     }
 
     private boolean parsingRouteStationInfo(){
-
-
         for(int i = 0 ; i <= this.rowNum ; i++){
+           
             StationClass sta;
             RouteClass rta;
             String routeId = this.valuesInFile.get(i).get(0);
@@ -86,7 +85,6 @@ public class ParseFileClass{
             
             if(busInfo.isRouteExist(routeId)){
                 //route instance 존재
-
                 if(busInfo.isStationExist(stationId)){
                     // route instance 존재, station instance 존재 
                     sta = busInfo.getStationInfo(stationId);
@@ -100,8 +98,8 @@ public class ParseFileClass{
                     rta.addStationInfo(stationId);
                 }
             }
-            else // route instance 존재 x
-            {
+            else {
+                // route instance 존재 x
                 if(busInfo.isStationExist(stationId)){
                     // route instance 존재x, station instance 존재 
                     rta = new RouteClass(this.valuesInFile.get(i),this.valuesInFile.get(i).get(4));
@@ -110,18 +108,14 @@ public class ParseFileClass{
                     sta.addRouteInfo(routeId);
                 }
                 else{   
-                    // route instance 존재x, station instance 존재 x
+                    // route instance 존재 x, station instance 존재 x
                     rta = new RouteClass(this.valuesInFile.get(i),this.valuesInFile.get(i).get(4));
                     sta = new StationClass(this.valuesInFile.get(i).subList(4,8),this.valuesInFile.get(i).get(0));
                     busInfo.addStation(sta);
                     busInfo.addRoute(rta);
                 }
-                
-                busInfo.addRoute(rta);
             }
-
         }  
-        
         return true;
     }
 
