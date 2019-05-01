@@ -1,7 +1,8 @@
 package app;
 
 import java.util.ArrayList;
-import bus.BusInfoClass;
+import java.util.List;
+import bus.*;
 
 public class ParseFileClass{
     /*
@@ -36,7 +37,7 @@ public class ParseFileClass{
             if(isXls){
                 result = this.readXls(true);
                 if(result){
-                    StationClass sta = new StationClass(this.valuesInFile.get(0).get(0).subList(4,8), )
+                    StationClass sta = new StationClass(this.valuesInFile.get(0).subList(4,8), this.valuesInFile.get(0).get(0));
                     this.parsingRouteStationInfo();
                 }
             }

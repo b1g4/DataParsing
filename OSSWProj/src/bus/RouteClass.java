@@ -1,6 +1,7 @@
 package bus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RouteClass{
     // public member variable
@@ -9,7 +10,7 @@ public class RouteClass{
     //public ArrayList<StationClass> stationList = new ArrayList<StationClass>();
 
     // constructor
-    public RouteClass(ArrayList<String> infoList, String stationId){
+    public RouteClass(List<String> infoList, String stationId){
         // routeInfo : id, Name
         this.routeId = infoList.get(0);
         this.routeName = infoList.get(1);

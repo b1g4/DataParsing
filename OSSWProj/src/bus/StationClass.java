@@ -1,6 +1,7 @@
 package bus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class StationClass{
@@ -13,7 +14,7 @@ public class StationClass{
     public HashMap<RouteClass, ArrayList<Integer>> routeList = new HashMap<RouteClass, ArrayList<Integer>>();
     
     // constructor
-    public StationClass(ArrayList<String> infoList, String routeId){
+    public StationClass(List<String> infoList, String routeId){
         // infoList : id, arsNum, name, x, y 순서로 입력
         this.stationId = infoList.get(0);
         this.stationArsNum = infoList.get(1);
