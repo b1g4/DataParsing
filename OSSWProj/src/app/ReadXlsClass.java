@@ -5,30 +5,21 @@ import java.util.ArrayList;
 import org.apache.poi.hssf.usermodel.*;
 
 public class ReadXlsClass{
+    private boolean show;
     private int rowNum;
     private int columnNum;
     private String fileName;
     private ArrayList<ArrayList<String>> xlsFileValues = new ArrayList<ArrayList<String>>();
 
     public ReadXlsClass(String fileName, boolean show){
+        // show : 파일 읽기 완료후 데이터 출력 유무
+        this.show = show;
         this.rowNum = -1;
         this.columnNum = -1;
         this.fileName = fileName;
-        boolean result = readFile();
-        if(result){
-            if(show){
-                this.showAllData();
-            }
-            else{
-                System.out.println("read file end");
-            }
-        }
-        else{
-            System.out.println("read file filed, check file directory");
-        }
     }
 
-    private boolean readFile(){
+    public boolean readFile(){
         FileInputStream fis;
         HSSFWorkbook workbook;
         try{
@@ -88,11 +79,23 @@ public class ReadXlsClass{
         catch(IOException e){
             System.out.println("파일 입출력 오류 " + e);
         }
+        if(this.show){
+            this.showAllData();
+        }
+        else {
+            System.out.println("파일 읽기 완료");
+        }
+
         return true;
     }
 
     public void showAllData(){
-
+        for(int i=0; i<this.xlsFileValues.size(); i++){
+            for(int j=0; j<this.xlsFileValues.get(i).size(); j++){
+                System.out.print(xlsFileValues.get(i).get(j) + " ");
+            }
+            System.out.println("");
+        }
     }
     
     public ArrayList<ArrayList<String>> getXlsData(){

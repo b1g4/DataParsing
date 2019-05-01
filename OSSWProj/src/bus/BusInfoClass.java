@@ -1,4 +1,4 @@
-package app;
+package bus;
 import java.util.HashMap;
 
 public class BusInfoClass{
@@ -30,7 +30,7 @@ public class BusInfoClass{
 
     // HashMap에 정류장 추가
     public void addStation(StationClass instance){
-        this.StationList.put(instance.stnd_bsst_id, instance);
+        this.StationList.put(instance.stationId, instance);
     }
 
     // 특정  Route 정보 불러오기 
@@ -43,5 +43,12 @@ public class BusInfoClass{
     // return 값은 Station class instance
     public StationClass getStationInfo(String stationId){
         return this.StationList.get(stationId);
+    }
+
+    // Station ID로 해당 Station Instance가 생성되어있는지 검사
+    // false면 Station Instacne생성하고 addStation Call
+    // true면 getStationInfo(stationId)를 call하고 해당 Instance에 정보 추가
+    public boolean isStationExist(String stationId){
+        return this.StationList.containsKey(stationId);
     }
 }
