@@ -51,4 +51,8 @@ public class BusInfoClass{
     public boolean isStationExist(String stationId){
         return this.StationList.containsKey(stationId);
     }
+
+    public boolean isRouteExist(String routeId){
+        return this.RouteList.containsKey(routeId);
+    }
 }

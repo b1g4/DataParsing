@@ -1,6 +1,7 @@
 package bus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class StationClass{
@@ -10,10 +11,10 @@ public class StationClass{
     public String stationName; // index : bus_sta_nm, 6번 column
     public String stationX; // index : bus_sta_x, 7번 column
     public String stationY; // index : bus_sta_y, 8번 column
-    public HashMap<RouteClass, ArrayList<Integer>> routeList = new HashMap<RouteClass, ArrayList<Integer>>();
+    public HashMap<String, ArrayList<Integer>> routeList = new HashMap<String, ArrayList<Integer>>();
     
     // constructor
-    public StationClass(ArrayList<String> infoList, RouteClass routeInfo){
+    public StationClass(List<String> infoList, String routeId){
         // infoList : id, arsNum, name, x, y 순서로 입력
         this.stationId = infoList.get(0);
         this.stationArsNum = infoList.get(1);
@@ -21,16 +22,16 @@ public class StationClass{
         this.stationX = infoList.get(3);
         this.stationY = infoList.get(4);
         ArrayList<Integer> dump = new ArrayList<Integer>();
-        this.routeList.put(routeInfo, dump);
+        this.routeList.put(routeId, dump);
     }
 
-    public void addRouteInfo(RouteClass routeInfo){
+    public void addRouteInfo(String routeId){
         ArrayList<Integer> dump = new ArrayList<Integer>();
-        this.routeList.put(routeInfo, dump);
+        this.routeList.put(routeId, dump);
     }
     
-    public void addCongestionInfo(RouteClass routeInfo, ArrayList<Integer> congestion){
-        this.routeList.get(routeInfo).clear();
-        this.routeList.get(routeInfo).addAll(congestion);
+    public void addCongestionInfo(String routeId, ArrayList<Integer> congestion){
+        this.routeList.get(routeId).clear();
+        this.routeList.get(routeId).addAll(congestion);
     }
 }
