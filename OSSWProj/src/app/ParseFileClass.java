@@ -36,6 +36,7 @@ public class ParseFileClass{
             if(isXls){
                 result = this.readXls(true);
                 if(result){
+                    StationClass sta = new StationClass(this.valuesInFile.get(0).get(0).subList(4,8), )
                     this.parsingRouteStationInfo();
                 }
             }

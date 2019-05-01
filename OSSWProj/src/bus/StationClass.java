@@ -13,7 +13,7 @@ public class StationClass{
     public HashMap<RouteClass, ArrayList<Integer>> routeList = new HashMap<RouteClass, ArrayList<Integer>>();
     
     // constructor
-    public StationClass(ArrayList<String> infoList, RouteClass routeInfo){
+    public StationClass(ArrayList<String> infoList, String routeId){
         // infoList : id, arsNum, name, x, y 순서로 입력
         this.stationId = infoList.get(0);
         this.stationArsNum = infoList.get(1);
@@ -21,16 +21,16 @@ public class StationClass{
         this.stationX = infoList.get(3);
         this.stationY = infoList.get(4);
         ArrayList<Integer> dump = new ArrayList<Integer>();
-        this.routeList.put(routeInfo, dump);
+        //this.routeList.put(routeInfo, dump);
     }
 
-    public void addRouteInfo(RouteClass routeInfo){
+    public void addRouteInfo(String routeId){
         ArrayList<Integer> dump = new ArrayList<Integer>();
-        this.routeList.put(routeInfo, dump);
+        //this.routeList.put(routeInfo, dump);
     }
     
-    public void addCongestionInfo(RouteClass routeInfo, ArrayList<Integer> congestion){
-        this.routeList.get(routeInfo).clear();
-        this.routeList.get(routeInfo).addAll(congestion);
+    public void addCongestionInfo(String routeId, ArrayList<Integer> congestion){
+        //this.routeList.get(routeInfo).clear();
+        //this.routeList.get(routeInfo).addAll(congestion);
     }
 }
