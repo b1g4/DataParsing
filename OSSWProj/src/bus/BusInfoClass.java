@@ -63,6 +63,10 @@ public class BusInfoClass{
             return RouteList;
     }
 
+    public HashMap<String, StationClass> getStationHashMap(){
+        return StationList;
+}
+
 
     //hashmap확인용 메소드 , 삭제예정
     public void hashmapPrint(){

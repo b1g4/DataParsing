@@ -116,6 +116,8 @@ public class ParseFileClass {
         try {
             WriteCsvClass tmpc = new WriteCsvClass();
             tmpc.writeRouteClass(busInfo.getRouteHashMap());
+           
+            tmpc.writeStationClass(busInfo.getStationHashMap());
         } catch (IOException e) {
             e.printStackTrace();
         }

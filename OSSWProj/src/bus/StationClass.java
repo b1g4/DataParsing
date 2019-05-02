@@ -34,4 +34,28 @@ public class StationClass{
         this.routeList.get(routeId).clear();
         this.routeList.get(routeId).addAll(congestion);
     }
+
+    public String getStationId(){
+        return this.stationId;
+    }
+
+    public String getStationArsNum(){
+        return this.stationArsNum;
+    }
+
+    public String getStationName(){
+        return this.stationName;
+    }
+
+    public String getStationX(){
+        return this.stationX;
+    }
+
+    public String getStationY(){
+        return this.stationY;
+    }
+
+    public HashMap<String, ArrayList<Integer>> getRouteListHashMap(){
+        return routeList;
+    }
 }

@@ -24,7 +24,8 @@ public class WriteCsvClass {
        
         try {
 
-            String csvfilename = "C:/Users/yoonhee/Desktop/ossproject/DataParsing/routecsv.csv";
+            String currentPath = System.getProperty("user.dir");
+            String csvfilename = currentPath + "/routecsv.csv";
             
             BufferedWriter fw;
 
@@ -53,9 +54,43 @@ public class WriteCsvClass {
        
     }
 
-    public void writeStationClass(HashMap<String, StationClass> stationlist){
+    public void writeStationClass(HashMap<String, StationClass> stationlist) throws IOException{
+
+        try {
+
+            String currentPath = System.getProperty("user.dir");
+            String csvfilename = currentPath + "/stationcsv.csv";
+                        
+            BufferedWriter fw;
+
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            
+            Collection<StationClass> values = stationlist.values();
+            
+            //Collection<String> keys = stationlist.
+       
+            for(StationClass value : values){
+            
+                fw.write(value.getStationId()+","+value.getStationArsNum() +","+value.getStationName() +","+value.getStationX() +"," + value.getStationY()+","+value.getRouteListHashMap().keySet());
+
+//                fw.write(value.getRouteListHashMap().keySet());
+                //이부분을 hashmap읽는 부분으로 바꾸면 됩니다
+                //for(int i = 0 ; i < value.getStationList().size() ; i++){
+                    //fw.write(value.getStationList().get(i) + ",");
+                //}
+
+                fw.newLine();
+            }
+            fw.close();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
-
     
 }
