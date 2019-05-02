@@ -1,4 +1,6 @@
 package bus;
+
+import java.util.Collection;
 import java.util.HashMap;
 
 public class BusInfoClass{
@@ -54,5 +56,22 @@ public class BusInfoClass{
 
     public boolean isRouteExist(String routeId){
         return this.RouteList.containsKey(routeId);
+    }
+
+    public void hashmapPrint(){
+        /*
+        Collection<String> keys = RouteList.keySet();
+        for(String key : keys){
+            System.out.println(key);
+        }
+        */
+
+        Collection<String> keyss = StationList.keySet();
+        for(String key : keyss){
+            System.out.println(key);
+        }
+        System.out.println("station");
+
+
     }
 }
