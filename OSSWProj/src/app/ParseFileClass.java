@@ -1,20 +1,16 @@
 package app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import bus.*;
 
-public class ParseFileClass{
+public class ParseFileClass {
     /*
-    모든 파싱관련 내용은 이 클래스에 작성되어야 한다 
-    xls file open : ReadXlsClass를 사용
-    csv file open : 자바 기본 I/O 사용
-    csv file splitter(token) 정보 : README.md참고
-    모든 정보는 busInfo member variable인 
-         1. RouteList
-         2. StationList
-    에 저장되어야 한다.
-    */
+     * 모든 파싱관련 내용은 이 클래스에 작성되어야 한다 xls file open : ReadXlsClass를 사용 csv file open :
+     * 자바 기본 I/O 사용 csv file splitter(token) 정보 : README.md참고 모든 정보는 busInfo member
+     * variable인 1. RouteList 2. StationList 에 저장되어야 한다.
+     */
 
     // private member variable
     private BusInfoClass busInfo;
@@ -25,97 +21,104 @@ public class ParseFileClass{
     private boolean result;
 
     // public member variable
-    
+
     // constructor
-    public ParseFileClass(String fileDir, boolean isXls, boolean isBus){
+    public ParseFileClass(String fileDir, boolean isXls, boolean isBus) {
         // isXls : xls파일이면 true, csv 파일이면 false
         // 수집한 data 분류 및 최종 파일 생성을 위해 사용되는 생성자
-        if(isBus){
+        if (isBus) {
             this.busInfo = BusInfoClass.getInstance();
-            this.fileDir =fileDir;
+            this.fileDir = fileDir;
             this.valuesInFile = new ArrayList<ArrayList<String>>();
-            if(isXls){
+            if (isXls) {
                 result = this.readXls(true);
-                if(result){
-                    StationClass sta = new StationClass(this.valuesInFile.get(0).subList(4,8), this.valuesInFile.get(0).get(0));
+                if (result) {
                     this.parsingRouteStationInfo();
+                    // this.busInfo.hashmapPrint();
+
                 }
-            }
-            else{
+            } else {
                 // csv 파싱하는 method 호출
                 // 추가 구현 필요
             }
-        }
-        else{
+        } else {
 
         }
     }
-    public ParseFileClass(String fileDir, boolean isBus){
+
+    public ParseFileClass(String fileDir, boolean isBus) {
         // 최종 파일 생성 후 사용되는 생성자
         this.busInfo = BusInfoClass.getInstance();
         this.fileDir = fileDir;
         this.valuesInFile = new ArrayList<ArrayList<String>>();
-        
+
         // 추가 구현 필요
     }
 
-    private boolean readXls(boolean isShow){
+    private boolean readXls(boolean isShow) {
         ReadXlsClass readxls = new ReadXlsClass(this.fileDir, isShow);
         boolean result = true;
         result = readxls.readFile();
-        if(result){
+        if (result) {
             this.valuesInFile = readxls.getXlsData();
             this.rowNum = this.valuesInFile.size();
             this.columnNum = this.valuesInFile.get(0).size();
             return result;
-        }
-        else{
+        } else {
             System.out.println("파일 읽기 실패");
             return result;
         }
     }
 
-    private boolean parsingRouteStationInfo(){
-        for(int i = 0 ; i <= this.rowNum ; i++){
-           
+    private boolean parsingRouteStationInfo() {
+        for (int i = 0; i < this.rowNum; i++) {
+
             StationClass sta;
             RouteClass rta;
             String routeId = this.valuesInFile.get(i).get(0);
             String stationId = this.valuesInFile.get(i).get(4);
-            
-            if(busInfo.isRouteExist(routeId)){
-                //route instance 존재
-                if(busInfo.isStationExist(stationId)){
-                    // route instance 존재, station instance 존재 
+
+            if (busInfo.isRouteExist(routeId)) {
+                // route instance 존재
+                if (busInfo.isStationExist(stationId)) {
+                    // route instance 존재, station instance 존재
                     sta = busInfo.getStationInfo(stationId);
                     sta.addRouteInfo(routeId);
-                }
-                else{   
+                } else {
                     // route instance 존재, station instance 존재 x
-                    sta = new StationClass(this.valuesInFile.get(i).subList(4,8),this.valuesInFile.get(i).get(0));
+                    sta = new StationClass(this.valuesInFile.get(i).subList(4, columnNum),
+                            this.valuesInFile.get(i).get(0));
                     busInfo.addStation(sta);
-                    rta = busInfo.getRouteInfo(routeId);
-                    rta.addStationInfo(stationId);
+
                 }
-            }
-            else {
+                rta = busInfo.getRouteInfo(routeId);
+                rta.addStationInfo(stationId);
+            } else {
                 // route instance 존재 x
-                if(busInfo.isStationExist(stationId)){
-                    // route instance 존재x, station instance 존재 
-                    rta = new RouteClass(this.valuesInFile.get(i),this.valuesInFile.get(i).get(4));
+                if (busInfo.isStationExist(stationId)) {
+                    // route instance 존재x, station instance 존재
+                    rta = new RouteClass(this.valuesInFile.get(i), this.valuesInFile.get(i).get(4));
                     busInfo.addRoute(rta);
                     sta = busInfo.getStationInfo(stationId);
                     sta.addRouteInfo(routeId);
-                }
-                else{   
+                } else {
                     // route instance 존재 x, station instance 존재 x
-                    rta = new RouteClass(this.valuesInFile.get(i),this.valuesInFile.get(i).get(4));
-                    sta = new StationClass(this.valuesInFile.get(i).subList(4,8),this.valuesInFile.get(i).get(0));
+                    rta = new RouteClass(this.valuesInFile.get(i), this.valuesInFile.get(i).get(4));
+                    sta = new StationClass(this.valuesInFile.get(i).subList(4, columnNum),
+                            this.valuesInFile.get(i).get(0));
                     busInfo.addStation(sta);
                     busInfo.addRoute(rta);
                 }
             }
-        }  
+        }
+
+        //csv파일 생성확인 코드 , 삭제예정
+        try {
+            WriteCsvClass tmpc = new WriteCsvClass();
+            tmpc.writeRouteClass(busInfo.getRouteHashMap());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

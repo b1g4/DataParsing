@@ -80,7 +80,7 @@ public class ReadXlsClass{
             System.out.println("파일 입출력 오류 " + e);
         }
         if(this.show){
-            this.showAllData();
+            //this.showAllData();
         }
         else {
             System.out.println("파일 읽기 완료");
@@ -90,7 +90,7 @@ public class ReadXlsClass{
     }
 
     public void showAllData(){
-        for(int i=0; i<this.xlsFileValues.size(); i++){
+        for(int i=0; i<10; i++){
             for(int j=0; j<this.xlsFileValues.get(i).size(); j++){
                 System.out.print(xlsFileValues.get(i).get(j) + " ");
             }
