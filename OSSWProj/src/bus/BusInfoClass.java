@@ -57,7 +57,14 @@ public class BusInfoClass{
     public boolean isRouteExist(String routeId){
         return this.RouteList.containsKey(routeId);
     }
+    
+    //RouteList반환
+    public HashMap<String, RouteClass> getRouteHashMap(){
+            return RouteList;
+    }
 
+
+    //hashmap확인용 메소드 , 삭제예정
     public void hashmapPrint(){
         /*
         Collection<String> keys = RouteList.keySet();
@@ -65,13 +72,11 @@ public class BusInfoClass{
             System.out.println(key);
         }
         */
-
         Collection<String> keyss = StationList.keySet();
         for(String key : keyss){
             System.out.println(key);
         }
-        System.out.println("station");
-
-
     }
+
+    
 }

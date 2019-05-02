@@ -20,4 +20,18 @@ public class RouteClass{
     public void addStationInfo(String stationId){
         this.stationList.add(stationId);
     }
+
+    public String getRouteId(){
+        return this.routeId;
+    }
+
+    public String getRouteName(){
+        return this.routeName;
+    }
+
+    public ArrayList<String> getStationList(){
+        return this.stationList;
+    }
+
+
 }
