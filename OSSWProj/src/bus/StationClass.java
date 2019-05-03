@@ -58,4 +58,13 @@ public class StationClass{
     public HashMap<String, ArrayList<Integer>> getRouteListHashMap(){
         return routeList;
     }
+
+
+    //정류장별로 해당 정류장 지나는 노선 잘 들어갔는지 확인
+    public void showRouteInfo(){
+        Collection<String> keys = routeList.keySet();
+        for(String key : keys){
+            System.out.println(key);
+        }
+    }
 }

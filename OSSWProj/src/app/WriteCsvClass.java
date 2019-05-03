@@ -66,21 +66,23 @@ public class WriteCsvClass {
             fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
             
             Collection<StationClass> values = stationlist.values();
-            
-            //Collection<String> keys = stationlist.
-       
+        
             for(StationClass value : values){
             
-                fw.write(value.getStationId()+","+value.getStationArsNum() +","+value.getStationName() +","+value.getStationX() +"," + value.getStationY()+","+value.getRouteListHashMap().keySet());
+                fw.write(value.getStationId()+","+value.getStationArsNum() +","+value.getStationName() +","+value.getStationX() +"," 
+                + value.getStationY()+",");              
+                
+                Collection<String> keys = value.getRouteListHashMap().keySet();
 
-//                fw.write(value.getRouteListHashMap().keySet());
-                //이부분을 hashmap읽는 부분으로 바꾸면 됩니다
-                //for(int i = 0 ; i < value.getStationList().size() ; i++){
-                    //fw.write(value.getStationList().get(i) + ",");
-                //}
+                for(String key : keys){
+                    fw.write(key + ",");
+                }
 
                 fw.newLine();
             }
+
+            
+
             fw.close();
 
         } catch (UnsupportedEncodingException e) {

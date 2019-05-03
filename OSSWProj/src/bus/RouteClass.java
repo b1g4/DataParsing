@@ -33,5 +33,14 @@ public class RouteClass{
         return this.stationList;
     }
 
+    //한 노선에 대해 각각의 정류장 순서대로 들어갔는지 확인가능
+    public void showStationInfo(){
+        int count = this.stationList.size();
+        for(int i=0;i<count;i++){
+            System.out.print(this.stationList.get(i) + " ");
+        }
+        
+    }
+
 
 }
