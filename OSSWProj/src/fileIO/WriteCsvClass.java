@@ -1,4 +1,4 @@
-package app;
+package fileIO;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
