@@ -17,7 +17,7 @@ public class RouteClass{
         this.stationList.add(stationId); // 반드시 순서대로 추가해야함
     }
 
-    public void addStationInfo(String stationId){
+    public void setStationInfo(String stationId){
         this.stationList.add(stationId);
     }
 

@@ -26,12 +26,12 @@ public class StationClass{
         this.routeList.put(routeId, dump);
     }
 
-    public void addRouteInfo(String routeId){
+    public void setRouteInfo(String routeId){
         ArrayList<Integer> dump = new ArrayList<Integer>();
         this.routeList.put(routeId, dump);
     }
     
-    public void addCongestionInfo(String routeId, ArrayList<Integer> congestion){
+    public void setCongestionInfo(String routeId, ArrayList<Integer> congestion){
         this.routeList.get(routeId).clear();
         this.routeList.get(routeId).addAll(congestion);
     }

@@ -21,78 +21,52 @@ public class WriteCsvClass {
     }
 
     public void writeRouteClass(HashMap<String, RouteClass> routelist) throws IOException {
-       
         try {
-
             String currentPath = System.getProperty("user.dir");
             String csvfilename = currentPath + "/routecsv.csv";
-            
+
             BufferedWriter fw;
-
             fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
-            
-            Collection<RouteClass> values = routelist.values();
-       
-            for(RouteClass value : values){
-            
-                fw.write(value.getRouteId()+","+value.getRouteName()+",");
 
+            Collection<RouteClass> values = routelist.values();
+            for(RouteClass value : values){
+                fw.write(value.getRouteId()+","+value.getRouteName()+",");
                 for(int i = 0 ; i < value.getStationList().size() ; i++){
                     fw.write(value.getStationList().get(i) + ",");
                 }
-
                 fw.newLine();
             }
             fw.close();
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-       
     }
 
     public void writeStationClass(HashMap<String, StationClass> stationlist) throws IOException{
-
         try {
-
             String currentPath = System.getProperty("user.dir");
             String csvfilename = currentPath + "/stationcsv.csv";
                         
             BufferedWriter fw;
-
             fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
             
             Collection<StationClass> values = stationlist.values();
-        
             for(StationClass value : values){
-            
                 fw.write(value.getStationId()+","+value.getStationArsNum() +","+value.getStationName() +","+value.getStationX() +"," 
                 + value.getStationY()+",");              
-                
                 Collection<String> keys = value.getRouteListHashMap().keySet();
-
                 for(String key : keys){
                     fw.write(key + ",");
                 }
-
                 fw.newLine();
             }
-
-            
-
             fw.close();
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
     }
-    
 }

@@ -26,12 +26,12 @@ public class BusInfoClass{
     }
 
     // HashMap에 경로 추가
-    public void addRoute(RouteClass instance){
+    public void setRoute(RouteClass instance){
         this.RouteList.put(instance.routeId, instance);
     }
 
     // HashMap에 정류장 추가
-    public void addStation(StationClass instance){
+    public void setStation(StationClass instance){
         this.StationList.put(instance.stationId, instance);
     }
 
