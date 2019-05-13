@@ -13,13 +13,23 @@ import java.util.HashMap;
 import bus.RouteClass;
 import bus.StationClass;
 
-//csv파일 만들기 ,미완성
+/**
+ * 원본 데이터를 읽은 후 가공된 정보를 CSV형태로 저장하기 위해 만든 클래스
+ */
 public class WriteCsvClass {
 
+    /**
+     * 생성자
+     */
     public WriteCsvClass(){
         
     }
 
+    /**
+     * 
+     * @param routelist
+     * @throws IOException
+     */
     public void writeRouteClass(HashMap<String, RouteClass> routelist) throws IOException {
         try {
             String currentPath = System.getProperty("user.dir");
@@ -44,6 +54,11 @@ public class WriteCsvClass {
         }
     }
 
+    /**
+     * 
+     * @param stationlist
+     * @throws IOException
+     */
     public void writeStationClass(HashMap<String, StationClass> stationlist) throws IOException{
         try {
             String currentPath = System.getProperty("user.dir");

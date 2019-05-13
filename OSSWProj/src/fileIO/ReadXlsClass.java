@@ -80,7 +80,7 @@ public class ReadXlsClass{
             System.out.println("파일 입출력 오류 " + e);
         }
         if(this.show){
-            //this.showAllData();
+            this.showAllData();
         }
         else {
             System.out.println("파일 읽기 완료");

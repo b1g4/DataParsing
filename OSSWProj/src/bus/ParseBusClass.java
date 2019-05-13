@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * ParseBusClass
+ * 전반적인 버스와 정류장 정보를 모두 정리 한 후
+ * Congestion관련 정보를 정리한다.
  */
 public class ParseBusClass {
     // private member variable
@@ -15,7 +17,10 @@ public class ParseBusClass {
     private int rowNum;
     private int columnNum;
 
-    // constructor
+    /**
+     * Constructor
+     * @param valuesInFile : 파일을 읽고 저장된 정보
+     */
     public ParseBusClass(ArrayList<ArrayList<String>> valuesInFile){
         this.busInfo = BusInfoClass.getInstance();
         this.valuesInFile = valuesInFile;
@@ -23,7 +28,11 @@ public class ParseBusClass {
         this.columnNum = this.valuesInFile.get(0).size();
     }
 
-    // public member method
+    /**
+     * BusInfoClass의 Route, Station관련 HashMap에 정보를 추가하는 작업
+     * 이 작업이 끝나면 Congestion관련 작업이 수행되어야 한다. 
+     * @return 모든 파일 입출력 작업이 정상적으로 끝마치면 true
+     */
     public boolean parsingRouteStationInfo(){
         for (int i = 0; i < this.rowNum; i++) {
 
@@ -77,5 +86,6 @@ public class ParseBusClass {
         }
         return true;
     }
+    
     
 }
