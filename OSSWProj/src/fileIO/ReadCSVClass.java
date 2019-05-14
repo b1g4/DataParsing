@@ -69,6 +69,7 @@ public class ReadCSVClass {
             } catch (IOException e){
                 e.printStackTrace();
             }
+            
             if(this.show){
                 this.showAllData();
             } else {
@@ -98,11 +99,12 @@ public class ReadCSVClass {
         }
 
         // for test
+        /*
         for(String cell : tmpList){
             System.out.print(cell + " ");
         }
         System.out.println(" ");
-        
+        */
         return tmpList;
     }
 
@@ -116,6 +118,9 @@ public class ReadCSVClass {
             }
             System.out.println("");
         }
+        
+        System.out.println(this.csvFileValues.size());
+        System.out.println(this.csvFileValues.get(0).size());
     }
     
     /**

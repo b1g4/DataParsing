@@ -5,8 +5,8 @@ import java.util.List;
 
 public class RouteClass{
     // public member variable
-    public String routeId; // index : bus_route_id, 0번 column
-    public String routeName; // index : bus_route_nm, 1번 column
+    public String routeId; // index : 0번 column
+    public String routeName; // index : 1번 column
     public ArrayList<String> stationList = new ArrayList<String>();
 
     // constructor

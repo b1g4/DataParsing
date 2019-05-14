@@ -38,15 +38,15 @@ public class ParseBusClass {
 
             StationClass sta;
             RouteClass rta;
-            String routeId = this.valuesInFile.get(i).get(0);
+            String routeName = this.valuesInFile.get(i).get(1);
             String stationId = this.valuesInFile.get(i).get(4);
 
-            if (busInfo.isRouteExist(routeId)) {
+            if (busInfo.isRouteExist(routeName)) {
                 // route instance 존재
                 if (busInfo.isStationExist(stationId)) {
                     // route instance 존재, station instance 존재
                     sta = busInfo.getStationInfo(stationId);
-                    sta.setRouteInfo(routeId);
+                    sta.setRouteInfo(routeName);
                 } else {
                     // route instance 존재, station instance 존재 x
                     sta = new StationClass(this.valuesInFile.get(i).subList(4, columnNum),
@@ -54,7 +54,7 @@ public class ParseBusClass {
                     busInfo.setStation(sta);
 
                 }
-                rta = busInfo.getRouteInfo(routeId);
+                rta = busInfo.getRouteInfo(routeName);
                 rta.setStationInfo(stationId);
             } else {
                 // route instance 존재 x
@@ -63,7 +63,7 @@ public class ParseBusClass {
                     rta = new RouteClass(this.valuesInFile.get(i), this.valuesInFile.get(i).get(4));
                     busInfo.setRoute(rta);
                     sta = busInfo.getStationInfo(stationId);
-                    sta.setRouteInfo(routeId);
+                    sta.setRouteInfo(routeName);
                 } else {
                     // route instance 존재 x, station instance 존재 x
                     rta = new RouteClass(this.valuesInFile.get(i), this.valuesInFile.get(i).get(4));

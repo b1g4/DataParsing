@@ -1,6 +1,5 @@
 package bus;
 
-import java.util.Collection;
 import java.util.HashMap;
 /**
  * 싱글톤 객체 
@@ -9,7 +8,7 @@ import java.util.HashMap;
  */
 public class BusInfoClass{
     private static BusInfoClass busInfo = new BusInfoClass();
-    // 전체 경로정보 <RouteID, RouteClass Instance> 형식으로 저장
+    // 전체 경로정보 <RouteName, RouteClass Instance> 형식으로 저장
     private HashMap<String, RouteClass> RouteList = new HashMap<String, RouteClass>();
     // 전체 정류장 정보 <StationID, StationClass Instance> 형식으로 저장
     private HashMap<String, StationClass> StationList = new HashMap<String, StationClass>();
@@ -51,11 +50,11 @@ public class BusInfoClass{
 
     /**
      * 특정 Route정보를 반환
-     * @param routeId : 표준 노선 ID, 9자리 숫자로 이루어짐
+     * @param routeName : 노선 이름, 9자리 숫자로 이루어짐
      * @return RouteClass : routeID에 해당하는 RouteClass instance를 반환
      */
-    public RouteClass getRouteInfo(String routeId){
-        return this.RouteList.get(routeId);
+    public RouteClass getRouteInfo(String routeName){
+        return this.RouteList.get(routeName);
     }
 
     /**
@@ -78,17 +77,13 @@ public class BusInfoClass{
 
     /**
      * RouteID를 이용해 특정 노선에 관한 class instance가 생성되어 있는지 검사한다.
-     * @param routeId
+     * @param routeName
      * @return boolean
      */
-    public boolean isRouteExist(String routeId){
-        return this.RouteList.containsKey(routeId);
+    public boolean isRouteExist(String routeName){
+        return this.RouteList.containsKey(routeName);
     }
-    /*
-    public String getRouteIdByRouteName(String RouteName){
-        Collection<RouteClass> valueList =  this.RouteList.values();
-    }
-    */
+    
     /**
      * Route에 관해 저장된 모든 정보를 반환
      * 왜 만들었는지 확인하고 필요없으면 삭제
