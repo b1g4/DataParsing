@@ -38,12 +38,37 @@ public class ParseFileClass {
                     result = parse.parsingRouteStationInfo();
                 }
             } else {
-                // csv 파싱하는 method 호출
-                this.result = this.readCSV(true);
-                
+                //2018년 1월부터 9월까지 perMonth 파일 파싱
+                for(int month=1; month<9; month++){ 
+                    this.fileDir=fileDir+"\\perMonth\\2018\\BUS_STATION_BOARDING_MONTH_20180"+month+".csv";
+                    this.result=this.readCSV(true);
+                    if(this.result){
+                        ParsingCongestionClass parseM = new ParsingCongestionClass(this.valuesInFile);
+                        this.result=parseM.parsingCongestionInfo_Month();
+                        if(!this.result){
+                            System.out.print("실패==parseM.parsingCongestionInfo_Month()");
+                        }
+                    }
+                }
+                if(this.result){
+                    //2018년 perYear 파일 파싱
+                    this.fileDir=fileDir+"\\perYear\\2018년_버스노선별_정류장별_시간대별_승하차_인원_정보.csv";
+                    this.result=this.readCSV(true);
+                    if(this.result){
+                        ParsingCongestionClass parseY = new ParsingCongestionClass(this.valuesInFile);
+                        this.result=parseY.parsingCongestionInfo_Year();
+                        if(!this.result){
+                            System.out.print("실패==parseY.parsingCongestionInfo_Year()");
+                        }
+                    }
+                }
+                if(this.result){
+                    //저장한 정보를 바탕으로 혼잡도 계산
+                    ParsingCongestionClass parseC=new ParsingCongestionClass(this.result);
+                }
             }
         } else {
-
+            //버스가 아닐때
         }
     }
 

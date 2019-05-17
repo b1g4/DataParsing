@@ -1,16 +1,33 @@
 package app;
 
+import java.util.ArrayList;
+
 import bus.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        ArrayList<Double> hi=new ArrayList<>();
+        hi.ensureCapacity(5);
+        hi.add(3, 374.4444);
+        hi.add(1,123.456);
+        hi.add(6,2345666.3);
+
+
+
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
         BusInfoClass busInfo = BusInfoClass.getInstance();
         String currentPath = System.getProperty("user.dir");
-        String fileDir = currentPath + "/data/bus/perMonth/2018/BUS_STATION_BOARDING_MONTH_201801.csv";
-        ParseFileClass parse1 = new ParseFileClass(fileDir, false, true);
+        
+        //OSSWProj/20190124기준_서울시_버스노선정보.xls
+        //String fileDir1 = currentPath + "/OSSWProj/20190124기준_서울시_버스노선정보.xls";
+        //ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
+
+        //perMonth와 perYear파일 파싱, 저장
+        String fileDir2 = currentPath + "\\OSSWProj\\data\\bus";
+        ParseFileClass parse2 = new ParseFileClass(fileDir2, false, true);
+        
 
         System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
     }

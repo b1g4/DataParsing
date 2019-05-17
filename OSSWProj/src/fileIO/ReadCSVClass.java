@@ -41,6 +41,7 @@ public class ReadCSVClass {
         BufferedReader br =  null;
         String seporator;
         try {
+            
             br = Files.newBufferedReader(Paths.get(this.fileName));
             Charset.forName("UTF-8");
             String line = "";
@@ -99,12 +100,12 @@ public class ReadCSVClass {
         }
 
         // for test
-        /*
+        
         for(String cell : tmpList){
             System.out.print(cell + " ");
         }
         System.out.println(" ");
-        */
+        
         return tmpList;
     }
 

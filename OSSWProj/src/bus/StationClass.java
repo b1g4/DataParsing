@@ -19,7 +19,7 @@ public class StationClass {
 
     // 각 노선별 혼잡도 정보가 저장될 클래스
     // 혼잡도는 평일, 토요일, 일요일에 대해 0~24시를 1시간 간격으로 나눠 저장한다.
-    public HashMap<String, HashMap<String, ArrayList<Long>>> routeList = new HashMap<String, HashMap<String, ArrayList<Long>>>();
+    public HashMap<String, HashMap<String, ArrayList<Double>>> routeList = new HashMap<String, HashMap<String, ArrayList<Double>>>();
 
     /**
      * Constructor
@@ -33,7 +33,7 @@ public class StationClass {
         this.stationName = infoList.get(2);
         this.stationX = infoList.get(3);
         this.stationY = infoList.get(4);
-        HashMap<String, ArrayList<Long>> dump = new HashMap<String, ArrayList<Long>>();
+        HashMap<String, ArrayList<Double>> dump = new HashMap<String, ArrayList<Double>>();
         this.routeList.put(routeId, dump);
     }
     
@@ -41,7 +41,7 @@ public class StationClass {
      * @param routeId : 현재 정류장을 지나는 노선ID
      */
     public void setRouteInfo(String routeId) {
-        HashMap<String, ArrayList<Long>> dump = new HashMap<String, ArrayList<Long>>();
+        HashMap<String, ArrayList<Double>> dump = new HashMap<String, ArrayList<Double>>();
         this.routeList.put(routeId, dump);
     }
 
@@ -51,7 +51,7 @@ public class StationClass {
      * @param routeId : 현재 정류장을 지나는 노선ID
      * @param congestion : 현재 정류장을 지나는 노선의 평일, 토요일, 일요일에 관한 모든 혼잡도 정보
      */
-    public void setCongestionInfo(String routeId, HashMap<String, ArrayList<Long>> congestion) {
+    public void setCongestionInfo(String routeId, HashMap<String, ArrayList<Double>> congestion) {
         this.routeList.put(routeId, congestion);
     }
 
@@ -99,9 +99,9 @@ public class StationClass {
 
     /**
      * 현재 정류장을 지나는 노선에 대한 정보를 반환한다. 
-     * @return HashMap<String, HashMap<String, ArrayList<Long>>> routeList
+     * @return HashMap<String, HashMap<String, ArrayList<Double>>> routeList
      */
-    public HashMap<String, HashMap<String, ArrayList<Long>>> getRouteListHashMap(){
+    public HashMap<String, HashMap<String, ArrayList<Double>>> getRouteListHashMap(){
         return routeList;
     }
 
