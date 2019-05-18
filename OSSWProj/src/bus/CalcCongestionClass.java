@@ -42,7 +42,7 @@ public class CalcCongestionClass {
             this.congestionHashMap=busInfo.getCongestionHashMap();
             if(calc_getOnOff()){
                 if(calc_Passenger()){
-                    this.status=calc_congestion();
+                   // this.status=calc_congestion();
                 }else{
                     System.out.println("CalcCongestionClass : 재차인원 계산 실패");
                 }
@@ -130,6 +130,36 @@ public class CalcCongestionClass {
         
         return value;
     }
+
+    /**
+     * 노선에서 이전 정류장의 stationID를 반환
+     * 시점의 이전 정류장은 종점을 말한다 ==> % 사용
+     * @param routeName 
+     * @param stationID 
+     */
+    private String getBeforeStation(String routeName, String stationID){
+        String result="";
+        RouteClass route=busInfo.getRouteInfo(routeName);
+        int idx=route.stationList.indexOf(stationID);
+        result=route.stationList.get((idx-1)%route.stationList.size());
+        return result;
+    }
+
+    /**
+     * stationID정류장과 before_stationID정류장 사이의 시간간격을 반환
+     * @param routeName
+     * @param stationID
+     * @param before_stationID
+     * @return
+     */
+    private int getTimeInterval(String routeName, String stationID,String before_stationID){
+        int result=5;//여기도 임의로 테스트용으로 5분간격이라고 한거임!
+
+        //희수 코드와 합쳐야 함
+
+        return result;
+    }
+
     
     /**
      * 원하는 시간대를 쪼개 임의로 hh시 mm분에 대한 승차인원 계산
@@ -166,8 +196,8 @@ public class CalcCongestionClass {
         Iterator<String> iter=this.congestionHashMap.keySet().iterator();
         while(iter.hasNext()){
             String stationID_routeName=(String)iter.next();
-            int chairNum=getChairNum();
-            int handleNum=getHandleNum();
+            int chairNum=getChairNum(stationID_routeName);
+            int handleNum=getHandleNum(stationID_routeName);
 
             //0평일, 1토요일, 2일요일별로 저장
             HashMap<Integer,int[]> days=new HashMap<Integer,int[]>();
@@ -190,5 +220,26 @@ public class CalcCongestionClass {
             finalCongestion.put(stationID_routeName,days);
         }
         return status;
+    }
+
+    /**
+     * 추가 구현 필요!!!!!!!!!!!!!
+     * @param stationID_routeName
+     * @return 해당 노선버스의 좌석개수
+     */
+    private int getChairNum(String stationID_routeName){
+        String routeName=stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
+        
+        return 20;
+    }
+    /**
+     * 추가 구현 필요!!!!!!!!!!!!!
+     * @param stationID_routeName
+     * @return 해당 노선버스의 손잡이개수
+     */
+    private int getHandleNum(String stationID_routeName){
+        String routeName=stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
+
+        return 17;
     }
 }

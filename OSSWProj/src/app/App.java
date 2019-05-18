@@ -7,7 +7,9 @@ import bus.*;
 public class App {
     public static void main(String[] args) throws Exception {
        
-
+       // ArrayList<Double> tmp=new ArrayList<Double>(24);
+       // tmp.add(3,3.456);
+        //tmp.add(1,1.234);
 
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
