@@ -64,7 +64,7 @@ public class ParseFileClass {
                 }
                 if(this.result){
                     //저장한 정보를 바탕으로 혼잡도 계산
-                    ParsingCongestionClass parseC=new ParsingCongestionClass(this.result);
+                    CalcCongestionClass calcC=new CalcCongestionClass(this.result);
                 }
             }
         } else {

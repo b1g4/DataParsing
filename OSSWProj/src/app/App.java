@@ -6,12 +6,7 @@ import bus.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ArrayList<Double> hi=new ArrayList<>();
-        hi.ensureCapacity(5);
-        hi.add(3, 374.4444);
-        hi.add(1,123.456);
-        hi.add(6,2345666.3);
-
+       
 
 
         Runtime runtime = Runtime.getRuntime();

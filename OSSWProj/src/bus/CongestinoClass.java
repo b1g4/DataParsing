@@ -12,7 +12,8 @@ import java.util.HashMap;
  */
 public class CongestinoClass {
 
-    public String stationID_routeName;
+    //"중앙대후문___동작01"형식으로 저장, 구분자:"___"
+    public String stationID_routeName; 
     /**
      * 한달중에 평일이 며칠이 있는지, 토요일이 며칠이 있는지, 일요일이 며칠이 있는지 세어서 저장
      * 0:평일날짜수, 1:토요일날짜수, 2:일요일날짜수
@@ -58,6 +59,31 @@ public class CongestinoClass {
         congestion.put("일요일", tmpList);
     }
 
+   /**
+    * 특정 시각에 승차,하차인원이 모두 없으면 false, 하나라도 있으면 true
+    */
+    public boolean IsPassengerExist(int hour){
+        //승차
+        if(totalByTime[0][hour]==0 && totalByTime[1][hour]==0)
+            return false;
+        return true;
+    }
+
+    /**
+     * stationID_routeName에서 stationID를 반환
+     */
+    public String getStationID(){
+        return stationID_routeName.substring(0,stationID_routeName.indexOf("___"));
+    }
+
+    /**
+     * stationID_routeName에서 routeName를 반환
+     */
+    public String getrouteName(){
+        return stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
+    }
+
+
     /**
      * 원하는 시간대를 쪼개 임의로 hh시 mm분에 대한 혼잡도 계산
      * 수식 검사 후 수정 여부 판단.
@@ -70,6 +96,8 @@ public class CongestinoClass {
         return (this.congestion.get(day).get(hour+1) - this.congestion.get(day).get(hour))
             * (minute / 60) + this.congestion.get(day).get(hour);
     }  
+
+    
 
     /**
      * 재차인원 계산
