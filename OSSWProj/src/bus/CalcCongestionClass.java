@@ -3,6 +3,8 @@ package bus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.omg.CORBA.BooleanSeqHelper;
 
@@ -42,7 +44,7 @@ public class CalcCongestionClass {
             this.congestionHashMap=busInfo.getCongestionHashMap();
             if(calc_getOnOff()){
                 if(calc_Passenger()){
-                   // this.status=calc_congestion();
+                    this.status=calc_congestion();
                 }else{
                     System.out.println("CalcCongestionClass : 재차인원 계산 실패");
                 }
@@ -196,20 +198,22 @@ public class CalcCongestionClass {
         Iterator<String> iter=this.congestionHashMap.keySet().iterator();
         while(iter.hasNext()){
             String stationID_routeName=(String)iter.next();
-            int chairNum=getChairNum(stationID_routeName);
-            int handleNum=getHandleNum(stationID_routeName);
+            ArrayList<Integer> chair_handle=getBusType(stationID_routeName);
 
             //0평일, 1토요일, 2일요일별로 저장
             HashMap<Integer,int[]> days=new HashMap<Integer,int[]>();
             for(int day=0;day<3;day++){
 
-                // 이전정류장의 버스재차인원 + 승차인원 - 하차인원
+                // 24시간*60분 별로 저장
                int[] minutes=new int[1440];
                 for(int i=0;i<1440;i++){
                     double num=passengerNum.get(stationID_routeName).get(day)[i];
-                    if(num < chairNum){
+                    //좌석에 앉을 수 있으면 -1
+                    //손잡이를 잡을 수 있으면 0
+                    //둘다 불가능이면 1
+                    if(num < chair_handle.get(0)){
                         minutes[i]=-1;
-                    }else if(num < chairNum+handleNum){
+                    }else if(num < chair_handle.get(0)+chair_handle.get(1)){
                         minutes[i]=0;
                     }else{
                         minutes[i]=1;
@@ -223,23 +227,62 @@ public class CalcCongestionClass {
     }
 
     /**
-     * 추가 구현 필요!!!!!!!!!!!!!
-     * @param stationID_routeName
-     * @return 해당 노선버스의 좌석개수
+     * 
+     * @param routeName
+     * @return 버스 종류 
+     * 광역버스(빨강) - 숫자4자리, 9로 시작                  45/0 ex)구글링+뇌피셜
+     * 지선버스(초록) - 숫자4자리           좌석20 손잡이17  ex)5511번 버스 조사
+     * 간선버스(파랑) - 숫자3자리           좌석24 손잡이24  ex)151번 버스 조사
+     * 순환버스(노랑) - 숫자2자리                           20/17 ex)구글링+뇌피셜
+     * 마을버스         한글로 시작+숫자    좌석20 손잡이17  ex)동작01번 버스 조사
+     * N버스            N으로 시작+숫자                     24/24 ex)구글링+뇌피셜
      */
-    private int getChairNum(String stationID_routeName){
+    private ArrayList<Integer> getBusType(String stationID_routeName){
         String routeName=stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
         
-        return 20;
-    }
-    /**
-     * 추가 구현 필요!!!!!!!!!!!!!
-     * @param stationID_routeName
-     * @return 해당 노선버스의 손잡이개수
-     */
-    private int getHandleNum(String stationID_routeName){
-        String routeName=stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
+        Pattern pD4_9=Pattern.compile("^9[0-9]{3}");
+        Pattern pD4=Pattern.compile("^[0-9]{4}");
+        Pattern pD3=Pattern.compile("^[0-9]{3}");
+        Pattern pD2=Pattern.compile("^[0-9]{2}");
+        Pattern pHD=Pattern.compile("^[가-힣]*[0-9]{2}");
+        Pattern pN=Pattern.compile("^N");
 
-        return 17;
+        ArrayList<Integer> result=new ArrayList<>();
+        if(pD4_9.matcher(routeName).find()){
+            System.out.println("광역");
+            result.add(45);
+            result.add(0);
+
+        }else if(pD4.matcher(routeName).find()){
+            System.out.println("지선");
+            result.add(20);
+            result.add(17);
+
+        }else if(pD3.matcher(routeName).find()){
+            System.out.println("간선");
+            result.add(24);
+            result.add(24);
+
+        }else if(pD2.matcher(routeName).find()){
+            System.out.println("순환");
+            result.add(20);
+            result.add(17);
+
+        }else if(pHD.matcher(routeName).find()){
+            System.out.println("마을");
+            result.add(20);
+            result.add(17);
+
+        }else if(pN.matcher(routeName).find()){
+            System.out.println("N심야");
+            result.add(24);
+            result.add(24);
+
+        }else{
+            System.out.println("알수없는 형식의 버스번호입니다.");
+            result.add(-1);
+            result.add(-1);
+        }
+        return result;
     }
 }

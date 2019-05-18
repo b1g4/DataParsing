@@ -72,7 +72,7 @@ public class ReadCSVClass {
             }
             
             if(this.show){
-                this.showAllData();
+                //this.showAllData();
             } else {
                 System.out.println("파일 읽기 완료");
             }
@@ -100,11 +100,11 @@ public class ReadCSVClass {
         }
 
         // for test
-        
-        for(String cell : tmpList){
-            System.out.print(cell + " ");
-        }
-        System.out.println(" ");
+        //System.out.println(tmpList.get(0)+" "+tmpList.get(2));
+        //for(String cell : tmpList){
+        //    System.out.print(cell + " ");
+        //}
+        //System.out.println(" ");
         
         return tmpList;
     }

@@ -45,7 +45,23 @@ public class CongestinoClass {
     /**
      * default constructor
      */
-    public CongestinoClass(){
+    public CongestinoClass(String stationID_routeName){
+        this.stationID_routeName=stationID_routeName;
+        for(int i=0;i<3;i++){
+            totalDays[i]=0;
+        }
+        for(int i=0;i<3;i++){
+            for(int j=0;j<2;j++){
+                totalPeople[i][j]=0.0;
+            }
+        }
+
+        for(int i=0;i<2;i++){
+            for(int j=0;j<24;j++){
+                totalByTime[i][j]=0.0;
+            }
+        }
+
         this.initCongestion();
     }
 

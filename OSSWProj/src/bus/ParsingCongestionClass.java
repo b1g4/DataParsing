@@ -32,19 +32,26 @@ public class ParsingCongestionClass{
             Double totalRide = Double.parseDouble(this.valuesInFile.get(i).get(6)); // 승차총승객수
             Double totalAlight = Double.parseDouble(this.valuesInFile.get(i).get(7)); // 하차총승객수
 
+           // System.out.println("date="+date+" routeName="+routeName+" stationId="+stationId+" totalRide="+" totalAlight="+totalAlight);
             String stationID_routeName=stationId+"___"+routeName;
             if(busInfo.isCongestionExist(stationID_routeName)){
-                //이미 있으면 그 해당 노선에다가 더하기/...?
-                //201801, 201802 등등 파일을 읽으면 중복이 일어날거임
-                //이거처리는 나중에
-            }else{
+                //20180101과 20180102는 중복이 일어남 => 이미 있으면 더하기
+               //CongestinoClass temp=busInfo.getCongestinoClass(stationID_routeName);
+                int day = busInfo.getCongestinoClass(stationID_routeName).WhatDay(date);
+                busInfo.getCongestinoClass(stationID_routeName).setTotalDaysInfo(day);
+                busInfo.getCongestinoClass(stationID_routeName).setTotalPeopleInfo(day, totalRide, totalAlight);
+                //busInfo.setCongestion(temp);
+            }else{ 
                 //없으면 새로 추가하면 됨
-                CongestinoClass temp=new CongestinoClass();
+                CongestinoClass temp=new CongestinoClass(stationID_routeName);
                 int day = temp.WhatDay(date);
                 temp.setTotalDaysInfo(day);
                 temp.setTotalPeopleInfo(day, totalRide, totalAlight);
+                busInfo.setCongestion(temp);
             }
         }
+        System.out.println("parsinge");
+
         return result;
     }
 
