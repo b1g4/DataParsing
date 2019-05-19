@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import bus.RouteClass;
 import bus.StationClass;
@@ -54,6 +55,7 @@ public class WriteCsvClass {
         }
     }
 
+
     /**
      * 
      * @param stationlist
@@ -75,6 +77,47 @@ public class WriteCsvClass {
                 for(String key : keys){
                     fw.write(key + ",");
                 }
+                fw.newLine();
+            }
+            fw.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void writeCongestion(HashMap<String,HashMap<Integer,Double[]>> passenger ,HashMap<String,HashMap<Integer,int[]>> congestion)throws IOException{
+        try {
+            String currentPath = System.getProperty("user.dir");
+            String csvfilename = currentPath + "/stationcsv.csv";
+                        
+            BufferedWriter fw;
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            
+            Iterator<String> iter=passenger.keySet().iterator();
+        	while(iter.hasNext()){
+            	String stationID_routeName=(String)iter.next();
+
+                //정류장
+                fw.write(stationID_routeName.substring(0,stationID_routeName.indexOf("___")) + ",");
+                //노선
+                fw.write(stationID_routeName.substring(stationID_routeName.indexOf("___")+3) + ",");
+                //재차인원
+                HashMap<Integer,Double[]> tempP=passenger.get(stationID_routeName);
+                for(int i=0;i<3;i++){
+                    for(int j=0;j<1440;j++){
+                        fw.write(tempP.get(i)[j] + ",");
+                    }
+                }		
+                //혼잡도
+                HashMap<Integer,int[]> tempC= congestion.get(stationID_routeName);
+          	    for(int i=0;i<3;i++){
+			        for(int j=0;j<1440;j++){
+				        fw.write(tempC.get(i)[j] + ",");
+			        }
+		        }
                 fw.newLine();
             }
             fw.close();

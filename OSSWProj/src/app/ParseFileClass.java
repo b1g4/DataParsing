@@ -1,5 +1,6 @@
 package app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import bus.*;
 import fileIO.*;
@@ -65,6 +66,13 @@ public class ParseFileClass {
                 if(this.result){
                     //저장한 정보를 바탕으로 혼잡도 계산
                     CalcCongestionClass calcC=new CalcCongestionClass(this.result);
+                    //혼잡도 파일로 저장
+                    try {
+                        WriteCsvClass tmpc = new WriteCsvClass();
+                        tmpc.writeCongestion(calcC.getpassengerNum(), calcC.getfinalCongestion());            
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } else {
