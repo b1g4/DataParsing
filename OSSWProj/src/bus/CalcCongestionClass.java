@@ -72,8 +72,6 @@ public class CalcCongestionClass {
                 Double[][] gettingOn_Off=tmp.calcGettingOnAndOff(day);
                 days.put(day,gettingOn_Off);
             }
-            if(stationID_routeName=="119900310___동작15")
-                System.out.println("test==119900310___동작15    이거 있음!!!");
             dayPassengerNum_getOnOff.put(stationID_routeName, days);
         }
         return true;
@@ -103,15 +101,11 @@ public class CalcCongestionClass {
                             && this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(int)i/60]==0){
                                 //i시 00분 부터 i시 59분까지 모두 0.0으로 설정
                                 for(int j=i;j<i+60;j++){
-                                    minutes[j]=0.0;
-                                    //System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName +" j="+j+" minutes[]="+minutes[j]);
-                                }                                
+                                    minutes[j]=0.0;                                }                                
                                 i=i+59;
                                 continue;
                         }else{
-                            minutes[i]=calc_Passenger_subFunction(day,i,stationID_routeName);
-                            //System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName +" i="+i+" minutes[]="+minutes[i]);
-                        }
+                            minutes[i]=calc_Passenger_subFunction(day,i,stationID_routeName);                        }
                     }
                     days.put(day,minutes);
                 }
@@ -158,7 +152,6 @@ public class CalcCongestionClass {
                         busTime=busTime-timeInterval;
                         busStationId=before_stationID;
                         station_route=busStationId+"___"+busRouteName;
-                        //System.out.println("test==calc_Passenger_subFunction() : busTime="+busTime+" station_route="+station_route);
                     }else{
                         //System.out.println("test==calc_Passenger_subFunction() : congestionHashMap에 "+station_route+"에 "+busTime+"분에 승객이 없음");
                         status=false;
@@ -193,8 +186,7 @@ public class CalcCongestionClass {
      * @param stationID 
      */
     private String getBeforeStation(String routeName, String stationID){
-        if(routeName=="350")
-            System.out.println("test==350여기!!1");
+
         String result="";
         RouteClass route=busInfo.getRouteInfo(routeName);
         int idx=route.stationList.indexOf(stationID);
@@ -203,8 +195,7 @@ public class CalcCongestionClass {
             idx--;
             result=route.stationList.get((idx+route.stationList.size()-1)%route.stationList.size());
         }
-        //System.out.println("test==getBeforeStation() : routeName="+routeName+" stationID="+stationID+" 의 전정류장result="+result);
-        return result;
+     return result;
     }
 
     /**
