@@ -80,6 +80,30 @@ public class ParseFileClass {
         }
     }
 
+
+    //hdy
+    /**
+     * 배차간격과 첫차막차 정보가 들어있는 xls파일을 읽어야 하는데 
+     * ParseFileClass(String fileDir, boolean isXls, boolean isBus)로는 
+     * 코드를 추가할 곳이 없어서 새로 만들었음
+     * constructor
+     * @param fileDir : 파싱하려는 파일 경로
+     * @param fileType : 0-배차간격과 첫차막차 정보가 들어있는 xls파일
+     */
+    public ParseFileClass(String fileDir, int fileType) {
+
+        this.fileDir = fileDir;
+        this.valuesInFile = new ArrayList<ArrayList<String>>();
+        if(fileType==0){
+            this.result = this.readXls(true);
+            if (this.result) {
+                ParseBusClass parse = new ParseBusClass(this.valuesInFile);
+                result = parse.parsing_InternalTime_Info();
+            }
+        }
+    }
+    
+
     /**
      * 모든 정보를 정리한 후 사용되는 생성자
      * 실제 어플리케이션 구동시 사용됨

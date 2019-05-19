@@ -55,6 +55,44 @@ public class WriteCsvClass {
         }
     }
 
+    //hdy
+    /**
+     * 
+     * @param routelist
+     * @throws IOException
+     */
+    public void writeRouteClass_new(HashMap<String, RouteClass> routelist) throws IOException {
+        try {
+            String currentPath = System.getProperty("user.dir");
+            String csvfilename = currentPath + "/routecsv.csv";
+
+            BufferedWriter fw;
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+
+            Collection<RouteClass> values = routelist.values();
+            for(RouteClass value : values){
+                fw.write(value.getRouteId()+","+value.getRouteName()+",");
+                //배차간격
+                fw.write(value.getInterval().get(0)+",");
+                fw.write(value.getInterval().get(1)+",");
+                fw.write(value.getInterval().get(2)+",");
+                //첫차 막차
+                fw.write(value.getTime().get(0)+",");
+                fw.write(value.getTime().get(1)+",");
+                //노선리스트
+                for(int i = 0 ; i < value.getStationList().size() ; i++){
+                    fw.write(value.getStationList().get(i) + ",");
+                }
+                fw.newLine();
+            }
+            fw.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 

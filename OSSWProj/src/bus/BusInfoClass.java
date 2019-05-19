@@ -1,5 +1,6 @@
 package bus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * 싱글톤 객체 
@@ -149,6 +150,16 @@ public class BusInfoClass{
      */
     public HashMap<String, CongestinoClass> getCongestionHashMap(){
         return CongestionList;
+    }
+
+    //hdy
+    public void setRoute_Interval(String routeName, ArrayList<Integer> intervals){
+        this.RouteList.get(routeName).setInterval(intervals);
+    }
+
+    //hdy
+    public void setRoute_Time(String routeName, ArrayList<Integer> times){
+        this.RouteList.get(routeName).setTime(times);
     }
 
 }

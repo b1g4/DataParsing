@@ -182,13 +182,14 @@ public class CalcCongestionClass {
     }
 
 
+    //hdy
     private int getFirstBusTime(String routeName, String stationID){
 
         //노선별로 첫차시간을 구해야 함!!!
-
-
+        Integer time=busInfo.getRouteInfo(routeName).getTime().get(0);
+        int val=time.intValue();
         
-        return 240; //4시라고 생ㅇ각했을때!
+        return val; //4시라고 생ㅇ각했을때!
 
     }
 

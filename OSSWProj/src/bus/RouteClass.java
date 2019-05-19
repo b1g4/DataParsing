@@ -8,6 +8,10 @@ public class RouteClass{
     public String routeId; // index : 0번 column
     public String routeName; // index : 1번 column
     public ArrayList<String> stationList = new ArrayList<String>();
+    //hdy 0평/1토/2일 배차간격 - 단위:분
+    public ArrayList<Integer> interval=new ArrayList<Integer>();
+    //hdy 0첫차시간 1막차시간 - 단위:분  ex)3시 30분이면 3*60+30
+    public ArrayList<Integer> time=new ArrayList<>();
 
     // constructor
     public RouteClass(List<String> infoList, String stationId){
@@ -31,6 +35,26 @@ public class RouteClass{
 
     public ArrayList<String> getStationList(){
         return this.stationList;
+    }
+
+    //hdy
+    public ArrayList<Integer> getInterval(){
+        return this.interval;
+    }
+
+    //hdy
+    public ArrayList<Integer> getTime(){
+        return this.time;
+    }
+
+    //hdy
+    public void setInterval(ArrayList<Integer> intervals){
+        this.interval=intervals;
+    }
+
+    //hdy
+    public void setTime(ArrayList<Integer> times){
+        this.time=times;
     }
 
 
