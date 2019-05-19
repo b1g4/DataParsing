@@ -11,7 +11,6 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         
-        
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
