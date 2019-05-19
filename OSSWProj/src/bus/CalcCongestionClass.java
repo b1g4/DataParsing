@@ -72,6 +72,8 @@ public class CalcCongestionClass {
                 Double[][] gettingOn_Off=tmp.calcGettingOnAndOff(day);
                 days.put(day,gettingOn_Off);
             }
+            if(stationID_routeName=="119900310___동작15")
+                System.out.println("test==119900310___동작15    이거 있음!!!");
             dayPassengerNum_getOnOff.put(stationID_routeName, days);
         }
         return true;
@@ -87,17 +89,30 @@ public class CalcCongestionClass {
         Iterator<String> iter=this.congestionHashMap.keySet().iterator();
         while(iter.hasNext()){
             String stationID_routeName=(String)iter.next();
+            System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName);
 
             //0평일, 1토요일, 2일요일별로 저장
             HashMap<Integer,Double[]> days=new HashMap<Integer,Double[]>();
             for(int day=0;day<3;day++){
                 // 이전정류장의 버스재차인원 + 승차인원 - 하차인원
                 Double[] minutes=new Double[1440];
+
                 for(int i=0;i<1440;i++){
-                    double before_passenger=getBeforePassengerNum(day,i,stationID_routeName);
-                    minutes[i]=before_passenger 
-                                +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][i]
-                                -this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][i];
+                    //만약 i~i+1시간대에 승하차인원이 모두 0이면 minutes[i]=0.0
+                    if(this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(int)i/60]==0
+                        && this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(int)i/60]==0){
+                            //i시 00분 부터 i시 59분까지 모두 0.0으로 설정
+                            for(int j=i;j<i+60;j++)
+                                minutes[j]=0.0;
+                            i=i+59;
+                            continue;
+                    }else{
+                        double before_passenger=getBeforePassengerNum(day,i,stationID_routeName);
+                        minutes[i]=before_passenger 
+                                    +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][i]
+                                    -this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][i];
+                                    //요기 1-2 구간의 값말고 1시 30분 이렇게 바꿔야 함!
+                    }
                 }
                 days.put(day,minutes);
             }
@@ -113,23 +128,33 @@ public class CalcCongestionClass {
      * @return
      */
     private Double getBeforePassengerNum(int day,int nowTime, String stationID_routeName){
+        System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime);
         Double value=0.0;
 
-        CongestinoClass nowCongestion=congestionHashMap.get(stationID_routeName);
-        String stationID=nowCongestion.getStationID();
-        String routeName=nowCongestion.getrouteName();
-
-        //nowTime 시간에 승하차 인원이 없다면 0 반환
-        //예) nowTime=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
-        if(!nowCongestion.IsPassengerExist((int)nowTime/60)){
+        //nowTime에 현재 정류장이 값이 0이면 끝!
+        if(this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(int)nowTime/60]==0
+        && this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(int)nowTime/60]==0){
             return 0.0;
         }
-        String before_stationID=getBeforeStation(routeName,stationID);//a->b->c->.....y->z->a->b...
-        int timeInterval=getTimeInterval(routeName,stationID,before_stationID);
-        value=getOnPassenger(day,(int)nowTime/60,nowTime%60,before_stationID+"__"+routeName)
-            -getOffPassenger(day,(int)nowTime/60,nowTime%60,before_stationID+"__"+routeName)
-            +getBeforePassengerNum(day,nowTime-timeInterval, before_stationID+"__"+routeName);
-        
+
+        if(this.congestionHashMap.containsKey(stationID_routeName)){
+            String stationID=this.congestionHashMap.get(stationID_routeName).getStationID();
+            String routeName=this.congestionHashMap.get(stationID_routeName).getrouteName();
+
+            //nowTime 시간에 승하차 인원이 없다면 0 반환
+            //예) nowTime=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
+            if(!this.congestionHashMap.get(stationID_routeName).IsPassengerExist((int)nowTime/60)){
+                return 0.0;
+            }
+            String before_stationID=getBeforeStation(routeName,stationID);//a->b->c->.....y->z->a->b...
+            int timeInterval=getTimeInterval(routeName,stationID,before_stationID);
+            value=getOnPassenger(day,(int)nowTime/60,nowTime%60,before_stationID+"___"+routeName)
+                -getOffPassenger(day,(int)nowTime/60,nowTime%60,before_stationID+"___"+routeName)
+                +getBeforePassengerNum(day,(nowTime-timeInterval+1440)%1440, before_stationID+"___"+routeName);
+            
+            return value;
+        }
+        System.out.println("getBeforePassengerNum : "+stationID_routeName+" 가 congestionHashMap에 없음.");
         return value;
     }
 
@@ -144,6 +169,11 @@ public class CalcCongestionClass {
         RouteClass route=busInfo.getRouteInfo(routeName);
         int idx=route.stationList.indexOf(stationID);
         result=route.stationList.get((idx-1)%route.stationList.size());
+        while(!this.congestionHashMap.containsKey(result+"___"+routeName)){
+            idx--;
+            result=route.stationList.get((idx-1)%route.stationList.size());
+        }
+        System.out.println("test==getBeforeStation() : routeName="+routeName+" stationID="+stationID+" 의 전정류장result="+result);
         return result;
     }
 
@@ -172,6 +202,10 @@ public class CalcCongestionClass {
      * @return hh시 mm분일 때 버스의 승차인원
      */
     private Double getOnPassenger(int day, int hour, int minute,String stationID_routeName){
+        if(!this.dayPassengerNum_getOnOff.containsKey(stationID_routeName)){
+            System.out.println("getOnPassenger : "+stationID_routeName+" not exist");
+            return 0.0;
+        }        
         return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour+1)%24]
                 - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24])
                 * (minute/60) 
@@ -187,7 +221,11 @@ public class CalcCongestionClass {
      * @return hh시 mm분일 때 버스의 하차인원
      */
     private Double getOffPassenger(int day, int hour, int minute,String stationID_routeName){
-        return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour+1)%24]
+        if(!this.dayPassengerNum_getOnOff.containsKey(stationID_routeName)){
+            System.out.println("getOffPassenger : "+stationID_routeName+" not exist");
+            return 0.0;
+        }  
+         return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour+1)%24]
                 - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24])
                 * (minute/60) 
                 +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24];

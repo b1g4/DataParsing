@@ -9,7 +9,8 @@ import bus.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-    
+
+        
         
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
@@ -18,8 +19,8 @@ public class App {
         String currentPath = System.getProperty("user.dir");
         
         //OSSWProj/20190124기준_서울시_버스노선정보.xls
-        //String fileDir1 = currentPath + "/OSSWProj/20190124기준_서울시_버스노선정보.xls";
-       // ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
+        String fileDir1 = currentPath + "/OSSWProj/20190124기준_서울시_버스노선정보.xls";
+        ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
 
         //perMonth와 perYear파일 파싱, 저장
         String fileDir2 = currentPath + "\\OSSWProj\\data\\bus";

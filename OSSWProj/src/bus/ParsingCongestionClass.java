@@ -50,7 +50,7 @@ public class ParsingCongestionClass{
                 busInfo.setCongestion(temp);
             }
         }
-        System.out.println("parsinge");
+        System.out.println("parsingCongestionInfo_Month()");
 
         return result;
     }
@@ -76,8 +76,8 @@ public class ParsingCongestionClass{
                 }
                 busInfo.setCongestion(tmp);
             }else{
-                System.out.println("perMonth에는 없는 노선&정류장에 대한 정보가 perYear에는 있다!! 파일오류발생");
-                return false;
+                System.out.println("perMonth에는 없는 노선&정류장에 대한 정보가 perYear에는 있다!! 파일오류발생: "+stationID_routeName);
+                //return false;
             }
         }
         return result;

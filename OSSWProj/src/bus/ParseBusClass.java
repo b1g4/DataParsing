@@ -50,7 +50,8 @@ public class ParseBusClass {
                 } else {
                     // route instance 존재, station instance 존재 x
                     sta = new StationClass(this.valuesInFile.get(i).subList(4, columnNum),
-                            this.valuesInFile.get(i).get(0));
+                            this.valuesInFile.get(i).get(1));
+                            //this.valuesInFile.get(i).get(0));
                     busInfo.setStation(sta);
 
                 }
@@ -68,7 +69,8 @@ public class ParseBusClass {
                     // route instance 존재 x, station instance 존재 x
                     rta = new RouteClass(this.valuesInFile.get(i), this.valuesInFile.get(i).get(4));
                     sta = new StationClass(this.valuesInFile.get(i).subList(4, columnNum),
-                            this.valuesInFile.get(i).get(0));
+                            //this.valuesInFile.get(i).get(0));
+                            this.valuesInFile.get(i).get(1));
                     busInfo.setStation(sta);
                     busInfo.setRoute(rta);
                 }

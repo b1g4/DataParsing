@@ -39,7 +39,7 @@ public class ParseFileClass {
                 }
             } else {
                 //2018년 1월부터 9월까지 perMonth 파일 파싱
-                for(int month=1; month<9; month++){ 
+                for(int month=1; month<10; month++){ 
                     this.fileDir=fileDir+"\\perMonth\\2018\\BUS_STATION_BOARDING_MONTH_20180"+month+".csv";
                     this.result=this.readCSV(true);
                     if(this.result){

@@ -49,7 +49,8 @@ public class BusInfoClass{
      * @param instance : RouteClass instance
      */
     public void setRoute(RouteClass instance){
-        this.RouteList.put(instance.routeId, instance);
+       // this.RouteList.put(instance.routeId, instance);
+       this.RouteList.put(instance.routeName, instance);
     }
 
     /**
