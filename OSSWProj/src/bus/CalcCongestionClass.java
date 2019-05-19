@@ -102,8 +102,10 @@ public class CalcCongestionClass {
                     if(this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(int)i/60]==0
                         && this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(int)i/60]==0){
                             //i시 00분 부터 i시 59분까지 모두 0.0으로 설정
-                            for(int j=i;j<i+60;j++)
+                            for(int j=i;j<i+60;j++){
                                 minutes[j]=0.0;
+                                System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName +" j="+j+" minutes[]="+minutes[j]);
+                            }                                
                             i=i+59;
                             continue;
                     }else{
@@ -111,6 +113,7 @@ public class CalcCongestionClass {
                         double now_getOn=getOnPassenger(day, (int)i/60, i%60,stationID_routeName);
                         double now_getOff=getOffPassenger(day, (int)i/60, i%60,stationID_routeName);
                         minutes[i]=before_passenger +now_getOn-now_getOff;
+                        System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName +" i="+i+" minutes[]="+minutes[i]);
                     }
                 }
                 days.put(day,minutes);
@@ -132,7 +135,7 @@ public class CalcCongestionClass {
         //nowTime에 현재 정류장이 값이 0이면 끝!
         if(this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(int)nowTime/60]==0
         && this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(int)nowTime/60]==0){
-            System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" dayPassengerNum_getOnOff에 값이 0임!");
+            //System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" dayPassengerNum_getOnOff에 값이 0임!");
             return 0.0;
         }
 
@@ -143,7 +146,7 @@ public class CalcCongestionClass {
             //nowTime 시간에 승하차 인원이 없다면 0 반환
             //예) nowTime=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
             if(!this.congestionHashMap.get(stationID_routeName).IsPassengerExist((int)nowTime/60)){
-                System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" congestionHashMap에 승객이0!!!!");
+                //System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" congestionHashMap에 승객이0!!!!");
                 return 0.0;
             }
             String before_stationID=getBeforeStation(routeName,stationID);//a->b->c->.....y->z->a->b...
@@ -152,11 +155,11 @@ public class CalcCongestionClass {
                 -getOffPassenger(day,(int)nowTime/60,nowTime%60,before_stationID+"___"+routeName)
                 +getBeforePassengerNum(day,(nowTime-timeInterval+1440)%1440, before_stationID+"___"+routeName);
             
-                System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+"  계산중임");
+                //System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+"  계산중임");
                 return value;
         }
       //  System.out.println("getBeforePassengerNum : "+stationID_routeName+" 가 congestionHashMap에 없음.");
-        System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" 가 congestionHashMap에 없음.");
+        //System.out.println("test==getBeforePassengerNum() : stationID_routeName="+stationID_routeName+" day="+day+" nowTime="+nowTime+" 가 congestionHashMap에 없음.");
         return value;
     }
 
@@ -175,7 +178,7 @@ public class CalcCongestionClass {
             idx--;
             result=route.stationList.get((idx-1)%route.stationList.size());
         }
-        System.out.println("test==getBeforeStation() : routeName="+routeName+" stationID="+stationID+" 의 전정류장result="+result);
+        //System.out.println("test==getBeforeStation() : routeName="+routeName+" stationID="+stationID+" 의 전정류장result="+result);
         return result;
     }
 
@@ -187,7 +190,7 @@ public class CalcCongestionClass {
      * @return
      */
     private int getTimeInterval(String routeName, String stationID,String before_stationID){
-        int result=65;//여기도 임의로 테스트용으로 5분간격이라고 한거임!
+        int result=10;//여기도 임의로 테스트용으로 5분간격이라고 한거임!
 
         //희수 코드와 합쳐야 함
 
