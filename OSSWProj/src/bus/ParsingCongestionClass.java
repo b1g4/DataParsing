@@ -34,6 +34,7 @@ public class ParsingCongestionClass{
 
            // System.out.println("date="+date+" routeName="+routeName+" stationId="+stationId+" totalRide="+" totalAlight="+totalAlight);
             String stationID_routeName=stationId+"___"+routeName;
+
             if(busInfo.isCongestionExist(stationID_routeName)){
                 //20180101과 20180102는 중복이 일어남 => 이미 있으면 더하기
                //CongestinoClass temp=busInfo.getCongestinoClass(stationID_routeName);
@@ -69,12 +70,13 @@ public class ParsingCongestionClass{
             }
             String stationID_routeName=stationId+"___"+routeName;
             if(busInfo.isCongestionExist(stationID_routeName)){
+
                 //정보 추가후 congestionList에 다시 삽입
-                CongestinoClass tmp=busInfo.getCongestinoClass(stationID_routeName);
+                //CongestinoClass tmp=busInfo.getCongestinoClass(stationID_routeName);
                 for(int h=0; h<24; h++){
-                    tmp.setTotalByTimeInfo(h, timeRide[h], timeAlight[h]);
+                    busInfo.getCongestinoClass(stationID_routeName).setTotalByTimeInfo(h, timeRide[h], timeAlight[h]);
                 }
-                busInfo.setCongestion(tmp);
+                //busInfo.setCongestion(tmp);
             }else{
                 System.out.println("perMonth에는 없는 노선&정류장에 대한 정보가 perYear에는 있다!! 파일오류발생: "+stationID_routeName);
                 //return false;

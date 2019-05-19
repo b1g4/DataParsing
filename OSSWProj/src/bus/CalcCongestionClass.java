@@ -71,6 +71,12 @@ public class CalcCongestionClass {
         Iterator<String> iter=this.congestionHashMap.keySet().iterator();
         while(iter.hasNext()){
             String stationID_routeName=(String)iter.next();
+
+            if(stationID_routeName.equals("103000038___302")){
+                System.out.println("test== 103000038___302");
+            }
+
+
             CongestinoClass tmp=this.congestionHashMap.get(stationID_routeName);
 
             //0평일, 1토요일, 2일요일
@@ -95,7 +101,12 @@ public class CalcCongestionClass {
         Iterator<String> iter=this.congestionHashMap.keySet().iterator();
         while(iter.hasNext()){
             String stationID_routeName=(String)iter.next();
+
             if(busInfo.isRouteExist(stationID_routeName.substring(stationID_routeName.indexOf("___")+3))){
+
+                if(stationID_routeName.equals("103000038___302")){
+                    System.out.println("test== 103000038___302");
+                }
 
                 //0평일, 1토요일, 2일요일별로 저장
                 HashMap<Integer,Double[]> days=new HashMap<Integer,Double[]>();
@@ -107,14 +118,6 @@ public class CalcCongestionClass {
                             hours[i]=calc_Passenger_subFunction(day,i,stationID_routeName);   
                     }
                     days.put(day,hours);
-
-                    if(stationID_routeName=="119900010___동작01"){
-                        for(int i=0;i<24;i++){
-                            System.out.println("test=="+i+","+hours[i]); 
-                        }
-                    }
-
-
                 }
                 passengerNum.put(stationID_routeName,days);
                 //System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName );
@@ -148,9 +151,12 @@ public class CalcCongestionClass {
                     //예) busMinute=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
                     if(this.congestionHashMap.get(station_route).IsPassengerExist((int)(busMinute%1440)/60)){
                         
-                        result=result
-                        +getOnPassenger(day,(int)busMinute/60,busMinute%60,station_route)
-                        -getOffPassenger(day,(int)busMinute/60,busMinute%60,station_route);
+                        if(result==31.849249)
+                            System.out.println("test==");
+                        
+                        Double getonn=getOnPassenger(day,(int)busMinute/60,busMinute%60,station_route);
+                        Double getoff=getOffPassenger(day,(int)busMinute/60,busMinute%60,station_route);
+                        result=result+getonn-getoff;
                     
                         //그다음 정류장을 찾아서....
                         String before_stationID=getBeforeStation(busRouteName,busStationId);//a->b->c->.....y->z->a->b...
@@ -178,7 +184,7 @@ public class CalcCongestionClass {
 
     private int getFirstBusTime(String routeName, String stationID){
 
-        //첫차시간을 구해야 함!!!
+        //노선별로 첫차시간을 구해야 함!!!
 
 
         
@@ -234,10 +240,15 @@ public class CalcCongestionClass {
             System.out.println("getOnPassenger : "+stationID_routeName+" not exist");
             return 0.0;
         }        
-        return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour+1)%24]
-                - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24])
-                * (minute/60) 
-                +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24];
+
+        Double a=this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour+1)%24];
+        Double b=this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24];
+        Double c=(a-b)*minute/60+b;
+        return c;
+        //return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour+1)%24]
+        //        - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24])
+        //        * (minute/60) 
+        //        +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[0][(hour)%24];
      } 
 
      /**
@@ -253,10 +264,17 @@ public class CalcCongestionClass {
             System.out.println("getOffPassenger : "+stationID_routeName+" not exist");
             return 0.0;
         }  
-         return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour+1)%24]
-                - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24])
-                * (minute/60) 
-                +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24];
+
+        HashMap<Integer,Double[][]> hi=this.dayPassengerNum_getOnOff.get(stationID_routeName);
+        Double[][] hello=hi.get(day);
+        Double a=hello[1][(hour+1)%24];
+        Double b=hello[1][(hour)%24];
+        Double c=(a-b)*minute/60+b;
+        return c;
+         //return (this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour+1)%24]
+         //       - this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24])
+         //       * (minute/60) 
+         //       +this.dayPassengerNum_getOnOff.get(stationID_routeName).get(day)[1][(hour)%24];
      } 
 
     private boolean calc_congestion(){

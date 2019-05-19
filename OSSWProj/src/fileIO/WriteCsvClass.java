@@ -91,7 +91,7 @@ public class WriteCsvClass {
     public void writeCongestion(HashMap<String,HashMap<Integer,Double[]>> passenger ,HashMap<String,HashMap<Integer,int[]>> congestion)throws IOException{
         try {
             String currentPath = System.getProperty("user.dir");
-            String csvfilename = currentPath + "/stationcsv.csv";
+            String csvfilename = currentPath + "/congestioncsv.csv";
                         
             BufferedWriter fw;
             fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
@@ -107,14 +107,14 @@ public class WriteCsvClass {
                 //재차인원
                 HashMap<Integer,Double[]> tempP=passenger.get(stationID_routeName);
                 for(int i=0;i<3;i++){
-                    for(int j=0;j<1440;j++){
+                    for(int j=0;j<24;j++){
                         fw.write(tempP.get(i)[j] + ",");
                     }
                 }		
                 //혼잡도
                 HashMap<Integer,int[]> tempC= congestion.get(stationID_routeName);
           	    for(int i=0;i<3;i++){
-			        for(int j=0;j<1440;j++){
+			        for(int j=0;j<24;j++){
 				        fw.write(tempC.get(i)[j] + ",");
 			        }
 		        }
