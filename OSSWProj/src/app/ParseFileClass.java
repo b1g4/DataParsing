@@ -97,7 +97,7 @@ public class ParseFileClass {
             this.result = this.readXls(true);
             if (this.result) {
                 ParseBusClass parse = new ParseBusClass(this.valuesInFile);
-                result = parse.parsing_InternalTime_Info();
+                result = parse.parsing_IntervalTime_Info();
             }
         }
     }
