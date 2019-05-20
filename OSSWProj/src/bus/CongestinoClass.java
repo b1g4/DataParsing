@@ -13,12 +13,12 @@ import java.util.HashMap;
 public class CongestinoClass {
 
     //"중앙대후문___동작01"형식으로 저장, 구분자:"___"
-    public String stationID_routeName; 
+    public String routeName; 
     /**
      * 한달중에 평일이 며칠이 있는지, 토요일이 며칠이 있는지, 일요일이 며칠이 있는지 세어서 저장
      * 0:평일날짜수, 1:토요일날짜수, 2:일요일날짜수
      */
-    private int totalDays[] = new int[3];
+    private HashMap<String, int[]> totalDays = new HashMap<String, int[]>();
 
     /**
      * 한달중에 평일|토요일|일요일에 사람이 총 몇명이 타고 몇명이 하차했는지 저장
@@ -26,42 +26,26 @@ public class CongestinoClass {
      * [1][0] 토요일총승차     [1][1] 토요일총하차
      * [2][0] 일요일총승차     [2][1] 일요일총하차
      */
-    private Double totalPeople[][]=new Double[3][2];
+    private HashMap<String, Double[][]> totalPeople = new HashMap<String, Double[][]>();
 
     /**
      * 특정시각에 사람이 총 몇명이 타고 몇명이 하차했는지 저장
      * [0][0] 0-1시 총승차  [0][1] 1-2시 총승차  [0][2] 2-3시 총승차  [0][3] 3-4시 총승차   .......
      * [1][0] 0-1시 총하차  [1][1] 1-2시 총하차  [1][2] 2-3시 총하차  [1][3] 3-4시 총하차   .......
      */
-    private Double totalByTime[][]=new Double[2][24];
-
-    
+    private HashMap<String, Double[][]> totalByTime = new HashMap<String, Double[][]>();
 
     /**
      * 평일0-23시, 토요일 0-23시, 일요일 0-23시 순으로 저장 
+     * Key : StationID
+     * Value : Congestion info, 
      */ 
     private HashMap<String, ArrayList<Double>> congestion = new HashMap<String, ArrayList<Double>>();
 
     /**
      * default constructor
      */
-    public CongestinoClass(String stationID_routeName){
-        this.stationID_routeName=stationID_routeName;
-        for(int i=0;i<3;i++){
-            totalDays[i]=0;
-        }
-        for(int i=0;i<3;i++){
-            for(int j=0;j<2;j++){
-                totalPeople[i][j]=0.0;
-            }
-        }
-
-        for(int i=0;i<2;i++){
-            for(int j=0;j<24;j++){
-                totalByTime[i][j]=0.0;
-            }
-        }
-
+    public CongestinoClass(String routeName){
         this.initCongestion();
     }
 
@@ -78,27 +62,26 @@ public class CongestinoClass {
    /**
     * 특정 시각에 승차,하차인원이 모두 없으면 false, 하나라도 있으면 true
     */
-    public boolean IsPassengerExist(int hour){
+    public boolean IsPassengerExist(String stationId, int hour){
         //승차
-        if(totalByTime[0][hour]==0 && totalByTime[1][hour]==0)
+        if(totalByTime.get(stationId)[0][hour]==0 && totalByTime.get(stationId)[1][hour]==0)
             return false;
         return true;
     }
 
-    /**
-     * stationID_routeName에서 stationID를 반환
-     */
-    public String getStationID(){
-        return stationID_routeName.substring(0,stationID_routeName.indexOf("___"));
-    }
+    // /**
+    //  * stationID_routeName에서 stationID를 반환
+    //  */
+    // public String getStationID(){
+    //     return routeName.substring(0,routeName.indexOf("___"));
+    // }
 
     /**
      * stationID_routeName에서 routeName를 반환
      */
     public String getrouteName(){
-        return stationID_routeName.substring(stationID_routeName.indexOf("___")+3);
+        return this.routeName;
     }
-
 
     /**
      * 원하는 시간대를 쪼개 임의로 hh시 mm분에 대한 혼잡도 계산
@@ -113,25 +96,33 @@ public class CongestinoClass {
             * (minute / 60) + this.congestion.get(day).get(hour);
     }  
 
-    
-
     /**
      * 재차인원 계산
      * 승차-하차
      */
     public void calcPassengerNum(){
         ArrayList<Double> tmpList = new ArrayList<Double>();
-        for(int i =0; i<24; i++){
-            tmpList.add(this.totalByTime[0][i] - this.totalByTime[1][i]);
+        for(String key : this.totalByTime.keySet()){
+            for(int j = 0; j < 24; j++){
+                tmpList.add(this.totalByTime.get(key)[0][j] - this.totalByTime.get(key)[1][j]);
+            }
         }
+        // tmpList 활용하는 코드 작성 필요
     }
 
     /**
      * 
      * @param day
      */
-    public void setTotalDaysInfo(int day){
-        this.totalDays[day] += 1;
+    public void setTotalDaysInfo(String stationId, int day){
+        if(!this.totalDays.containsKey(stationId)){
+            int tmp[] = new int[3];
+            for(int i=0; i<3; i++){
+                tmp[i] = 0;
+            }
+            this.totalDays.put(stationId, tmp);
+        }
+        this.totalDays.get(stationId)[day] += 1;
     }
 
     /**
@@ -140,15 +131,35 @@ public class CongestinoClass {
      * @param ride
      * @param alight
      */
-    public void setTotalPeopleInfo(int day, Double ride, Double alight){
-        this.totalPeople[day][0] += ride;
-        this.totalPeople[day][1] += alight;
+    public void setTotalPeopleInfo(String stationId, int day, Double ride, Double alight){
+        
+        if(!this.totalPeople.containsKey(stationId)){
+            Double tmp[][] = new Double[3][2];
+            for(int i=0; i<3; i++){
+                for(int j=0; j<2; j++){
+                    tmp[i][j] = 0.0;
+                }
+            }
+            this.totalPeople.put(stationId, tmp);
+        }
+        this.totalPeople.get(stationId)[day][0] += ride;
+        this.totalPeople.get(stationId)[day][1] += alight;
     }
 
-    public void setTotalByTimeInfo(int hour, Double ride, Double alight){
-        this.totalByTime[0][hour] += ride;
-        this.totalByTime[1][hour] += alight;
+    public void setTotalByTimeInfo(String stationId, int hour, Double ride, Double alight){
+        if(!this.totalByTime.containsKey(stationId)){
+            Double tmp[][] = new Double[2][24];
+            for(int i=0; i<2; i++){
+                for(int j=0; j<24; j++){
+                    tmp[i][j] = 0.0;
+                }
+            }
+            this.totalByTime.put(stationId, tmp);
+        }
+        this.totalByTime.get(stationId)[0][hour] += ride;
+        this.totalByTime.get(stationId)[1][hour] += alight;
     }
+
 
     /**
      * 해당날짜의 요일을 판별 (평|토|일)
@@ -184,12 +195,15 @@ public class CongestinoClass {
     public Double[][] calcGettingOnAndOff(int day){
         Double[][] GettingOnAndOff=new Double[2][24];
         //승하차 인원 계산
-        for(int time=0;time<24;time++){ //0-23시 
-            //승차
-            GettingOnAndOff[0][time]=totalByTime[0][time] * (totalPeople[day][0]/totalDays[day]) / (totalPeople[0][0]+totalPeople[1][0]+totalPeople[2][0]);
-            //하차
-            GettingOnAndOff[1][time]=totalByTime[1][time] * (totalPeople[day][1]/totalDays[day]) / (totalPeople[0][1]+totalPeople[1][1]+totalPeople[2][1]);
+        for(String key : this.totalByTime.keySet()){
+            for(int time=0;time<24;time++){ //0-23시 
+                //승차
+                GettingOnAndOff[0][time]=totalByTime.get(key)[0][time] * (totalPeople.get(key)[day][0]/totalDays.get(key)[day]) / (totalPeople.get(key)[0][0]+totalPeople.get(key)[1][0]+totalPeople.get(key)[2][0]);
+                //하차
+                GettingOnAndOff[1][time]=totalByTime.get(key)[1][time] * (totalPeople.get(key)[day][1]/totalDays.get(key)[day]) / (totalPeople.get(key)[0][1]+totalPeople.get(key)[1][1]+totalPeople.get(key)[2][1]);
+            }
         }
+        
         return GettingOnAndOff;        
     }
 

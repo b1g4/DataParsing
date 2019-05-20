@@ -151,26 +151,26 @@ public class CalcCongestionClass {
                 if(busMinute >  getFirstBusTime(busRouteName, busStationId)){
                     //busMinute 시간에 승하차 인원이 없다면 0 반환
                     //예) busMinute=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
-                    if(this.congestionHashMap.get(station_route).IsPassengerExist((int)(busMinute%1440)/60)){
+                    // if(this.congestionHashMap.get(station_route).IsPassengerExist((int)(busMinute%1440)/60)){
                         
-                        if(result==31.849249)
-                            System.out.println("test==");
+                    //     if(result==31.849249)
+                    //         System.out.println("test==");
                         
-                        Double getonn=getOnPassenger(day,(int)busMinute/60,busMinute%60,station_route);
-                        Double getoff=getOffPassenger(day,(int)busMinute/60,busMinute%60,station_route);
-                        result=result+getonn-getoff;
+                    //     Double getonn=getOnPassenger(day,(int)busMinute/60,busMinute%60,station_route);
+                    //     Double getoff=getOffPassenger(day,(int)busMinute/60,busMinute%60,station_route);
+                    //     result=result+getonn-getoff;
                     
-                        //그다음 정류장을 찾아서....
-                        String before_stationID=getBeforeStation(busRouteName,busStationId);//a->b->c->.....y->z->a->b...
-                        int timeInterval=getTimeInterval(busRouteName,busStationId,before_stationID);
+                    //     //그다음 정류장을 찾아서....
+                    //     String before_stationID=getBeforeStation(busRouteName,busStationId);//a->b->c->.....y->z->a->b...
+                    //     int timeInterval=getTimeInterval(busRouteName,busStationId,before_stationID);
                         
-                        busMinute=busMinute-timeInterval;
-                        busStationId=before_stationID;
-                        station_route=busStationId+"___"+busRouteName;
-                    }else{
-                        //System.out.println("test==calc_Passenger_subFunction() : congestionHashMap에 "+station_route+"에 "+busMinute+"분에 승객이 없음");
-                        status=false;
-                    }
+                    //     busMinute=busMinute-timeInterval;
+                    //     busStationId=before_stationID;
+                    //     station_route=busStationId+"___"+busRouteName;
+                    // }else{
+                    //     //System.out.println("test==calc_Passenger_subFunction() : congestionHashMap에 "+station_route+"에 "+busMinute+"분에 승객이 없음");
+                    //     status=false;
+                    // }
                 }else{
                     //System.out.println("test==calc_Passenger_subFunction() : "+station_route+" 가 첫차시간을 지남");
                     status=false;

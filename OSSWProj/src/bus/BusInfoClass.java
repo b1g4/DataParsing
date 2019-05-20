@@ -8,21 +8,17 @@ import java.util.HashMap;
  * 항상 접근이 가능해야 한다. 
  */
 public class BusInfoClass{
+    
     private static BusInfoClass busInfo = new BusInfoClass();
     // 전체 경로정보 <RouteName, RouteClass Instance> 형식으로 저장
     private HashMap<String, RouteClass> RouteList = new HashMap<String, RouteClass>();
     // 전체 정류장 정보 <StationID, StationClass Instance> 형식으로 저장
     private HashMap<String, StationClass> StationList = new HashMap<String, StationClass>();
-    // 전체 혼잡도 정보 <stationID_RouteName, CongestionClass Instance> 형식으로 저장
-    /* -----------이 주석은 나중에 지워도 됨-------------
-     * ParsingcongestionClass.java 에 아래와 같은 코드가 있었음
-     * int day = super.WhatDay(date);
-       super.setTotalDaysInfo(day);
-       super.setTotalPeopleInfo(day, totalRide, totalAlight);
-     * 파일 정보들을 모두 저장한 후에 혼잡도 계산을 해야하므로 CongestionClass Instance들을 저장할 공간이 필요했음
-     * 그래서 BusInfoClass에 저장, 계산해서 나온 CongestionList의 값을 
-     * 나중에 StationList의 routeList로 옮길 예정
-     */
+
+    /**
+     * Key : RouteName
+     * Value : CongestionClass, 정류장별 혼잡도 정보를 가지고 있음
+     * */ 
     private HashMap<String, CongestinoClass> CongestionList = new HashMap<String, CongestinoClass>();
     
 
@@ -122,25 +118,25 @@ public class BusInfoClass{
      * @param instance : CongestinoClass instance
      */
     public void setCongestion(CongestinoClass instance){
-        this.CongestionList.put(instance.stationID_routeName, instance);
+        this.CongestionList.put(instance.routeName, instance);
     }
 
     /**
      * 특정 Congestion정보를 반환
-     * @param stationID_routeName : 표준정류장ID_노선이름
+     * @param routeName : 노선이름
      * @return CongestionClass : 표준정류장ID_노선이름에 해당하는 CongestionClass insatance를 반환
      */
-    public CongestinoClass getCongestinoClass(String stationID_routeName){
-        return this.CongestionList.get(stationID_routeName);
+    public CongestinoClass getCongestinoClass(String routeName){
+        return this.CongestionList.get(routeName);
     }
     
     /**
-     * stationID_routeName를 이용해 특정 혼잡도에 관한 class instance가 생성되어 있는지 검사한다.
-     * @param stationID_routeName
+     * routeName를 이용해 특정 노선 혼잡도에 관한 class instance가 생성되어 있는지 검사한다.
+     * @param routeName
      * @return boolean
      */
-    public boolean isCongestionExist(String stationID_routeName){
-        return this.CongestionList.containsKey(stationID_routeName);
+    public boolean isCongestionExist(String routeName){
+        return this.CongestionList.containsKey(routeName);
     }
 
     /**
