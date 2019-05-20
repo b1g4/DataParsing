@@ -207,4 +207,8 @@ public class CongestinoClass {
         return GettingOnAndOff;        
     }
 
+    public boolean isStationExist(String stationId){
+        return this.totalDays.containsKey(stationId);
+    }
+
 }

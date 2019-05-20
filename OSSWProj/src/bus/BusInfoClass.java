@@ -135,6 +135,23 @@ public class BusInfoClass{
      * @param routeName
      * @return boolean
      */
+    public boolean isCongestionExist_station(String routeName, String stationId){
+        if(this.CongestionList.containsKey(routeName)){
+            if(this.CongestionList.get(routeName).isStationExist(stationId)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * routeName를 이용해 특정 노선 혼잡도에 관한 class instance가 생성되어 있는지 검사한다.
+     * @param routeName
+     * @return boolean
+     */
     public boolean isCongestionExist(String routeName){
         return this.CongestionList.containsKey(routeName);
     }

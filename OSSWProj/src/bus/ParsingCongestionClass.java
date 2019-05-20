@@ -39,6 +39,7 @@ public class ParsingCongestionClass{
             }else{ 
                 //없으면 새로 추가하면 됨
                 CongestinoClass temp=new CongestinoClass(routeName);
+                temp.routeName = routeName;
                 int day = temp.WhatDay(date);
                 temp.setTotalDaysInfo(stationId, day);
                 temp.setTotalPeopleInfo(stationId, day, totalRide, totalAlight);
@@ -63,7 +64,7 @@ public class ParsingCongestionClass{
                 timeRide[h] = Double.parseDouble(this.valuesInFile.get(i).get(8+2*h));
                 timeAlight[h] = Double.parseDouble(this.valuesInFile.get(i).get(9+2*h));
             }
-            if(busInfo.isCongestionExist(routeName)){
+            if(busInfo.isCongestionExist_station(routeName, stationId)){
 
                 //정보 추가후 congestionList에 다시 삽입
                 //CongestinoClass tmp=busInfo.getCongestinoClass(stationID_routeName);
