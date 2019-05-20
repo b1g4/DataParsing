@@ -23,8 +23,8 @@ public class App {
 
         //배차간격
         //OSSWProj/20190124기준_서울시_노선현황_첫차막차배차.xls
-        String fileDir1_ = currentPath + "/OSSWProj/20190124기준_서울시_노선현황_첫차막차배차.xls";
-        ParseFileClass parse1_ = new ParseFileClass(fileDir1_, 0);
+        //String fileDir1_ = currentPath + "/OSSWProj/20190124기준_서울시_노선현황_첫차막차배차.xls";
+        //ParseFileClass parse1_ = new ParseFileClass(fileDir1_, 0);
 
         //perMonth와 perYear파일 파싱, 저장
         String fileDir2 = currentPath + "\\OSSWProj\\data\\bus";

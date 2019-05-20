@@ -52,7 +52,6 @@ public class ParseFileClass {
                     }
                 }
                 if(this.result){
-                    //2018년 perYear 파일 파싱
                     this.fileDir=fileDir+"\\perYear\\2018년_버스노선별_정류장별_시간대별_승하차_인원_정보.csv";
                     this.result=this.readCSV(true);
                     if(this.result){

@@ -120,6 +120,12 @@ public class CalcCongestionClass {
                     days.put(day,hours);
                 }
                 passengerNum.put(stationID_routeName,days);
+                if(stationID_routeName.equals("119900009___동작01")){
+                    System.out.println("test== 119900009___동작01");
+                    for(int i=0;i<24;i++){
+                        System.out.println("test== 119900009___동작01 : 평일 값"+days.get(0)[i]);
+                    }
+                }
                 //System.out.println("test==calc_Passenger() : stationID_routeName="+stationID_routeName );
 
             }else{
@@ -186,10 +192,12 @@ public class CalcCongestionClass {
     private int getFirstBusTime(String routeName, String stationID){
 
         //노선별로 첫차시간을 구해야 함!!!
-        Integer time=busInfo.getRouteInfo(routeName).getTime().get(0);
-        int val=time.intValue();
+        //Integer time=busInfo.getRouteInfo(routeName).getTime().get(0);
+        //int val=time.intValue();
         
-        return val; //4시라고 생ㅇ각했을때!
+       // return val; //4시라고 생ㅇ각했을때!
+
+       return 240;
 
     }
 
