@@ -39,6 +39,8 @@ public class ParsingCongestionClass{
             }else{ 
                 //없으면 새로 추가하면 됨
                 CongestinoClass temp=new CongestinoClass(routeName);
+                temp.setStationList(busInfo.getRouteInfo(routeName).stationList);
+                
                 temp.routeName = routeName;
                 int day = temp.WhatDay(date);
                 temp.setTotalDaysInfo(stationId, day);
