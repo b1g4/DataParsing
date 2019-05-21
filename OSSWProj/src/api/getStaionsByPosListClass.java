@@ -41,4 +41,10 @@ public class getStaionsByPosListClass{
         this.stationNm=stationNm;
         this.stationTp=stationTp;
     }
+    public String getgpsX(){
+        return this.gpsX;
+    }
+    public String getgpsY(){
+        return this.gpsY;
+    }
 }
