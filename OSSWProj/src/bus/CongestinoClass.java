@@ -191,22 +191,24 @@ public class CongestinoClass {
      * 
      * @param day 0평일, 1토요일, 2일요일
      */
-    public void calcGettingOnAndOff(int day) {
+    public void calcGettingOnAndOff() {
         Double[][] GettingOnAndOff = new Double[2][24];
         // 승하차 인원 계산
         for (String key : this.totalByTime.keySet()) {
             HashMap<Integer, Double[][]> tmp = new HashMap<Integer, Double[][]>();
-            for (int time = 0; time < 24; time++) { // 0-23시
-                // 승차
-                GettingOnAndOff[0][time] = totalByTime.get(key)[0][time]
-                        * (totalPeople.get(key)[day][0] / totalDays.get(key)[day])
-                        / (totalPeople.get(key)[0][0] + totalPeople.get(key)[1][0] + totalPeople.get(key)[2][0]);
-                // 하차
-                GettingOnAndOff[1][time] = totalByTime.get(key)[1][time]
-                        * (totalPeople.get(key)[day][1] / totalDays.get(key)[day])
-                        / (totalPeople.get(key)[0][1] + totalPeople.get(key)[1][1] + totalPeople.get(key)[2][1]);
+            for(int day =0; day<3; day++){
+                for (int time = 0; time < 24; time++) { // 0-23시
+                    // 승차
+                    GettingOnAndOff[0][time] = totalByTime.get(key)[0][time]
+                            * (totalPeople.get(key)[day][0] / totalDays.get(key)[day])
+                            / (totalPeople.get(key)[0][0] + totalPeople.get(key)[1][0] + totalPeople.get(key)[2][0]);
+                    // 하차
+                    GettingOnAndOff[1][time] = totalByTime.get(key)[1][time]
+                            * (totalPeople.get(key)[day][1] / totalDays.get(key)[day])
+                            / (totalPeople.get(key)[0][1] + totalPeople.get(key)[1][1] + totalPeople.get(key)[2][1]);
+                }
+                tmp.put(day, GettingOnAndOff);
             }
-            tmp.put(day, GettingOnAndOff);
             this.dayPassengerNum_getOnOff.put(key, tmp);
         }
     }

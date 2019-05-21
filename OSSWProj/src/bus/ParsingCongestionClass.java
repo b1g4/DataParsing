@@ -39,13 +39,15 @@ public class ParsingCongestionClass{
             }else{ 
                 //없으면 새로 추가하면 됨
                 CongestinoClass temp=new CongestinoClass(routeName);
-                temp.setStationList(busInfo.getRouteInfo(routeName).stationList);
+                if(busInfo.isRouteExist(routeName)){
+                    temp.setStationList(busInfo.getRouteInfo(routeName).stationList);
                 
-                temp.routeName = routeName;
-                int day = temp.WhatDay(date);
-                temp.setTotalDaysInfo(stationId, day);
-                temp.setTotalPeopleInfo(stationId, day, totalRide, totalAlight);
-                busInfo.setCongestion(temp);
+                    temp.routeName = routeName;
+                    int day = temp.WhatDay(date);
+                    temp.setTotalDaysInfo(stationId, day);
+                    temp.setTotalPeopleInfo(stationId, day, totalRide, totalAlight);
+                    busInfo.setCongestion(temp);
+                }
             }
         }
         System.out.println("parsingCongestionInfo_Month()");
@@ -58,6 +60,8 @@ public class ParsingCongestionClass{
         System.out.println("year file start");
         for(int i=0; i<this.rowNum; i++){
             String routeName = this.valuesInFile.get(i).get(2);
+            if(!busInfo.isRouteExist(routeName))
+                continue;
             String stationId = this.valuesInFile.get(i).get(4);
             Double timeRide[] = new Double[24];
             Double timeAlight[] = new Double[24];
