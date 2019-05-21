@@ -50,11 +50,11 @@ public class RecommendPath {
 
         String minCongestionStop = "";
 
-        ArrayList<String> tempRouteList = new ArrayList<String>;
+        //ArrayList<String> tempRouteList = new ArrayList<String>;
 
-        for(int i = 0 ; i < stationListOnPath.size() ; i++){
-            businfo.getStationInfo(stationListOnPath.get(i));
-        }
+        //for(int i = 0 ; i < stationListOnPath.size() ; i++){
+        //    businfo.getStationInfo(stationListOnPath.get(i));
+        //}
 
 
 
