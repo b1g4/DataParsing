@@ -61,7 +61,7 @@ public class BusInfoClass{
     /**
      * 특정 Route정보를 반환
      * @param routeName : 노선 이름, 9자리 숫자로 이루어짐
-     * @return RouteClass : routeID에 해당하는 RouteClass instance를 반환
+     * @return RouteClass : routeName에 해당하는 RouteClass instance를 반환
      */
     public RouteClass getRouteInfo(String routeName){
         return this.RouteList.get(routeName);
@@ -124,7 +124,7 @@ public class BusInfoClass{
     /**
      * 특정 Congestion정보를 반환
      * @param routeName : 노선이름
-     * @return CongestionClass : 표준정류장ID_노선이름에 해당하는 CongestionClass insatance를 반환
+     * @return CongestionClass : 표준정류장ID_노선이름에 해당하는 CongestionClass instance를 반환
      */
     public CongestinoClass getCongestinoClass(String routeName){
         return this.CongestionList.get(routeName);
