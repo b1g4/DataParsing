@@ -18,21 +18,21 @@ public class SearchRoute {
     //ex) {100000367 100100008 103 100000387 100000387 123000010 741 100000368 21} = 103번버스~환승~741번버스, 21분 소요
     private ArrayList<ArrayList<String>> apiRouteLists = new ArrayList<ArrayList<String>>(); 
     
-    /* 원래 코드 
-    public void searchRouteByAPI( String startXPos, String startYPos, String endXPos, String endYPos  )
-    */
-    public void searchRouteByAPI(){
+    // 원래 코드 
+    public void searchRouteByAPI( String startXPos, String startYPos, String endXPos, String endYPos  ){
+    
+    //public void searchRouteByAPI(){
 
         try {
 
-            /* 원래 코드, 밑에는 테스트용 코드로 임의의 x와 y 넣어둠
+             //원래 코드, 밑에는 테스트용 코드로 임의의 x와 y 넣어둠
             String urlStr =  "http://ws.bus.go.kr/api/rest/pathinfo/getPathInfoByBus" + "?ServiceKey=hRcdNI0WTwvb4waUa3XtdJdOYRyeZzqFg4m7aYwpkjvp13%2BMaSjxMizRLWp0uJrrAX6BN9BWarqYoGR0Bu8l2A%3D%3D"
             + "&startX=" + startXPos + "&startY=" + startYPos + "&endX=" + endXPos + "&endY=" + endYPos;
-            */
             
-            String urlStr =  "http://ws.bus.go.kr/api/rest/pathinfo/getPathInfoByBus" 
-            + "?ServiceKey=hRcdNI0WTwvb4waUa3XtdJdOYRyeZzqFg4m7aYwpkjvp13%2BMaSjxMizRLWp0uJrrAX6BN9BWarqYoGR0Bu8l2A%3D%3D"
-            + "&startX=" + "127.01966520359342" + "&startY=" + "37.574197493878486" + "&endX=" + "126.9675787181807" + "&endY=" + "37.567058032371364";
+            
+            //String urlStr =  "http://ws.bus.go.kr/api/rest/pathinfo/getPathInfoByBus" 
+            //+ "?ServiceKey=hRcdNI0WTwvb4waUa3XtdJdOYRyeZzqFg4m7aYwpkjvp13%2BMaSjxMizRLWp0uJrrAX6BN9BWarqYoGR0Bu8l2A%3D%3D"
+            //+ "&startX=" + "127.01966520359342" + "&startY=" + "37.574197493878486" + "&endX=" + "126.9675787181807" + "&endY=" + "37.567058032371364";
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dbuilder = dbFactory.newDocumentBuilder();
@@ -77,6 +77,10 @@ public class SearchRoute {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+    }
+
+    public ArrayList<ArrayList<String>> getapiRouteLists(){
+        return this.apiRouteLists;
     }
 
     public String getTagValue(String tag, Element element) { //태그값 접근을 위한 매소드

@@ -37,9 +37,7 @@ public class CalcCongestionClass {
      */
     private boolean calc_getOnOff(){
         for(String routeName : busInfo.getCongestionHashMap().keySet()){
-            for(int day = 0; day < 3; day++){
-                busInfo.getCongestionHashMap().get(routeName).calcGettingOnAndOff(day);
-            }
+            busInfo.getCongestionHashMap().get(routeName).calcGettingOnAndOff();
         }
         return true;
     }
@@ -51,17 +49,23 @@ public class CalcCongestionClass {
     private boolean calc_Passenger(){
         boolean status=true;
         for(String routeName : busInfo.getCongestionHashMap().keySet()){
-            for(int day = 0; day < 3; day++){
-                for(int i =0; i<24; i++){
-                    // 이 함수가 수행된 이후로는 각 station에 모든 재차인원 정보가 저장됨.
-                    calc_Passenger_subFunction(day, i, routeName);
+            for(String stationId : busInfo.getCongestionHashMap().get(routeName).dayPassengerNum_getOnOff.keySet()){
+                HashMap<Integer, Double[]> tmp = new HashMap<Integer, Double[]>();
+                for(int day = 0; day < 3; day++){
+                    Double[] tmpD = new Double[24];
+                    for(    int i =0; i<24; i++){
+                        // 이 함수가 수행된 이후로는 각 station에 모든 재차인원 정보가 저장됨.
+                        tmpD[i] = calc_Passenger_subFunction(day, i, routeName, stationId);
+                    }
+                    tmp.put(day, tmpD);
                 }
+                busInfo.getCongestionHashMap().get(routeName).passengerNum.put(stationId, tmp);
             }
         }
         return status;
     }
 
-    private Double calc_Passenger_subFunction(int day,int nowHour, String routeName){
+    private Double calc_Passenger_subFunction(int day,int nowHour, String routeName, String stationId){
         Double result=0.0;
         int busMinute=nowHour*60+1440;
         boolean status=true;
@@ -73,25 +77,22 @@ public class CalcCongestionClass {
                 if(busMinute >  getFirstBusTime(routeName)){
                     //busMinute 시간에 승하차 인원이 없다면 0 반환
                     //예) busMinute=3시7분 ==> 시간대=3-4시 ==> 승차=0,하차=0이면 승객이 없으므로 False
-                    int stationNum = busInfo.getCongestionHashMap().get(routeName).stationList.size() - 1;
+                    if(!busInfo.getCongestionHashMap().get(routeName).dayPassengerNum_getOnOff.containsKey(stationId))
+                        continue;
+                    if(busInfo.getCongestionHashMap().get(routeName).IsPassengerExist(stationId, (int)(busMinute%1440)/60)){
+                        Double getonn=getOnPassenger(day,(int)busMinute/60,busMinute%60,routeName, stationId);
+                        Double getoff=getOffPassenger(day,(int)busMinute/60,busMinute%60,routeName, stationId);
+                        result += (getonn - getoff);
 
-                    for(int i=stationNum; i>=0; i--){
-                        String stationId = busInfo.getCongestionHashMap().get(routeName).stationList.get(i);
-                        String before_stationId = busInfo.getCongestionHashMap().get(routeName).stationList.get(i-1);
-                        if(busInfo.getCongestionHashMap().get(routeName).IsPassengerExist(stationId, (int)(busMinute%1440)/60)){
-                            Double getonn=getOnPassenger(day,(int)busMinute/60,busMinute%60,routeName, stationId);
-                            Double getoff=getOffPassenger(day,(int)busMinute/60,busMinute%60,routeName, stationId);
-                            result += (getonn - getoff);
-
-                            // 다음 정류장 탐색
-                            int timeInterval = getTimeInterval(routeName,stationId, before_stationId);
-                            busMinute = busMinute-timeInterval;
-                        }
-                        else {
-                            status = false;
-                        }
+                        // 다음 정류장 탐색
+                        String before_stationId = this.getBeforeStation(routeName, stationId);
+                        int timeInterval = getTimeInterval(routeName,stationId, before_stationId);
+                        busMinute = busMinute-timeInterval;
                     }
-                }
+                    else {
+                        status = false;
+                    }
+                } 
                 else{
                     status = false;
                 }
@@ -120,17 +121,17 @@ public class CalcCongestionClass {
      * @param routeName 
      * @param stationID 
      */
-    // private String getBeforeStation(String routeName, String stationId){
-    //     String result="";
-    //     RouteClass route = busInfo.getRouteInfo(routeName);
-    //     int idx = route.stationList.indexOf(stationId);
-    //     result=route.stationList.get((idx+route.stationList.size()-1)%route.stationList.size());
-    //     while(!busInfo.getCongestionHashMap().get(routeName).isStationExist(stationId)){
-    //         idx--;
-    //         result=route.stationList.get((idx+route.stationList.size()-1)%route.stationList.size());
-    //     }
-    //  return result;
-    // }
+    private String getBeforeStation(String routeName, String stationId){
+        String result="";
+        RouteClass route = busInfo.getRouteInfo(routeName);
+        int idx = route.stationList.indexOf(stationId);
+        result=route.stationList.get((idx+route.stationList.size()-1)%route.stationList.size());
+        while(!busInfo.getCongestionHashMap().get(routeName).isStationExist(stationId)){
+            idx--;
+            result=route.stationList.get((idx+route.stationList.size()-1)%route.stationList.size());
+        }
+     return result;
+    }
 
     /**
      * stationID정류장과 before_stationID정류장 사이의 시간간격을 반환
@@ -196,6 +197,8 @@ public class CalcCongestionClass {
             ArrayList<Integer> chair_handle = getBusType(routeName);
 
             for(String stationId : busInfo.getCongestionHashMap().get(routeName).stationList){
+                if(!busInfo.getCongestionHashMap().get(routeName).passengerNum.containsKey(stationId))
+                    continue;
                 HashMap<Integer, int[]> tmpCong = new HashMap<Integer, int[]>();
                 for(int day = 0; day < 3; day++){
                     int icong[] = new int[24];
