@@ -81,14 +81,15 @@ public class ParseBusClass {
 
 
         //csv파일 생성확인 코드 , 삭제예정
-        try {
+      /*  try {
             WriteCsvClass tmpc = new WriteCsvClass();
-            tmpc.writeRouteClass(busInfo.getRouteHashMap());
+            //tmpc.writeRouteClass(busInfo.getRouteHashMap());
+            tmpc.writeRouteClass_new(busInfo.getRouteHashMap());
            
             tmpc.writeStationClass(busInfo.getStationHashMap());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return true;
     }
 

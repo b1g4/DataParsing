@@ -2,14 +2,15 @@ package app;
 
 import java.util.ArrayList;
 
-import api.ApigetArrInfoByRouteList;
 import bus.*;
 import findPath.RecommendPath;
+import findPath.SearchPath;
 
 
 public class App {
     public static void main(String[] args) throws Exception {
 
+        
 
 
         Runtime runtime = Runtime.getRuntime();
@@ -24,12 +25,34 @@ public class App {
 
         //배차간격
         //OSSWProj/20190124기준_서울시_노선현황_첫차막차배차.xls
-        //String fileDir1_ = currentPath + "\\OSSWProj\\20190124기준_서울시_노선현황_첫차막차배차_new.xls";
-        //ParseFileClass parse1_ = new ParseFileClass(fileDir1_, 0);
+        String fileDir1_ = currentPath + "\\OSSWProj\\20190124기준_서울시_노선현황_첫차막차배차_new.xls";
+        ParseFileClass parse1_ = new ParseFileClass(fileDir1_, 0);
 
         //perMonth와 perYear파일 파싱, 저장
-        //String fileDir2 = currentPath + "\\OSSWProj\\data\\bus";
-        //ParseFileClass parse2 = new ParseFileClass(fileDir2, false, true);
+        String fileDir2 = currentPath + "\\OSSWProj\\data\\bus";
+        ParseFileClass parse2 = new ParseFileClass(fileDir2, false, true);
+
+
+
+
+
+
+
+
+
+        SearchPath s=new SearchPath();
+        ArrayList<ArrayList<String>> str= s.getPathsFromStations(126.9403932611921, 37.51070581104394,126.95678703483273,37.506391727320924);
+
+
+
+
+
+
+
+
+
+
+
 
         ArrayList <String> temp = new ArrayList<String>();
         temp.add("100000367");
