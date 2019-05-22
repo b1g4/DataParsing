@@ -38,7 +38,7 @@ public class CongestinoClass {
     /**
      * 평일0-23시, 토요일 0-23시, 일요일 0-23시 순으로 저장 Key : StationID Value : Congestion info,
      */
-    public HashMap<String, HashMap<Integer, int[]>> congestion = new HashMap<String, HashMap<Integer, int[]>>();
+    HashMap<String, HashMap<Integer, int[]>> congestion = new HashMap<String, HashMap<Integer, int[]>>();
 
 
     /**

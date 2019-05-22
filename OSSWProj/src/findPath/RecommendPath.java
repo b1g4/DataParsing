@@ -52,6 +52,7 @@ public class RecommendPath {
 
         //ArrayList<String> tempRouteList = new ArrayList<String>;
 
+
         //for(int i = 0 ; i < stationListOnPath.size() ; i++){
         //    businfo.getStationInfo(stationListOnPath.get(i));
         //}

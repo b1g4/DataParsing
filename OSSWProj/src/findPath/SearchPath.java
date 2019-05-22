@@ -105,6 +105,7 @@ public class SearchPath {
                 this.minPath=onePath;
             }
 
+
             //{출발 정류소 id, 출발 정류소 이름, 노선명, 도착정류소 id, 도착 정류소 이름 소요시간}
 
             //api를 이용해서 
@@ -123,6 +124,7 @@ public class SearchPath {
                 if(mincongestionvalue>testCong){
                     minCongPath=onePath;
                     mincongestionvalue=testCong;
+
                 }
             }
         }
@@ -200,13 +202,7 @@ public class SearchPath {
         재차인원이 20(맘대로)명보다 작으면 바로 통과
         아니면 그다음꺼 보기
     }
-        
-        
-        
-        
-        
-        
-        
+
         //경로 목록 추가 저장
         addPaths_to_resultPathList(addedPaths,nowDayTime);
 
