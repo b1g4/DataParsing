@@ -61,17 +61,17 @@ public class RecommendPath {
         GetPathCongestion getpathcongestion = new GetPathCongestion();
         nowDayTime = getpathcongestion.getNowDayTime();
 
-        int totalMinCongestion = 10;
+        double totalMinCongestion = 10;
 
         if(stationListOnPath.size() > 6) { //가는 길 속 정류장이 6개 미만이면 혼잡도에 따른 다른 경로를 추천
 
             for (int i = 0; i < stationListOnPath.size() - 3; i++) {
                 Set tempRouteSet = businfo.getStationInfo(stationListOnPath.get(i)).getRouteListHashMap().keySet();
                 Iterator iterator = tempRouteSet.iterator();
-                int totalCongestionByStop = 0;
+                double totalCongestionByStop = 0;
                 while (iterator.hasNext()) {
                     String routeIdKey = (String) iterator.next();
-                    totalCongestionByStop += businfo.getCongestinoClass(routeIdKey).getCongestion(nowDayTime.get(0), nowDayTime.get(1),
+                    totalCongestionByStop += businfo.getCongestionClass(routeIdKey).getCongestion(nowDayTime.get(0), nowDayTime.get(1),
                             nowDayTime.get(2), stationListOnPath.get(i));
                 }
 

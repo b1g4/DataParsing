@@ -58,7 +58,7 @@ public class ApigetArrInfoByRouteList {
             } 
                 
             //arraylist에 잘 들어갔는지 확인용 코드, 삭제예정
-            System.out.println("test===getArrInfoByRouteList()");
+            System.out.print("test===getArrInfoByRouteList()   ");
             for(String element : getArrInfoByRouteLists){
                 System.out.print(element+" ");
             }

@@ -68,10 +68,6 @@ public class ParseFileClass {
                     // //혼잡도 파일로 저장
                      try {
                          WriteCsvClass tmpc = new WriteCsvClass();
-                         
-
-
-                         //tmpc.writeCongestion(calcC.getpassengerNum(), calcC.getfinalCongestion());     
                          tmpc.writeCongestion();            
                      } catch (IOException e) {
                          e.printStackTrace();

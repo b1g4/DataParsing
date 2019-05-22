@@ -233,9 +233,9 @@ public class CalcCongestionClass {
             for(String stationId : busInfo.getCongestionHashMap().get(routeName).stationList){
                 if(!busInfo.getCongestionHashMap().get(routeName).passengerNum.containsKey(stationId))
                     continue;
-                HashMap<Integer, int[]> tmpCong = new HashMap<Integer, int[]>();
+                HashMap<Integer, double[]> tmpCong = new HashMap<Integer, double[]>();
                 for(int day = 0; day < 3; day++){
-                    int icong[] = new int[24];
+                    double icong[] = new double[24];
                     for(int i=0; i<24; i++){
                         double num = busInfo.getCongestionHashMap().get(routeName).passengerNum.get(stationId).get(day)[i];
 

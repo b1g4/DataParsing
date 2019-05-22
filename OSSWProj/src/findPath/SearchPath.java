@@ -1,10 +1,6 @@
 package findPath;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import api.SearchRoute;
 import api.getStaionsByPosListClass;
@@ -179,74 +175,5 @@ public class SearchPath {
 
         return sendPathList;
     }*/
-
-
-    
-
-
-
-/*
-    public ArrayList<ArrayList<String>> getTransferPath(Double busStartX,Double busStartY, Double busEndX, Double busEndY){
-
-        SearchRoute searchRoute=new SearchRoute();
-        searchRoute.searchRouteByAPI( String.valueOf(busStartX),String.valueOf(busStartY),String.valueOf(busEndX),String.valueOf(busEndY));
-        ArrayList<ArrayList<String>> addedPaths=searchRoute.getapiRouteLists();
-        
-        원래 경로의 혼잡도를 구하고
-
-        나머지를 원래경로와 비교하면서 구한다
-
-        순서대로 정렬하고
-
-        GetPathCongestion에 있는 ~~~RealTime함술ㄹ 갖고와서 
-        재차인원이 20(맘대로)명보다 작으면 바로 통과
-        아니면 그다음꺼 보기
-    }
-
-        //경로 목록 추가 저장
-        addPaths_to_resultPathList(addedPaths,nowDayTime);
-
-
-
-
-
-        //출발지와 도착지 주변에 있는 정류장 목록을 반환 api 호출
-        parsing_getStationByPosList tmp = new parsing_getStationByPosList();
-        String servicekey = "aIcQiHW9KYc8CCUdYfRbOMwvGGXVSzqB2vAHYDK6W4tYYiUd1rkhIIPi3BlOLOGNfgYEfkQpprT05jQcu4xp3g%3D%3D";
-        double radius=700;
-        ArrayList<getStaionsByPosListClass> start = tmp.sendUrltoAPI(servicekey,startX,startY,radius);
-        ArrayList<getStaionsByPosListClass> end = tmp.sendUrltoAPI(servicekey, endX,endY,radius);
-
-        //현재요일,시각
-        ArrayList<Integer> nowDayTime=new GetPathCongestion().getNowDayTime();
-
-        //길찾기 api 호출
-        //출발지는 가장 가까운 정류장 3개, 도착지는 가장 가까운 정류장 2개를 검사
-        
-        int ss=0;
-        int ee=0;
-        for(getStaionsByPosListClass s : start) {
-            if(ss==3)
-                break;
-            for(getStaionsByPosListClass e : end) {
-                if(ee==2)
-                    break;
-                
-                ee++;
-            }
-            ss++;
-        }
-
-        //혼잡도 값으로 정렬
-        //ArrayList<ArrayList<String>> sendPathList=sortCongetion_GetTopPathList();
-        //return sendPathList;
-
-        if(isExistpathList(this.minPath)){
-            this.resultPathList.add(this.minPath);
-        }
-        return this.resultPathList;
-    }
-
-*/
     
 }

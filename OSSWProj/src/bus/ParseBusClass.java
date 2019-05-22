@@ -201,11 +201,11 @@ public class ParseBusClass {
         String currentRouteName = new String();
         String pastRouteName = new String();
         String stationId = new String();
-        CongestinoClass cong;
+        CongestionClass cong;
 
         // congestion class 초기화를 위한 부분 첫번째 줄 파싱
         currentRouteName = this.valuesInFile.get(0).get(0);
-        cong = new CongestinoClass(currentRouteName);
+        cong = new CongestionClass(currentRouteName);
         cong.routeName = currentRouteName;
         pastRouteName = currentRouteName;
         ParseCongRow(this.valuesInFile.get(0), cong);
@@ -215,7 +215,7 @@ public class ParseBusClass {
             currentRouteName = this.valuesInFile.get(i).get(0);
             if(!currentRouteName.equals(pastRouteName)){
                 busInfo.setCongestion(cong);
-                cong = new CongestinoClass(currentRouteName);
+                cong = new CongestionClass(currentRouteName);
                 cong.routeName = currentRouteName;
                 pastRouteName = currentRouteName;
             }
@@ -225,7 +225,7 @@ public class ParseBusClass {
 
         return result;
     }
-    private CongestinoClass ParseCongRow(ArrayList<String> rowInfo, CongestinoClass cong){
+    private CongestionClass ParseCongRow(ArrayList<String> rowInfo, CongestionClass cong){
         //0번 column은 처리 후 불러짐
         //1번 column부터 처리
         String stationId = rowInfo.get(1);
@@ -252,15 +252,15 @@ public class ParseBusClass {
         tmpPas.put(2, dArr);
         cong.passengerNum.put(stationId, tmpPas);
 
-        int iArr[] = new int[24];
-        HashMap<Integer, int[]> tmpCong = new HashMap<Integer, int[]>();
+        double iArr[] = new double[24];
+        HashMap<Integer, double[]> tmpCong = new HashMap<Integer, double[]>();
         for(int i=24*3; i< 24*6; i++){
             if(i == 24*6 -1){
                 String tmp = rowInfo.get(i+2).substring(0, rowInfo.get(i+2).length()-1);
-                iArr[i%24] = Integer.parseInt(tmp);
+                iArr[i%24] = Double.parseDouble(tmp);
                 break;
             }
-            iArr[i%24] = Integer.parseInt(rowInfo.get(i+2));
+            iArr[i%24] = Double.parseDouble(rowInfo.get(i+2));
             if(i%24 == 0 && i != 24*3){
                 tmpCong.put((i/24 -1)%3, iArr);
             }

@@ -19,7 +19,7 @@ public class BusInfoClass{
      * Key : RouteName
      * Value : CongestionClass, 정류장별 혼잡도 정보를 가지고 있음
      * */ 
-    private HashMap<String, CongestinoClass> CongestionList = new HashMap<String, CongestinoClass>();
+    private HashMap<String, CongestionClass> CongestionList = new HashMap<String, CongestionClass>();
     
 
     /**
@@ -115,9 +115,9 @@ public class BusInfoClass{
 
     /**
      * Congestion hashmap에 정보를 저장
-     * @param instance : CongestinoClass instance
+     * @param instance : CongestionClass instance
      */
-    public void setCongestion(CongestinoClass instance){
+    public void setCongestion(CongestionClass instance){
         this.CongestionList.put(instance.routeName, instance);
     }
 
@@ -126,7 +126,7 @@ public class BusInfoClass{
      * @param routeName : 노선이름
      * @return CongestionClass : 표준정류장ID_노선이름에 해당하는 CongestionClass instance를 반환
      */
-    public CongestinoClass getCongestinoClass(String routeName){
+    public CongestionClass getCongestionClass(String routeName){
         return this.CongestionList.get(routeName);
     }
     
@@ -161,7 +161,7 @@ public class BusInfoClass{
      * 왜 만들었는지 확인하고 필요없으면 삭제
      * @return HashMap<String, CongestionClass> CongestionList
      */
-    public HashMap<String, CongestinoClass> getCongestionHashMap(){
+    public HashMap<String, CongestionClass> getCongestionHashMap(){
         return CongestionList;
     }
 

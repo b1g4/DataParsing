@@ -2,19 +2,21 @@ package bus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
- * CongestinoClass 혼잡도 정보를 계산하고 해당 정보를 StationClass에 저장한다.
+ * route1개당 congestionclass가 1개씩 생성된다.
+ * 혼잡도 정보를 저장한다.
  */
-public class CongestinoClass {
+public class CongestionClass {
+
     // 정류장을 순번대로 저장.
     public ArrayList<String> stationList = new ArrayList<String>();
 
-    // "중앙대후문___동작01"형식으로 저장, 구분자:"___"
+    // 버스노선명
     public String routeName;
     /**
      * 한달중에 평일이 며칠이 있는지, 토요일이 며칠이 있는지, 일요일이 며칠이 있는지 세어서 저장 0:평일날짜수, 1:토요일날짜수,
@@ -38,7 +40,7 @@ public class CongestinoClass {
     /**
      * 평일0-23시, 토요일 0-23시, 일요일 0-23시 순으로 저장 Key : StationID Value : Congestion info,
      */
-    public HashMap<String, HashMap<Integer, int[]>> congestion = new HashMap<String, HashMap<Integer, int[]>>();
+    public HashMap<String, HashMap<Integer, double[]>> congestion = new HashMap<String, HashMap<Integer, double[]>>();
 
 
     /**
@@ -57,7 +59,7 @@ public class CongestinoClass {
     /**
      * default constructor
      */
-    public CongestinoClass(String routeName) {
+    public CongestionClass(String routeName) {
         this.initCongestion();
     }
 
@@ -97,7 +99,7 @@ public class CongestinoClass {
      * @param minute : 0~59분
      * @return hh시 mm분일 때 버스의 혼잡도
      */
-    public int getCongestion(int day, int hour, int minute, String stationId) {
+    public Double getCongestion(int day, int hour, int minute, String stationId) {
         return (this.congestion.get(stationId).get(day)[hour+1] - this.congestion.get(stationId).get(day)[hour] )* (minute / 60)
                 + this.congestion.get(stationId).get(day)[hour];
     }

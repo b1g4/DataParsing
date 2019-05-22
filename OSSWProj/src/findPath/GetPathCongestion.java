@@ -39,9 +39,13 @@ public class GetPathCongestion {
         ApigetArrInfoByRouteList apigetArrInfoByRouteList=new ApigetArrInfoByRouteList();
         apigetArrInfoByRouteList.getArrInfoByRouteList(stId, busRouteId, ord);
         ArrayList<String> ArrbusInfo= apigetArrInfoByRouteList.getgetArrInfoByRouteLists();
-        if(ArrbusInfo == null){
-            System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 버스가 없음");
-            return 21.0;
+        if(ArrbusInfo.size()==0){
+            System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 ArrbusInfo ==null");
+            return 999999999999.0;
+        }
+        if(ArrbusInfo.get(0).equals("운행종료") ){
+            System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 운행종료");
+            return 999999999999.0;
         }
 
         ArrayList<Integer> NowDayTime=getNowDayTime();//현재시간용
@@ -77,7 +81,7 @@ public class GetPathCongestion {
                 
                 if(BusInfoClass.getInstance().isCongestionExist(busRouteName)){
                     //노선에 해당하는 혼잡도정보가 있으면
-                    personNum =BusInfoClass.getInstance().getCongestinoClass(busRouteName).calcPassengerNum(NowDayTime.get(0), (int)minute/60,  minute%60,  stationId) ;
+                    personNum =BusInfoClass.getInstance().getCongestionClass(busRouteName).calcPassengerNum(NowDayTime.get(0), (int)minute/60,  minute%60,  stationId) ;
 
                 }else{
                     //노선에 해당하는 혼잡도정보가 없으면
@@ -135,11 +139,11 @@ public class GetPathCongestion {
             int minute=now_day_time.get(2);
             minute=minute+getTimeInterval(routeName) + hour*60;
 
-            int adderCongestion=0;
+            double adderCongestion=0;
             if(BusInfoClass.getInstance().isCongestionExist(routeName)){
-                if(BusInfoClass.getInstance().getCongestinoClass(routeName).isStationExist(stationId)){
+                if(BusInfoClass.getInstance().getCongestionClass(routeName).isStationExist(stationId)){
                     //노선, 정류장에 혼잡도 정보가있으면
-                    adderCongestion=BusInfoClass.getInstance().getCongestinoClass(routeName).getCongestion(now_day_time.get(0), (int)minute/60 , minute%60 , stationId);
+                    adderCongestion=BusInfoClass.getInstance().getCongestionClass(routeName).getCongestion(now_day_time.get(0), (int)minute/60 , minute%60 , stationId);
                 }else{
                     //노선은 있는제 해당 정류장에 혼잡도가 없을 경우
                     adderCongestion=200;

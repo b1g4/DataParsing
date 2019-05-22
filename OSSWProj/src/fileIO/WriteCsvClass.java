@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bus.BusInfoClass;
-import bus.CongestinoClass;
+import bus.CongestionClass;
 import bus.RouteClass;
 import bus.StationClass;
 
@@ -193,13 +193,13 @@ public class WriteCsvClass {
                 String routeName=(String)iter.next();
                 System.out.println("test==writeCongestion() routeName="+routeName);
                
-                CongestinoClass congestionClass=busInfoClass.getCongestinoClass(routeName);
+                CongestionClass congestionClass=busInfoClass.getCongestionClass(routeName);
                 if(congestionClass != null){
                     //정류장 개수만큼
                     for(String station : congestionClass.stationList){
 
                         HashMap<Integer,Double[]> tempP=congestionClass.passengerNum.get(station);//재차인원
-                        HashMap<Integer,int[]> tempC= congestionClass.congestion.get(station);//혼잡도
+                        HashMap<Integer,double[]> tempC= congestionClass.congestion.get(station);//혼잡도
                         if(tempP!=null && tempC !=null){
                             //노선명
                             fw.write("\""+routeName+"\""+",");
