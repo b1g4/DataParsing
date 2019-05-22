@@ -41,9 +41,9 @@ public class WriteCsvClass {
 
             Collection<RouteClass> values = routelist.values();
             for(RouteClass value : values){
-                fw.write(value.getRouteId()+","+value.getRouteName()+",");
+                fw.write("\"\""+value.getRouteId()+"\"\""+","+"\"\""+value.getRouteName()+"\"\""+",");
                 for(int i = 0 ; i < value.getStationList().size() ; i++){
-                    fw.write(value.getStationList().get(i) + ",");
+                    fw.write("\"\""+value.getStationList().get(i)+"\"\"" + ",");
                 }
                 fw.newLine();
             }

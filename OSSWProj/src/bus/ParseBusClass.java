@@ -2,8 +2,10 @@ package bus;
 
 import fileIO.*;
 
+import java.util.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * ParseBusClass
@@ -149,6 +151,101 @@ public class ParseBusClass {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public boolean ParseRouteCsvFile(){
+        boolean result = true;
+        RouteClass rta;
+        for(int i=0; i<this.rowNum; i++){
+            List<String> routeInfo = this.valuesInFile.get(i).subList(0, 1);
+            ArrayList<Integer> interval = new ArrayList<Integer>();
+            ArrayList<Integer> time = new ArrayList<Integer>();
+            interval.add(Integer.parseInt(this.valuesInFile.get(i).get(2)));
+            interval.add(Integer.parseInt(this.valuesInFile.get(i).get(3)));
+            interval.add(Integer.parseInt(this.valuesInFile.get(i).get(4)));
+            time.add(Integer.parseInt(this.valuesInFile.get(i).get(5)));
+            time.add(Integer.parseInt(this.valuesInFile.get(i).get(6)));
+            String stationId = this.valuesInFile.get(i).get(7);
+            rta = new RouteClass(routeInfo, stationId);
+            rta.setInterval(interval);
+            rta.setTime(time);
+            for(int j=8; j<this.columnNum; j++){
+                rta.setStationInfo(this.valuesInFile.get(i).get(j));
+            }
+        }
+        return result;
+    }
+
+    public boolean ParseStationCsvFile(){
+        boolean result = true;
+        StationClass sta;
+        for(int i=0; i<this.rowNum; i++){
+            sta = new StationClass(this.valuesInFile.get(i).subList(0,4), this.valuesInFile.get(i).get(0));
+            for(int j=5; j<this.columnNum; j++){
+                sta.setRouteInfo(this.valuesInFile.get(i).get(j));
+            }
+            busInfo.setStation(sta);
+        }
+        return result;
+    }
+
+    public boolean ParseCongestionCsvFile(){
+        boolean result = true;
+        String currentRouteName = new String();
+        String pastRouteName = new String();
+        String stationId = new String();
+        CongestinoClass cong;
+
+        // congestion class 초기화를 위한 부분 첫번째 줄 파싱
+        currentRouteName = this.valuesInFile.get(0).get(0);
+        cong = new CongestinoClass(currentRouteName);
+        pastRouteName = currentRouteName;
+        ParseCongRow(this.valuesInFile.get(0), cong);
+
+        // 2번째 row부터 마지막 row까지 파싱
+        for(int i=1; i<this.rowNum; i++){
+            currentRouteName = this.valuesInFile.get(i).get(0);
+            if(!currentRouteName.equals(pastRouteName)){
+                cong = new CongestinoClass(currentRouteName);
+            }
+            ParseCongRow(this.valuesInFile.get(i), cong);
+        }
+
+
+        return result;
+    }
+    private void ParseCongRow(ArrayList<String> rowInfo, CongestinoClass cong){
+        //0번 column은 처리 후 불러짐
+        //1번 column부터 처리
+        String stationId = rowInfo.get(1);
+        cong.stationList.add(stationId);
+        ArrayList<Double> values = new ArrayList<Double>();
+        for(int i=2; i<this.columnNum; i++){
+            values.add(Double.parseDouble(rowInfo.get(i)));
+        }
+
+        // ArrayList
+        Double dArr[] = new Double[24];
+        HashMap<Integer, Double[]> tmpPas = new HashMap<Integer, Double[]>();
+        for(int i=0; i<24*3; i++){
+            dArr[i%24] = Double.parseDouble(rowInfo.get(i+2));
+            if(i%24 == 0 && i != 0){
+                tmpPas.put(i/24 - 1, dArr);
+            }
+        }
+        tmpPas.put(2, dArr);
+        cong.passengerNum.put(stationId, tmpPas);
+
+        int iArr[] = new int[24];
+        HashMap<Integer, int[]> tmpCong = new HashMap<Integer, int[]>();
+        for(int i=24*3; i< 24*6; i++){
+            iArr[i%24] = Integer.parseInt(rowInfo.get(i+1));
+            if(i%24 == 0 && i != 24*3){
+                tmpCong.put((i/24 -1)%3, iArr);
+            }
+        }
+        tmpCong.put(2, iArr);
+        cong.congestion.put(stationId, tmpCong);
     }
 
 }

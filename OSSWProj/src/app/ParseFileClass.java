@@ -109,12 +109,27 @@ public class ParseFileClass {
      * @param fileDir : 정리된 파일의 위치
      * @param isBus : 버스에 관한 파일에 대한 정보면 true
      */
-    public ParseFileClass(String fileDir, boolean isBus) {
+    public ParseFileClass(String fileDir, String type, boolean isBus) {
         // 최종 파일 생성 후 사용되는 생성자
+        boolean result = true;
         this.fileDir = fileDir;
         this.valuesInFile = new ArrayList<ArrayList<String>>();
+        result = this.readCSV(false);
+        if(!result){
+            System.out.println("read file Error");
+            return;
+        }
+        ParseBusClass parse = new ParseBusClass(this.valuesInFile);
+        if(type.equals("route")){
+            result = parse.ParseRouteCsvFile();
+        }
+        else if(type.equals("station")){
+            result = parse.ParseStationCsvFile();
+        }
+        else if(type.equals("congestion")){
+            result = parse.ParseCongestionCsvFile();
+        }
 
-        // 추가 구현 필요
     }
 
     /**
