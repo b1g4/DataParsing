@@ -4,17 +4,21 @@ import java.util.ArrayList;
 
 import bus.*;
 import findPath.RecommendPath;
+import findPath.SearchPath;
 
 
 public class App {
     public static void main(String[] args) throws Exception {
+
+        
+
 
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
         BusInfoClass busInfo = BusInfoClass.getInstance();
         String currentPath = System.getProperty("user.dir");
-        
+
         // //OSSWProj/20190124기준_서울시_버스노선정보.xls
         // String fileDir1 = currentPath + "\\OSSWProj\\20190124기준_서울시_버스노선정보_new.xls";
         // ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
@@ -36,7 +40,6 @@ public class App {
         ParseFileClass parseRoute = new ParseFileClass(routeDir, "route", true);
         ParseFileClass parseStation = new ParseFileClass(stationDir, "station", true);
         ParseFileClass parseCongestion = new ParseFileClass(congestionDir, "congestion", true);
-
 
     
         System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");

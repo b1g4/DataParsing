@@ -61,6 +61,7 @@ public class CalcCongestionClass {
                 }
                 busInfo.getCongestionHashMap().get(routeName).passengerNum.put(stationId, tmp);
             }
+            System.out.println("test==calc_Passenger()  routeName="+routeName);
         }
         return status;
     }
@@ -141,11 +142,44 @@ public class CalcCongestionClass {
      * @return
      */
     private int getTimeInterval(String routeName, String stationID,String before_stationID){
-        int result=10;//여기도 임의로 테스트용으로 5분간격이라고 한거임!
+        return 10;
+        /*Pattern pD4_9=Pattern.compile("^9[0-9]{3}");
+        Pattern pD4=Pattern.compile("^[0-9]{4}");
+        Pattern pD3=Pattern.compile("^[0-9]{3}");
+        Pattern pD2=Pattern.compile("^[0-9]{2}");
+        Pattern pHD=Pattern.compile("^[가-힣]*[0-9]{2}");
+        Pattern pN=Pattern.compile("^N");
 
-        //희수 코드와 합쳐야 함
+        ArrayList<Integer> result=new ArrayList<>();
+        if(pD4_9.matcher(routeName).find()){
+           // System.out.println("test== "+routeName+" 광역");
+            return 15;
 
-        return result;
+        }else if(pD4.matcher(routeName).find()){
+           // System.out.println("test== "+routeName+" 지선");
+            return 4;
+
+        }else if(pD3.matcher(routeName).find()){
+            //System.out.println("test== "+routeName+" 간선");
+            return 5;
+
+        }else if(pD2.matcher(routeName).find()){
+           // System.out.println("test== "+routeName+" 순환");
+            return 5;
+
+        }else if(pHD.matcher(routeName).find()){
+           // System.out.println("test== "+routeName+" 마을");
+            return 3;
+
+        }else if(pN.matcher(routeName).find()){
+            //System.out.println("test== "+routeName+" N심야");
+            return 15;
+
+        }else{
+            System.out.println("test== "+routeName+" 알수없는 형식의 버스번호입니다.");
+            return 10;
+        }
+        */
     }
 
     
@@ -248,22 +282,22 @@ public class CalcCongestionClass {
 
         ArrayList<Integer> result=new ArrayList<>();
         if(pD4_9.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" 광역");
+           // System.out.println("test== "+routeName+" 광역");
             result.add(45);
             result.add(0);
 
         }else if(pD4.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" 지선");
+            //System.out.println("test== "+routeName+" 지선");
             result.add(20);
             result.add(17);
 
         }else if(pD3.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" 간선");
+           // System.out.println("test== "+routeName+" 간선");
             result.add(24);
             result.add(24);
 
         }else if(pD2.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" 순환");
+          //  System.out.println("test== "+routeName+" 순환");
             result.add(20);
             result.add(17);
 
@@ -273,7 +307,7 @@ public class CalcCongestionClass {
             result.add(17);
 
         }else if(pN.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" N심야");
+            //System.out.println("test== "+routeName+" N심야");
             result.add(24);
             result.add(24);
 

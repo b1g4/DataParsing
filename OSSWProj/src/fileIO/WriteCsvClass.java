@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import bus.BusInfoClass;
+import bus.CongestinoClass;
 import bus.RouteClass;
 import bus.StationClass;
 
@@ -41,9 +43,11 @@ public class WriteCsvClass {
 
             Collection<RouteClass> values = routelist.values();
             for(RouteClass value : values){
-                fw.write("\"\""+value.getRouteId()+"\"\""+","+"\"\""+value.getRouteName()+"\"\""+",");
+
+                fw.write("\"" +value.getRouteId()+"\""+","+"\""+value.getRouteName()+"\""+",");
                 for(int i = 0 ; i < value.getStationList().size() ; i++){
-                    fw.write("\"\""+value.getStationList().get(i)+"\"\"" + ",");
+                    fw.write("\""+value.getStationList().get(i)+"\"" + ",");
+
                 }
                 fw.newLine();
             }
@@ -71,17 +75,18 @@ public class WriteCsvClass {
 
             Collection<RouteClass> values = routelist.values();
             for(RouteClass value : values){
-                fw.write(value.getRouteId()+","+value.getRouteName()+",");
+                fw.write("\""+value.getRouteId()+"\""+","+"\""+value.getRouteName()+"\""+",");
+
                 //배차간격
-                fw.write(value.getInterval().get(0)+",");
-                fw.write(value.getInterval().get(1)+",");
-                fw.write(value.getInterval().get(2)+",");
+                fw.write("\""+value.getInterval().get(0)+"\""+",");
+                fw.write("\""+value.getInterval().get(1)+"\""+",");
+                fw.write("\""+value.getInterval().get(2)+"\""+",");
                 //첫차 막차
-                fw.write(value.getTime().get(0)+",");
-                fw.write(value.getTime().get(1)+",");
+                fw.write("\""+value.getTime().get(0)+"\""+",");
+                fw.write("\""+value.getTime().get(1)+"\""+",");
                 //노선리스트
                 for(int i = 0 ; i < value.getStationList().size() ; i++){
-                    fw.write(value.getStationList().get(i) + ",");
+                    fw.write("\""+value.getStationList().get(i) + "\""+",");
                 }
                 fw.newLine();
             }
@@ -109,10 +114,16 @@ public class WriteCsvClass {
             
             Collection<StationClass> values = stationlist.values();
             for(StationClass value : values){
-                fw.write(value.getStationId()+","+value.getStationArsNum() +","+value.getStationName() +","+value.getStationX() +"," 
-                + value.getStationY()+",");              
+                String stationId = "\"" + value.getStationId() +"\"";
+                String stationArsNum = "\"" + value.getStationArsNum() + "\"";
+                String stationName = "\"" + value.getStationName() + "\"";
+                String stationX = "\"" + value.getStationX() + "\"";
+                String stationY = "\"" + value.getStationY() + "\"";
+
+                fw.write(stationId + "," + stationArsNum + "," + stationName + "," + stationX + "," + stationY + ",");              
                 Collection<String> keys = value.getRouteListHashMap().keySet();
                 for(String key : keys){
+                    key = "\"" + keys + "\"";
                     fw.write(key + ",");
                 }
                 fw.newLine();
@@ -125,7 +136,7 @@ public class WriteCsvClass {
         }
     }
 
-
+/*
     public void writeCongestion(HashMap<String,HashMap<Integer,Double[]>> passenger ,HashMap<String,HashMap<Integer,int[]>> congestion)throws IOException{
         try {
             String currentPath = System.getProperty("user.dir");
@@ -157,6 +168,65 @@ public class WriteCsvClass {
 			        }
 		        }
                 fw.newLine();
+            }
+            fw.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+*/
+
+    public void writeCongestion()throws IOException{
+        try {
+            String currentPath = System.getProperty("user.dir");
+            String csvfilename = currentPath + "/congestioncsv.csv";
+                        
+            BufferedWriter fw;
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+
+            BusInfoClass  busInfoClass=BusInfoClass.getInstance();
+
+            Iterator<String> iter= busInfoClass.getRouteHashMap().keySet().iterator();
+            while(iter.hasNext()){
+                String routeName=(String)iter.next();
+                System.out.println("test==writeCongestion() routeName="+routeName);
+               
+                CongestinoClass congestionClass=busInfoClass.getCongestinoClass(routeName);
+                if(congestionClass != null){
+                    //정류장 개수만큼
+                    for(String station : congestionClass.stationList){
+
+                        HashMap<Integer,Double[]> tempP=congestionClass.passengerNum.get(station);//재차인원
+                        HashMap<Integer,int[]> tempC= congestionClass.congestion.get(station);//혼잡도
+                        if(tempP!=null && tempC !=null){
+                            //노선명
+                            fw.write("\""+routeName+"\""+",");
+                            //정류장
+                            fw.write("\""+station+"\""+",");
+                            //재차인원
+                            for(int i=0;i<3;i++){
+                                for(int j=0;j<24;j++){
+                                    //System.out.println("test=="+routeName+" "+station+"  "+tempP.get(i)[j]);
+                                    fw.write("\""+tempP.get(i)[j] +"\""+ ",");
+                                }
+                            }
+                            //혼잡도
+                            for(int i=0;i<3;i++){
+                                for(int j=0;j<24;j++){
+                                    //System.out.println("test=="+routeName+" "+station+"  "+tempC.get(i)[j]);
+                                    fw.write("\""+tempC.get(i)[j] +"\""+ ",");
+                                }
+                            }
+                            fw.newLine();
+                        }else{
+                            System.out.println("test==해당 노선의 해당 정류장은 perYear에 값이 없는 듯 "+routeName+" "+station);
+                        }
+                    }
+                }else{
+                    System.out.println("test==해당 노선은 "+routeName+" congestionClass가 없음");
+                }
             }
             fw.close();
         } catch (UnsupportedEncodingException e) {
