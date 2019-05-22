@@ -40,7 +40,7 @@
 
 ------------------------------
 ## 시작하기
-####실행
+#### 실행
  해당 서비스를 안드로이드 앱으로 구현하였으므로 앱을 설치 후 실행하면 된다. (앱은 출시 예정)
 #### 사용법
 1. 출발지와 도착지를 키워드 입력  후 검색을 눌러 정확한 주소명을 선택한다.
@@ -50,7 +50,7 @@
 5. 기존 경로가 아니라 추천받은 경로로 이동하고자 할 경우 해당 항목을 선택한다.
 
 ## Contribution Guidelines
-본 프로젝트에 Contribution을 하고자 할 경우 [CONTRIBUTING.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CONTRIBUTING.md)을 읽고 언급된 순서로 진행한다. 또한  [CODE_OF_CONDUCT.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CODE_OF_CONDUCT.md)를 숙지한다.
+본 프로젝트에 Contribution을 하고자 할 경우 [CONTRIBUTING.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CONTRIBUTING.md)을 읽고 언급된 순서로 진행한다. 또한  [CODE_OF_CONDUCT.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CODE_OF_CONDUCT.md)을 반드시 숙지한다.
 
 ## License
 GNU General Public License version 3.0 (GPLv3)
