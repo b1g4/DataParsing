@@ -9,10 +9,6 @@ import findPath.SearchPath;
 
 public class App {
     public static void main(String[] args) throws Exception {
-
-        
-
-
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
@@ -22,7 +18,6 @@ public class App {
         // //OSSWProj/20190124기준_서울시_버스노선정보.xls
         // String fileDir1 = currentPath + "\\OSSWProj\\20190124기준_서울시_버스노선정보_new.xls";
         // ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
-
         SearchPath s=new SearchPath(); //노량진에서 중앙대
         ArrayList<ArrayList<String>> str= s.getPathsFromStations(126.9403932611921, 37.51070581104394,126.95678703483273,37.506391727320924);
 
@@ -50,9 +45,7 @@ public class App {
         temp.add("741");
         temp.add("100000368");
         temp.add("21");
-        
 
-    
         System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
     }
 }
