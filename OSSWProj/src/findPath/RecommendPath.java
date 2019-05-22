@@ -100,14 +100,7 @@ public class RecommendPath {
             distanceByDistance.add(Math.pow(startXPos - stationX , 2) + Math.pow(startYPos - stationY , 2));
         }
 
-<<<<<<< HEAD
         double minDistance = distanceByDistance.get(0);
-=======
-
-        //for(int i = 0 ; i < stationListOnPath.size() ; i++){
-        //    businfo.getStationInfo(stationListOnPath.get(i));
-        //}
->>>>>>> 51ba2d92ec2d72b2fb3fdc8a0eeb7be285cc0caf
 
         for(double d: distanceByDistance){
             if(minDistance > d) {
