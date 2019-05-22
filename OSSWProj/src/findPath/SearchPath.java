@@ -88,7 +88,7 @@ public class SearchPath {
             int PathCongestion=getPathC.getTransferPathCongestion(onePath);
 
             String[][] BMA_stationID=get_BMA_stationID(onePath.get(0),onePath.get(2),onePath.get(onePath.size()-3),onePath.get(onePath.size()-2));
-            int[][] BMA_congestionss=get_BMA_congestion(BMA_stationID[][]);
+            int[][] BMA_congestionss=get_BMA_congestion(BMA_stationID);
                       
             //congestionss.add(busInfo.getCongestinoClass(routeName).혼잡도.get(sta));
 
@@ -181,7 +181,7 @@ public class SearchPath {
         int[][] result={{0,0,0},{0,0,0}};
         for(int i=0;i<2;i++){
             for(int j=0;j<3;j++){
-                result=BusInfoClass.getInstance.혼잡도리스트.get(스타트라우트네임).혼잡도리스트.get(BMA_stationID[i][j])
+                //result=BusInfoClass.getInstance.혼잡도리스트.get(스타트라우트네임).혼잡도리스트.get(BMA_stationID[i][j]);
             }
         }
 
