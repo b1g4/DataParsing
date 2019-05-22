@@ -39,7 +39,7 @@ public class WriteCsvClass {
             String csvfilename = currentPath + "/routecsv.csv";
 
             BufferedWriter fw;
-            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("UTF-8")));
 
             Collection<RouteClass> values = routelist.values();
             for(RouteClass value : values){
@@ -71,7 +71,7 @@ public class WriteCsvClass {
             String csvfilename = currentPath + "/routecsv.csv";
 
             BufferedWriter fw;
-            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("UTF-8")));
 
             Collection<RouteClass> values = routelist.values();
             for(RouteClass value : values){
@@ -110,7 +110,7 @@ public class WriteCsvClass {
             String csvfilename = currentPath + "/stationcsv.csv";
                         
             BufferedWriter fw;
-            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("UTF-8")));
             
             Collection<StationClass> values = stationlist.values();
             for(StationClass value : values){
@@ -184,7 +184,7 @@ public class WriteCsvClass {
             String csvfilename = currentPath + "/congestioncsv.csv";
                         
             BufferedWriter fw;
-            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("EUC-KR")));
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(csvfilename), Charset.forName("UTF-8")));
 
             BusInfoClass  busInfoClass=BusInfoClass.getInstance();
 
