@@ -162,7 +162,6 @@ public class ParseBusClass {
         boolean result = true;
         RouteClass rta;
         for(int i=0; i<this.rowNum; i++){
-            List<String> routeInfo = this.valuesInFile.get(i).subList(0, 1);
             ArrayList<Integer> interval = new ArrayList<Integer>();
             ArrayList<Integer> time = new ArrayList<Integer>();
             interval.add(Integer.parseInt(this.valuesInFile.get(i).get(2)));
@@ -171,12 +170,14 @@ public class ParseBusClass {
             time.add(Integer.parseInt(this.valuesInFile.get(i).get(5)));
             time.add(Integer.parseInt(this.valuesInFile.get(i).get(6)));
             String stationId = this.valuesInFile.get(i).get(7);
-            rta = new RouteClass(routeInfo, stationId);
+            rta = new RouteClass(this.valuesInFile.get(i).subList(0,2), stationId);
             rta.setInterval(interval);
             rta.setTime(time);
-            for(int j=8; j<this.columnNum; j++){
+            this.columnNum = this.valuesInFile.get(i).size();
+            for(int j=8; j<this.columnNum-1; j++){
                 rta.setStationInfo(this.valuesInFile.get(i).get(j));
             }
+            busInfo.setRoute(rta);
         }
         return result;
     }
@@ -185,8 +186,9 @@ public class ParseBusClass {
         boolean result = true;
         StationClass sta;
         for(int i=0; i<this.rowNum; i++){
-            sta = new StationClass(this.valuesInFile.get(i).subList(0,4), this.valuesInFile.get(i).get(0));
-            for(int j=5; j<this.columnNum; j++){
+            sta = new StationClass(this.valuesInFile.get(i).subList(0,5), this.valuesInFile.get(i).get(5));
+            this.columnNum = this.valuesInFile.get(i).size();
+            for(int j=6; j<this.columnNum; j++){
                 sta.setRouteInfo(this.valuesInFile.get(i).get(j));
             }
             busInfo.setStation(sta);
@@ -204,6 +206,7 @@ public class ParseBusClass {
         // congestion class 초기화를 위한 부분 첫번째 줄 파싱
         currentRouteName = this.valuesInFile.get(0).get(0);
         cong = new CongestinoClass(currentRouteName);
+        cong.routeName = currentRouteName;
         pastRouteName = currentRouteName;
         ParseCongRow(this.valuesInFile.get(0), cong);
 
@@ -211,7 +214,10 @@ public class ParseBusClass {
         for(int i=1; i<this.rowNum; i++){
             currentRouteName = this.valuesInFile.get(i).get(0);
             if(!currentRouteName.equals(pastRouteName)){
+                busInfo.setCongestion(cong);
                 cong = new CongestinoClass(currentRouteName);
+                cong.routeName = currentRouteName;
+                pastRouteName = currentRouteName;
             }
             ParseCongRow(this.valuesInFile.get(i), cong);
         }
@@ -219,13 +225,18 @@ public class ParseBusClass {
 
         return result;
     }
-    private void ParseCongRow(ArrayList<String> rowInfo, CongestinoClass cong){
+    private CongestinoClass ParseCongRow(ArrayList<String> rowInfo, CongestinoClass cong){
         //0번 column은 처리 후 불러짐
         //1번 column부터 처리
         String stationId = rowInfo.get(1);
         cong.stationList.add(stationId);
         ArrayList<Double> values = new ArrayList<Double>();
         for(int i=2; i<this.columnNum; i++){
+            if(i == this.columnNum-1){
+                String tmp = rowInfo.get(i).substring(0, rowInfo.get(i).length()-1);
+                values.add(Double.parseDouble(tmp));
+                break;
+            }
             values.add(Double.parseDouble(rowInfo.get(i)));
         }
 
@@ -244,13 +255,19 @@ public class ParseBusClass {
         int iArr[] = new int[24];
         HashMap<Integer, int[]> tmpCong = new HashMap<Integer, int[]>();
         for(int i=24*3; i< 24*6; i++){
-            iArr[i%24] = Integer.parseInt(rowInfo.get(i+1));
+            if(i == 24*6 -1){
+                String tmp = rowInfo.get(i+2).substring(0, rowInfo.get(i+2).length()-1);
+                iArr[i%24] = Integer.parseInt(tmp);
+                break;
+            }
+            iArr[i%24] = Integer.parseInt(rowInfo.get(i+2));
             if(i%24 == 0 && i != 24*3){
                 tmpCong.put((i/24 -1)%3, iArr);
             }
         }
         tmpCong.put(2, iArr);
         cong.congestion.put(stationId, tmpCong);
+        return cong;
     }
 
 }

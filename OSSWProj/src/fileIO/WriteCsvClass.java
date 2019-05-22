@@ -123,7 +123,7 @@ public class WriteCsvClass {
                 fw.write(stationId + "," + stationArsNum + "," + stationName + "," + stationX + "," + stationY + ",");              
                 Collection<String> keys = value.getRouteListHashMap().keySet();
                 for(String key : keys){
-                    key = "\"" + keys + "\"";
+                    key = "\"" + key + "\"";
                     fw.write(key + ",");
                 }
                 fw.newLine();

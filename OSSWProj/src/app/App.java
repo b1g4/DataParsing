@@ -9,10 +9,6 @@ import findPath.SearchPath;
 
 public class App {
     public static void main(String[] args) throws Exception {
-
-        
-
-
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
@@ -24,7 +20,7 @@ public class App {
         // ParseFileClass parse1 = new ParseFileClass(fileDir1, true, true);
 
         // //배차간격
-        // //OSSWProj/20190124기준_서울시_노선현황_첫차막차배차.xls
+        // //OSSWProj/20190124기준_서울시_노선현황_첫 차막차배차.xls
         // String fileDir1_ = currentPath + "\\OSSWProj\\20190124기준_서울시_노선현황_첫차막차배차_new.xls";
         // ParseFileClass parse1_ = new ParseFileClass(fileDir1_, 0);
 
@@ -37,7 +33,7 @@ public class App {
 
         System.out.println(stationDir);
 
-        ParseFileClass parseRoute = new ParseFileClass(routeDir, "route", true);
+         ParseFileClass parseRoute = new ParseFileClass(routeDir, "route", true);
         ParseFileClass parseStation = new ParseFileClass(stationDir, "station", true);
         ParseFileClass parseCongestion = new ParseFileClass(congestionDir, "congestion", true);
 
