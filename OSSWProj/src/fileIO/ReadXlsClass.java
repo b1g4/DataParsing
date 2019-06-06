@@ -84,7 +84,7 @@ public class ReadXlsClass{
             //this.showAllData();
         }
         else {
-            System.out.println("파일 읽기 완료");
+            //System.out.println("파일 읽기 완료");
         }
 
         return true;
@@ -93,9 +93,9 @@ public class ReadXlsClass{
     public void showAllData(){
         for(int i=0; i<10; i++){
             for(int j=0; j<this.xlsFileValues.get(i).size(); j++){
-                System.out.print(xlsFileValues.get(i).get(j) + " ");
+               // System.out.print(xlsFileValues.get(i).get(j) + " ");
             }
-            System.out.println("");
+           // System.out.println("");
         }
     }
     

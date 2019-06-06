@@ -47,10 +47,33 @@ public class SearchPath {
 
         //길찾기 api 호출
         //출발지는 가장 가까운 정류장 3개, 도착지는 가장 가까운 정류장 2개를 검사
+        System.out.println("api를 돌렸을때 나오는 경로들");
         SearchRoute searchRoute=new SearchRoute();
-        int ss=0;
-        int ee=0;
-        for(getStaionsByPosListClass s : start) {
+        //int ss=0;
+        //int ee=0;
+        for(int ss=0;ss<start.size();ss++){
+            if(ss<3){
+                for(int ee=0;ee<end.size();ee++){
+                    if(ee<3){
+                        searchRoute.searchRouteByAPI(start.get(ss).getgpsX(),start.get(ss).getgpsY(),
+                                                    end.get(ee).getgpsX(),end.get(ee).getgpsY());
+                        ArrayList<ArrayList<String>> addedPaths=searchRoute.getapiRouteLists();
+                        //System.out.println("durlllllllllllllllllllllllllllllllllllllllllllllss="+ss+"ee"+ee);
+                        for(int i=0;i<addedPaths.size();i++){
+                            ArrayList<String> substr=addedPaths.get(i);
+                            for(int j=0;j<substr.size();j++){
+                                System.out.print(substr.get(j)+"   ");
+                            }
+                            System.out.println("");
+                        }
+
+                        //경로 목록 추가 저장
+                        addPaths_to_resultPathList(addedPaths,nowDayTime);
+                    }
+                }
+            }
+        }
+       /* for(getStaionsByPosListClass s : start) {
             if(ss==3)
                 break;
             for(getStaionsByPosListClass e : end) {
@@ -58,13 +81,16 @@ public class SearchPath {
                     break;
                 searchRoute.searchRouteByAPI(s.getgpsX(), s.getgpsY(), e.getgpsX(), e.getgpsY());
                 ArrayList<ArrayList<String>> addedPaths=searchRoute.getapiRouteLists();
+
+
+                System.out.print("durlllllllllllllllllllllllllllllllllllllllllllllllllll");
                 //경로 목록 추가 저장
                 addPaths_to_resultPathList(addedPaths,nowDayTime);
                 ee++;
             }
             ss++;
         }
-
+*/
         //혼잡도 값으로 정렬
         //ArrayList<ArrayList<String>> sendPathList=sortCongetion_GetTopPathList();
         //return sendPathList;
@@ -127,7 +153,15 @@ public class SearchPath {
         // resultPathList에 제일 좋은 경로 추가
        if(!isExistpathList(minCongPath)){
             this.resultPathList.add(minCongPath);
-        }
+          /*  System.out.println("==========하나 보고 제일 좋은거 추가하는 부분===========추가된 경로를 출력");
+            for(int j=0;j<this.resultPathList.size();j++){
+                 ArrayList<String> substr=this.resultPathList.get(j);
+                for(int k=0;k<substr.size();k++){
+                    System.out.print(substr.get(k)+" ");
+                }
+            System.out.println("");
+            }*/
+       }
     }  
 
     /**
@@ -138,11 +172,32 @@ public class SearchPath {
      */
     private Boolean isExistpathList( ArrayList<String> path){
         //this.pathList.contains(path); //==>되나?
-        for(int i=0;i< this.resultPathList.size();i++){
+
+        for(int i=0;i<this.resultPathList.size();i++){
+            ArrayList<String> substr=this.resultPathList.get(i);
+            boolean status=true;
+            for(int j=0;j<substr.size();j++){
+                if(path.size()!=substr.size()){
+                    status=false;
+                    break;
+                }
+
+                if(!path.get(j).equals(substr.get(j))){
+                    status=false;
+                }
+            }
+            if(status==true){
+                return true;
+            }
+        }
+        return false;
+
+
+       /* for(int i=0;i< this.resultPathList.size();i++){
             if( this.resultPathList.equals(path))
                 return true;
         }
-        return false;
+        return false;*/
     }
     
     /**

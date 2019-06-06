@@ -115,13 +115,13 @@ public class ReadCSVClass {
     public void showAllData(){
         for(int i=0; i<10; i++){
             for(int j=0; j<this.csvFileValues.get(i).size(); j++){
-                System.out.print(csvFileValues.get(i).get(j) + " ");
+               // System.out.print(csvFileValues.get(i).get(j) + " ");
             }
-            System.out.println("");
+           // System.out.println("");
         }
         
-        System.out.println(this.csvFileValues.size());
-        System.out.println(this.csvFileValues.get(0).size());
+       // System.out.println(this.csvFileValues.size());
+       // System.out.println(this.csvFileValues.get(0).size());
     }
     
     /**

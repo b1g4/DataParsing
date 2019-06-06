@@ -64,12 +64,13 @@ public class SearchRoute {
     
     
                 //arraylist에 잘 들어갔는지 확인용 코드, 삭제예정
+                //System.out.p
                 for (List<String> arraylist : apiRouteLists){
                     for (String element : arraylist) {
-                        System.out.print(element+" ");
+                        //System.out.print(element+" ");
                     }
-                    System.out.println();
-                    System.out.println("row end");
+                   // System.out.println();
+                    //System.out.println("row end");
                 }
             }
     

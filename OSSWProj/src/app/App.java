@@ -43,19 +43,48 @@ public class App {
        ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
 
 
-
-       
+       System.out.println("\n====================================================================");
+       System.out.println("================노량진에서 중앙대까지의 경로를 찾기 시작===============");
+       System.out.println("====================================================================\n");
        SearchPath s=new SearchPath(); //노량진에서 중앙대
        ArrayList<ArrayList<String>> str= s.getPathsFromStations(126.9403932611921, 37.51070581104394,126.95678703483273,37.506391727320924);
 
-       ArrayList<String> yhpath=str.get(0);
 
+       System.out.println("\n====================================================================");
+       System.out.println("=====================혼잡도를 바탕으로 추천한 경로===================");
+       System.out.println("====================================================================\n");
+       for(int i=0;i<str.size();i++){
+           ArrayList<String> substr=str.get(i);
+           for(int j=0;j<substr.size();j++){
+               System.out.print(substr.get(j)+"   ");
+           }
+           System.out.println("");
+       }
+
+
+       
+       
+
+
+/*
        RecommendPath recommendPath=new RecommendPath();
-       //경로 사이의 모든 정류장 구하기
-      // recommendPath.getStationListOnPath(yhpath);
-        //가장 통계치가좋은 정류소를 고름
-       //boolean hey=recommendPath.calcTotalCongestionInPath();
 
-        System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
+       System.out.println("\n====================================================================");
+       System.out.println("=====================경로 사이의 모든 정류장 구하기===================");
+       System.out.println("====================================================================\n");
+       recommendPath.getStationListOnPath(str.get(0));//경로 사이의 모든 정류장 구하기
+
+       System.out.println("\n====================================================================");
+       System.out.println("=================가장 통계혼잡도가 좋은 정류소를 고름==================");
+       System.out.println("====================================================================\n");
+       boolean hey=recommendPath.calcTotalCongestionInPath(); //가장 통계치가좋은 정류소를 고름
+
+       System.out.println("\n====================================================================");
+       System.out.println("===========================환승을 제안할 경로들=========================");
+       System.out.println("====================================================================\n");
+
+       */
+
+        //System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
     }
 }

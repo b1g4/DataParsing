@@ -33,7 +33,7 @@ public class parsing_getStationByPosList {
         OpenApi openApi=new OpenApi();
         NodeList tmp=openApi.getAPIresult(urlstr);
         if(tmp==null){
-            System.out.println("getStaionsByPosList API의 검색결과가 없습니다");
+            //System.out.println("getStaionsByPosList API의 검색결과가 없습니다");
             return null;
         }
         else{

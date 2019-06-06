@@ -58,11 +58,11 @@ public class ApigetArrInfoByRouteList {
             } 
                 
             //arraylist에 잘 들어갔는지 확인용 코드, 삭제예정
-            System.out.print("test===getArrInfoByRouteList()   ");
-            for(String element : getArrInfoByRouteLists){
-                System.out.print(element+" ");
-            }
-            System.out.println("test===end");
+           // System.out.print(" 도착예정 버스 조회 api ");
+           // for(String element : getArrInfoByRouteLists){
+             //   System.out.print(element+" ");
+            //}
+            //System.out.println("");
         }
         catch (Exception e) {
             e.printStackTrace();

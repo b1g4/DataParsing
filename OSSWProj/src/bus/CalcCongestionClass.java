@@ -61,7 +61,7 @@ public class CalcCongestionClass {
                 }
                 busInfo.getCongestionHashMap().get(routeName).passengerNum.put(stationId, tmp);
             }
-            System.out.println("test==calc_Passenger()  routeName="+routeName);
+           // System.out.println("test==calc_Passenger()  routeName="+routeName);
         }
         return status;
     }
@@ -98,7 +98,7 @@ public class CalcCongestionClass {
                     status = false;
                 }
             }else{
-                System.out.println("Error" + routeName+ "이 없음");
+                //System.out.println("Error" + routeName+ "이 없음");
                 status = false;
             }
         }
@@ -193,7 +193,7 @@ public class CalcCongestionClass {
      */
     private Double getOnPassenger(int day, int hour, int minute,String routeName, String stationId){
         if(!busInfo.getCongestionHashMap().get(routeName).dayPassengerNum_getOnOff.containsKey(stationId)){
-            System.out.println("getOnPassenger : "+stationId +" "+ routeName+" not exist");
+            //System.out.println("getOnPassenger : "+stationId +" "+ routeName+" not exist");
             return 0.0;
         }        
 
@@ -213,7 +213,7 @@ public class CalcCongestionClass {
      */
     private Double getOffPassenger(int day, int hour, int minute, String routeName, String stationId){
         if(!busInfo.getCongestionHashMap().get(routeName).dayPassengerNum_getOnOff.containsKey(stationId)){
-            System.out.println("getOnPassenger : "+stationId +" "+ routeName+" not exist");
+           // System.out.println("getOnPassenger : "+stationId +" "+ routeName+" not exist");
             return 0.0;
         }  
 
@@ -302,7 +302,7 @@ public class CalcCongestionClass {
             result.add(17);
 
         }else if(pHD.matcher(routeName).find()){
-            System.out.println("test== "+routeName+" 마을");
+           // System.out.println("test== "+routeName+" 마을");
             result.add(20);
             result.add(17);
 
@@ -312,7 +312,7 @@ public class CalcCongestionClass {
             result.add(24);
 
         }else{
-            System.out.println("test== "+routeName+" 알수없는 형식의 버스번호입니다.");
+           // System.out.println("test== "+routeName+" 알수없는 형식의 버스번호입니다.");
             result.add(-1);
             result.add(-1);
         }

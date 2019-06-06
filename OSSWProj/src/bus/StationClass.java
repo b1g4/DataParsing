@@ -112,7 +112,7 @@ public class StationClass {
     public void showRouteInfo(){
         Collection<String> keys = routeList.keySet();
         for(String key : keys){
-            System.out.println(key);
+            //System.out.println(key);
         }
     }
 }

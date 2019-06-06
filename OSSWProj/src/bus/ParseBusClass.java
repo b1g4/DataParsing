@@ -106,7 +106,7 @@ public class ParseBusClass {
             String routeName = this.valuesInFile.get(i).get(1);
 
                 if(busInfo.isRouteExist(routeName)){
-                    System.out.println("test==parsing_InternalTime_Info : "+routeName+" "+this.valuesInFile.get(i).size());
+                    //System.out.println("test==parsing_InternalTime_Info : "+routeName+" "+this.valuesInFile.get(i).size());
                     //route instance 존재
                     ArrayList<Integer> intervals=new ArrayList<>();
                     ArrayList<Integer> times=new ArrayList<>();
@@ -131,7 +131,7 @@ public class ParseBusClass {
                             hour=Integer.valueOf(tmp.substring(0, 2));
                             minute=Integer.valueOf(tmp.substring(2));
                         }else{
-                            System.out.println("test==parsing_InternalTime_Info() 첫차막차 시간 파싱 오류..."+routeName);
+                           // System.out.println("test==parsing_InternalTime_Info() 첫차막차 시간 파싱 오류..."+routeName);
                         }                        
                         minute=minute+60*hour;
                         times.add(minute);
@@ -140,7 +140,7 @@ public class ParseBusClass {
                     busInfo.setRoute_Time(routeName, times);
                 }else{
                     //route instance 존재 x
-                    System.out.println("test=="+routeName+"에 해당하는 instance가 존재x");
+                  //  System.out.println("test=="+routeName+"에 해당하는 instance가 존재x");
                 }
         }
 

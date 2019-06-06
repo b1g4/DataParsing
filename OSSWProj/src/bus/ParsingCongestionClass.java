@@ -50,14 +50,14 @@ public class ParsingCongestionClass{
                 }
             }
         }
-        System.out.println("parsingCongestionInfo_Month()");
+        System.out.println("month file read finish");
         return result;
     }
 
     public boolean parsingCongestionInfo_Year(){
         // CongestionClass 접근방식 전부 수정 필요.
         boolean result = true;
-        System.out.println("year file start");
+        
         for(int i=0; i<this.rowNum; i++){
             String routeName = this.valuesInFile.get(i).get(2);
             if(!busInfo.isRouteExist(routeName))
@@ -79,10 +79,11 @@ public class ParsingCongestionClass{
                 }
                 //busInfo.setCongestion(tmp);
             }else{
-                System.out.println("perMonth에는 없는 노선&정류장에 대한 정보가 perYear에는 있다!! 파일오류발생: "+routeName+ " : " + stationId);
+                //System.out.println("perMonth에는 없는 노선&정류장에 대한 정보가 perYear에는 있다!! 파일오류발생: "+routeName+ " : " + stationId);
                 //return false;
             }
         }
+        System.out.println("year file read finish");
         return result;
     }
 }

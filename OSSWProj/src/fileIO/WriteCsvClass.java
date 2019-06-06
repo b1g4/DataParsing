@@ -221,11 +221,11 @@ public class WriteCsvClass {
                             }
                             fw.newLine();
                         }else{
-                            System.out.println("test==해당 노선의 해당 정류장은 perYear에 값이 없는 듯 "+routeName+" "+station);
+                            //System.out.println("test==해당 노선의 해당 정류장은 perYear에 값이 없는 듯 "+routeName+" "+station);
                         }
                     }
                 }else{
-                    System.out.println("test==해당 노선은 "+routeName+" congestionClass가 없음");
+                    //System.out.println("test==해당 노선은 "+routeName+" congestionClass가 없음");
                 }
             }
             fw.close();

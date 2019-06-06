@@ -31,7 +31,7 @@ public class GetPathCongestion {
 
 
         if(!BusInfoClass.getInstance().isRouteExist(busRouteName)){
-            System.out.println("test==getOnePathCongestion() 에서 "+busRouteName+" busInfo에 없음 gmdmdmdmdmmddmdmmd");
+           // System.out.println("test==getOnePathCongestion() 에서 "+busRouteName+" busInfo에 없음 gmdmdmdmdmmddmdmmd");
             return 21.0;
         }
         String busRouteId=BusInfoClass.getInstance().getRouteInfo(busRouteName).getRouteId();
@@ -40,11 +40,11 @@ public class GetPathCongestion {
         apigetArrInfoByRouteList.getArrInfoByRouteList(stId, busRouteId, ord);
         ArrayList<String> ArrbusInfo= apigetArrInfoByRouteList.getgetArrInfoByRouteLists();
         if(ArrbusInfo.size()==0){
-            System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 ArrbusInfo ==null");
+           // System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 ArrbusInfo ==null");
             return 999999999999.0;
         }
         if(ArrbusInfo.get(0).equals("운행종료") ){
-            System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 운행종료");
+           // System.out.println("test==getPersonNum_RealTime() 에서"+stId+" "+busRouteName+" "+ord+" 도착정보조회 했을때 운행종료");
             return 999999999999.0;
         }
 
@@ -64,11 +64,11 @@ public class GetPathCongestion {
             int nowStationOrd_1=stationList.indexOf(stId);//출발정류장의 Ord-1 =======Ord는 1부터시작, indx는 0부터 시작
 
             if(nstnId1_Ord_1==-1){
-                System.out.println("test==getPersonNum_RealTime() 에서 첫번째로 도착예정 버스가 향하고있는 정류장이 stationList에 없음");
+             //   System.out.println("test==getPersonNum_RealTime() 에서 첫번째로 도착예정 버스가 향하고있는 정류장이 stationList에 없음");
                 return 21.0;
             }
             else if(nstnId1_Ord_1==-1){
-                System.out.println("test==getPersonNum_RealTime() 에서 사용자가 입력한 정류장이 stationList에 없음");
+              //  System.out.println("test==getPersonNum_RealTime() 에서 사용자가 입력한 정류장이 stationList에 없음");
                 return 21.0;
             }
             
@@ -130,7 +130,7 @@ public class GetPathCongestion {
     public int getOnePathCongestion(String startStstionId,String routeName,String endStationId,ArrayList<Integer> now_day_time){
         int result=0;
         if(!BusInfoClass.getInstance().getRouteHashMap().containsKey(routeName)){
-            System.out.println("test==getOnePathCongestion() 에서 "+routeName+" busInfo에 없음");
+          //  System.out.println("test==getOnePathCongestion() 에서 "+routeName+" busInfo에 없음");
             return 200;
         }
         for(String stationId : BusInfoClass.getInstance().getRouteInfo(routeName).stationList){ 
@@ -201,7 +201,7 @@ public class GetPathCongestion {
             return 15;
 
         }else{
-            System.out.println("test== "+routeName+" 알수없는 형식의 버스번호입니다.");
+            //System.out.println("test== "+routeName+" 알수없는 형식의 버스번호입니다.");
             return 10;
         }
     }

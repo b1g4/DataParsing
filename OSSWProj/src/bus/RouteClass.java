@@ -62,7 +62,7 @@ public class RouteClass{
     public void showStationInfo(){
         int count = this.stationList.size();
         for(int i=0;i<count;i++){
-            System.out.print(this.stationList.get(i) + " ");
+            //System.out.print(this.stationList.get(i) + " ");
         }
         
     }
