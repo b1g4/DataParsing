@@ -14,7 +14,7 @@ public class RecommendPath {
     private BusInfoClass businfo = BusInfoClass.getInstance();
     String minCongestionStop = "";
     String lastStop = "";
-
+    
     public RecommendPath() {
     }
 
@@ -128,5 +128,10 @@ public class RecommendPath {
     public String getMinCongestionStop(){
         return minCongestionStop;
     }
+
+    public ArrayList<String> returnStationList(){
+        return this.stationListOnPath;
+    }
+    
 
 }

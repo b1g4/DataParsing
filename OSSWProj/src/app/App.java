@@ -12,6 +12,12 @@ public class App {
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
+
+
+
+
+
+
         //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 만드는 코드
         /*
         BusInfoClass busInfo = BusInfoClass.getInstance();
@@ -28,8 +34,12 @@ public class App {
         */
 
 
+
+
+
+
        //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 읽는 코드
-       
+       /*
        BusInfoClass busInfo = BusInfoClass.getInstance();
        String currentPath = System.getProperty("user.dir");
 
@@ -41,7 +51,23 @@ public class App {
 
        String congestioncsvDir= currentPath+"\\congestioncsv.csv";
        ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
+        */
 
+
+
+
+        //파일3개를 미리 읽고 정보를 저장한 상태로 client를 기다려야 한다
+        TCPServer tcpServer=new TCPServer();
+        tcpServer.setTCPSocket();
+
+       
+       
+       
+
+
+
+       //test code
+/*
 
        System.out.println("\n====================================================================");
        System.out.println("================노량진에서 중앙대까지의 경로를 찾기 시작===============");
@@ -61,12 +87,6 @@ public class App {
            System.out.println("");
        }
 
-
-       
-       
-
-
-/*
        RecommendPath recommendPath=new RecommendPath();
 
        System.out.println("\n====================================================================");
@@ -82,7 +102,6 @@ public class App {
        System.out.println("\n====================================================================");
        System.out.println("===========================환승을 제안할 경로들=========================");
        System.out.println("====================================================================\n");
-
        */
 
         //System.out.println("Used Memory : " + (runtime.totalMemory() - runtime.freeMemory())/mb + "MB");
