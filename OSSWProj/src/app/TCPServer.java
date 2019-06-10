@@ -89,7 +89,7 @@ public class TCPServer{
 
         // 경로에 쓰인 단어개수 + 경로로로로로로 +   버정에 쓰인 단어개수+ 버스정류장목로고로고록
         private String returnCalculateResult(String clientMsg){
-            String result="";
+            String result="0";
             String[] values=clientMsg.split("\\s");
             
             //경로
@@ -98,32 +98,41 @@ public class TCPServer{
                                                                     Double.parseDouble(values[0]),
                                                                     Double.parseDouble(values[0]),
                                                                     Double.parseDouble(values[0]));
-            int cnt=0; //단어개수
-            for(int i=0;i<str.size();i++){
-                ArrayList<String> substr=str.get(i);
-                for(int j=0;j<substr.size();j++){
-                    result=result+substr.get(j)+" ";
-                    cnt++;
-                }
-            }
-            result=String.valueOf(cnt)+result; //단어개수+경로
 
-            //버스정류장
-            int cnt2=0;
-            String stations="";
-            RecommendPath recommendPath=new RecommendPath();
-            for(int i=0;i<str.size();i++){
-                recommendPath.getStationListOnPath(str.get(i));//경로 사이의 모든 정류장 구하기
-                ArrayList<String> substation=recommendPath.returnStationList();
-                for(int j=0;j<substation.size();j++){
-                    stations=stations+substation.get(j)+" ";
-                    cnt2++;
+            if(str.size()==0){
+                result="0";
+            }else{
+                //경로
+                String route="";
+                int cnt=0; //단어개수
+                for(int i=0;i<str.size();i++){
+                    ArrayList<String> substr=str.get(i);
+                    for(int j=0;j<substr.size();j++){
+                        route=route+substr.get(j)+" ";
+                        cnt++;
+                    }
                 }
+                route=String.valueOf(cnt)+" "+route; //단어개수+경로
+    
+                //버스정류장
+                int cnt2=0;
+                String stations="";
+                RecommendPath recommendPath=new RecommendPath();
+                for(int i=0;i<str.size();i++){
+                    recommendPath.getStationListOnPath(str.get(i));//경로 사이의 모든 정류장 구하기
+                    ArrayList<String> substation=recommendPath.returnStationList();
+                    for(int j=0;j<substation.size();j++){
+                        stations=stations+substation.get(j)+" ";
+                        cnt2++;
+                    }
+                }
+                stations=String.valueOf(cnt2)+" "+stations;//단어개수+경로 + 단어개수+정류장
+
+                //client에 보낼 스트링
+                result=str.size()+" "+route+" "+stations;
             }
-            result=String.valueOf(cnt2)+stations;//단어개수+경로 + 단어개수+정류장
-          
-           // return result;//==========================여기 추후 수정
-            return "hello !! b1g4!!!!";
+        
+            return result;
         }
     } 
 }

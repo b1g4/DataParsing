@@ -6,6 +6,7 @@ import api.SearchRoute;
 import api.getStaionsByPosListClass;
 import api.parsing_getStationByPosList;
 import bus.BusInfoClass;
+import bus.RouteClass;
 
 /**
  * SearchPath
@@ -49,8 +50,6 @@ public class SearchPath {
         //출발지는 가장 가까운 정류장 3개, 도착지는 가장 가까운 정류장 2개를 검사
         System.out.println("api를 돌렸을때 나오는 경로들");
         SearchRoute searchRoute=new SearchRoute();
-        //int ss=0;
-        //int ee=0;
         for(int ss=0;ss<start.size();ss++){
             if(ss<3){
                 for(int ee=0;ee<end.size();ee++){
@@ -58,39 +57,20 @@ public class SearchPath {
                         searchRoute.searchRouteByAPI(start.get(ss).getgpsX(),start.get(ss).getgpsY(),
                                                     end.get(ee).getgpsX(),end.get(ee).getgpsY());
                         ArrayList<ArrayList<String>> addedPaths=searchRoute.getapiRouteLists();
-                        //System.out.println("durlllllllllllllllllllllllllllllllllllllllllllllss="+ss+"ee"+ee);
-                        for(int i=0;i<addedPaths.size();i++){
+                        /*for(int i=0;i<addedPaths.size();i++){
                             ArrayList<String> substr=addedPaths.get(i);
                             for(int j=0;j<substr.size();j++){
                                 System.out.print(substr.get(j)+"   ");
                             }
                             System.out.println("");
-                        }
-
+                        }*/
+                        System.out.println("ss="+ss+"ee="+ee);
                         //경로 목록 추가 저장
                         addPaths_to_resultPathList(addedPaths,nowDayTime);
-                    }
+                    }else{ee=999999999;}
                 }
-            }
+            }else{ss=999999999;}
         }
-       /* for(getStaionsByPosListClass s : start) {
-            if(ss==3)
-                break;
-            for(getStaionsByPosListClass e : end) {
-                if(ee==2)
-                    break;
-                searchRoute.searchRouteByAPI(s.getgpsX(), s.getgpsY(), e.getgpsX(), e.getgpsY());
-                ArrayList<ArrayList<String>> addedPaths=searchRoute.getapiRouteLists();
-
-
-                System.out.print("durlllllllllllllllllllllllllllllllllllllllllllllllllll");
-                //경로 목록 추가 저장
-                addPaths_to_resultPathList(addedPaths,nowDayTime);
-                ee++;
-            }
-            ss++;
-        }
-*/
         //혼잡도 값으로 정렬
         //ArrayList<ArrayList<String>> sendPathList=sortCongetion_GetTopPathList();
         //return sendPathList;
@@ -131,24 +111,28 @@ public class SearchPath {
             //{출발 정류소 id, 출발 정류소 이름, 노선명, 도착정류소 id, 도착 정류소 이름 소요시간}
 
             //api를 이용해서 
-            ArrayList<String> FirstRoute_stationList=busInfoClass.getRouteInfo(onePath.get(2)).getStationList();//첫번째 노선의 정류장리스트-가독성위해 변수 설정
-            String nowStationId=onePath.get(0);//출발정류장
-            int nowStationOrd_1=FirstRoute_stationList.indexOf(nowStationId);//출발정류장의 Ord-1 =======Ord는 1부터시작, indx는 0부터 시작
-            Double testPersonNum=getPathC.getPersonNum_RealTime(onePath.get(0), onePath.get(2), String.valueOf(nowStationOrd_1+1));
-            int testCong=getPathC.getTransferPathCongestion(onePath, nowDayTime);
-            if(testPersonNum<20.0){
-                //앉을 수 있는 사람수가 나왔으면 바로 그 길로 가도록!
-                minCongPath=onePath;
-                mincongestionvalue=testCong;
+            if(busInfoClass.getRouteInfo(onePath.get(2))==null){
                 break;
             }else{
-                //앉을 수 없는 사람수가 나왔다면 기존에 있는 경로보다 혼잡도가 작을경우에만 바꾼다
-                if(mincongestionvalue>testCong){
+                ArrayList<String> FirstRoute_stationList=busInfoClass.getRouteInfo(onePath.get(2)).getStationList();//첫번째 노선의 정류장리스트-가독성위해 변수 설정
+                String nowStationId=onePath.get(0);//출발정류장
+                int nowStationOrd_1=FirstRoute_stationList.indexOf(nowStationId);//출발정류장의 Ord-1 =======Ord는 1부터시작, indx는 0부터 시작
+                Double testPersonNum=getPathC.getPersonNum_RealTime(onePath.get(0), onePath.get(2), String.valueOf(nowStationOrd_1+1));
+                int testCong=getPathC.getTransferPathCongestion(onePath, nowDayTime);
+                if(testPersonNum<20.0){
+                    //앉을 수 있는 사람수가 나왔으면 바로 그 길로 가도록!
                     minCongPath=onePath;
                     mincongestionvalue=testCong;
-
+                    break;
+                }else{
+                    //앉을 수 없는 사람수가 나왔다면 기존에 있는 경로보다 혼잡도가 작을경우에만 바꾼다
+                    if(mincongestionvalue>testCong){
+                        minCongPath=onePath;
+                        mincongestionvalue=testCong;
+    
+                    }
                 }
-            }
+            }            
         }
         // resultPathList에 제일 좋은 경로 추가
        if(!isExistpathList(minCongPath)){
@@ -171,8 +155,6 @@ public class SearchPath {
      *           resultPathList에 없으면 false
      */
     private Boolean isExistpathList( ArrayList<String> path){
-        //this.pathList.contains(path); //==>되나?
-
         for(int i=0;i<this.resultPathList.size();i++){
             ArrayList<String> substr=this.resultPathList.get(i);
             boolean status=true;
@@ -191,13 +173,6 @@ public class SearchPath {
             }
         }
         return false;
-
-
-       /* for(int i=0;i< this.resultPathList.size();i++){
-            if( this.resultPathList.equals(path))
-                return true;
-        }
-        return false;*/
     }
     
     /**

@@ -12,12 +12,6 @@ public class App {
         Runtime runtime = Runtime.getRuntime();
         int mb = 1024*1024;
 
-
-
-
-
-
-
         //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 만드는 코드
         /*
         BusInfoClass busInfo = BusInfoClass.getInstance();
@@ -34,36 +28,23 @@ public class App {
         */
 
 
+        //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 읽는 코드
+        BusInfoClass busInfo = BusInfoClass.getInstance();
+        String currentPath = System.getProperty("user.dir");
 
+        String routecsvDir = currentPath + "\\routecsv.csv";
+        ParseFileClass parse_route= new ParseFileClass(routecsvDir,"route", true);
 
+        String stationcsvDir= currentPath+"\\stationcsv.csv";
+        ParseFileClass parse_station= new ParseFileClass(stationcsvDir,"station", true);
 
+        String congestioncsvDir= currentPath+"\\congestioncsv.csv";
+        ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
 
-       //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 읽는 코드
-       /*
-       BusInfoClass busInfo = BusInfoClass.getInstance();
-       String currentPath = System.getProperty("user.dir");
-
-       String routecsvDir = currentPath + "\\routecsv.csv";
-       ParseFileClass parse_route= new ParseFileClass(routecsvDir,"route", true);
-
-       String stationcsvDir= currentPath+"\\stationcsv.csv";
-       ParseFileClass parse_station= new ParseFileClass(stationcsvDir,"station", true);
-
-       String congestioncsvDir= currentPath+"\\congestioncsv.csv";
-       ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
-        */
-
-
-
-
-        //파일3개를 미리 읽고 정보를 저장한 상태로 client를 기다려야 한다
+        
+        //서버 실행
         TCPServer tcpServer=new TCPServer();
         tcpServer.setTCPSocket();
-
-       
-       
-       
-
 
 
        //test code
