@@ -41,7 +41,7 @@ public class App {
         String congestioncsvDir= currentPath+"\\congestioncsv.csv";
         ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
 
-        
+
         //서버 실행
         TCPServer tcpServer=new TCPServer();
         tcpServer.setTCPSocket();
