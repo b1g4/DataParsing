@@ -9,7 +9,7 @@ public class StationClass {
     public final String stationName;
 
     public ArrayList<Double[]> congestionList;
-    public ArrayList<String> transferLine;
+    public ArrayList<String> transferLineNumList;
 
     public StationClass(String stationName){
         this.stationName = stationName;
@@ -23,5 +23,13 @@ public class StationClass {
 
     public ArrayList<Double[]> getConestionList(){
         return this.congestionList;
+    }
+
+    public void addTransferLineNum(String lineNum){
+        this.transferLineNumList.add(lineNum);
+    }
+
+    public ArrayList<String> getTransferLineNumList(){
+        return this.transferLineNumList;
     }
 }

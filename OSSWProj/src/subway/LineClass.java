@@ -8,11 +8,11 @@ import java.util.HashMap;
 public class LineClass {
     public final String lineNum;
     private ArrayList<String> stationList;
-    private ArrayList<Boolean> isTransfer;
+    private ArrayList<Boolean> transferInfoList;
 
     
     // 순환노선인지 아닌지 판단.
-    public final boolean isCircular;
+    private final boolean isCircular;
 
     // 상행 다음정거장까지 시간(내선)
     private ArrayList<Integer> timeToUpperStation;
@@ -24,7 +24,7 @@ public class LineClass {
     private int index;
 
     public LineClass(String lineNum, boolean isCircular){
-        this.isTransfer = new ArrayList<Boolean>();
+        this.transferInfoList = new ArrayList<Boolean>();
         this.timeToUpperStation = new ArrayList<Integer>();
         this.timeToLowerStation = new ArrayList<Integer>();
         this.stationList = new ArrayList<String>();        
@@ -37,10 +37,10 @@ public class LineClass {
     public void addStationInfo(String stationName){
         if(!this.isStationExist(stationName)){
             if(stationName.contains("(")){
-                this.isTransfer.add(true);
+                this.transferInfoList.add(true);
             }
             else {
-                this.isTransfer.add(false);
+                this.transferInfoList.add(false);
             }
 
             this.stationList.add(stationName);
@@ -71,17 +71,44 @@ public class LineClass {
         return this.stationList.get(index);
     }
 
-    
+    public boolean isTransfer(String stationName){
+        int indexNum = this.stationList.indexOf(stationName);
+        return this.transferInfoList.get(indexNum);
+    }
 
-    public ArrayList<Integer> getDurationList(int direction){
+    public boolean moveNext(int direction){
         if(direction == 0){
-            return this.timeToUpperStation;
+            if(this.index == this.stationList.size()-1){
+                if(this.isCircular){
+                    index = 0;
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                index++;
+                return true;
+            }
         }
         else if(direction == 1){
-            return this.timeToLowerStation;
+            if(this.index == 0){
+                if(this.isCircular){
+                    index = this.stationList.size()-1;
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else{
+                index--;
+                return true;
+            }
         }
         else{
-            return new ArrayList<Integer>();
+            return false;
         }
     }
 }
