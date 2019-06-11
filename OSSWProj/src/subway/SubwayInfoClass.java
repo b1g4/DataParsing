@@ -56,6 +56,7 @@ public class SubwayInfoClass {
 
     public void addStationInfo(String stationName, ArrayList<String> stationInfo){
         // stationInfo : lineNum, direction, stationName, transferLineNumber, congestionList
+        //System.out.println(stationInfo.size());
         if(this.isStationExist(stationName)){
             // 이미 추가된 정류장 정보가 존재
             this.stationList.get(stationName).setDirection(direction.get(stationInfo.get(1)));

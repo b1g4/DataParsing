@@ -121,6 +121,7 @@ public class ParseSubwayClass {
 							String[] parseStationName = stationName.split("\\(");
 							stationName = parseStationName[0];
 						}
+						stationInfo.add(stationName);
 					}
 					else if(j == 3) {
 						durationTime = this.csvFilevalues.get(i).get(j);

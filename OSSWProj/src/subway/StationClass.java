@@ -23,6 +23,7 @@ public class StationClass {
     }
 
     public void addCongestion(String lineNum, List<String> list) {
+        System.out.println(list);
         if(this.isUpper == 0){
             Double[] dArr = new Double[2];
             ArrayList<Double[]> tmpList = new ArrayList<Double[]>();
