@@ -21,8 +21,8 @@ import findPath.SearchPath;
  */
 public class TCPServer{
 
-    public static final int ServerPort = 9999;
-    public static final String ServerIP = "xxx.xxx.xxx.xxxx";
+    public static final int ServerPort = 8000;
+    public static final String ServerIP = "xxx.xxx.xx.x";
  
     public void setTCPSocket(){
 
@@ -66,10 +66,11 @@ public class TCPServer{
 
                 //서버의 계산
                 String sendMsg=returnCalculateResult(clientMsg);
+                System.out.println("서버가 계산해서 나오는 결과 : "+sendMsg);
 
                 //클라이언트에게 메시지 전송
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(output));
-                writer.println("test==Server: send " + sendMsg);
+                writer.println(sendMsg);
                 writer.flush();
                 
                 //close()
@@ -99,6 +100,12 @@ public class TCPServer{
                                                                     Double.parseDouble(values[1]),
                                                                     Double.parseDouble(values[2]),
                                                                     Double.parseDouble(values[3]));
+            System.out.println("test=="+Double.parseDouble(values[0])+
+            Double.parseDouble(values[1])+
+            Double.parseDouble(values[2])+
+            Double.parseDouble(values[3]));
+
+            System.out.println("test=====str.size"+str.size());
             
             if(str.size()==0){
                 result="0";
@@ -130,6 +137,7 @@ public class TCPServer{
     
                     //client에 보낼 스트링
                     result=str.size()+" "+route+stations+" ";
+                    //System.out.println(result);
                 }    
             }     
             return result;

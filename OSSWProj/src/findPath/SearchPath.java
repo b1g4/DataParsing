@@ -64,7 +64,7 @@ public class SearchPath {
                             }
                             System.out.println("");
                         }*/
-                        System.out.println("ss="+ss+"ee="+ee);
+                       // System.out.println("ss="+ss+"ee="+ee);
                         //경로 목록 추가 저장
                         addPaths_to_resultPathList(addedPaths,nowDayTime);
                     }else{ee=999999999;}
