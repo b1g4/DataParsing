@@ -25,9 +25,9 @@ public class StationClass {
     public void addCongestion(String lineNum, List<String> list) {
         System.out.println(list);
         if(this.isUpper == 0){
-            Double[] dArr = new Double[2];
             ArrayList<Double[]> tmpList = new ArrayList<Double[]>();
             for(String str : list){
+                Double[] dArr = new Double[2];
                 dArr[0] = Double.parseDouble(str);
                 tmpList.add(dArr);
             }
@@ -40,15 +40,15 @@ public class StationClass {
             this.congestionList.put(lineNum, tmpList);
         }
         else if(this.isUpper == 1){
-            for(int i=0; i<this.congestionList.size(); i++){
+            for(int i=0; i<this.congestionList.get(lineNum).size(); i++){
                 if(i == 0){
                     this.congestionList.get(lineNum).get(i)[1] = Double.parseDouble(list.get(i));
                 }
-                if(i == 1 || i == 2 || i == 3){
+                else if(i == 1 || i == 2 || i == 3){
                     continue;
                 }
                 else{
-                    this.congestionList.get(lineNum).get(i)[1] = Double.parseDouble(list.get(i));
+                    this.congestionList.get(lineNum).get(i)[1] = Double.parseDouble(list.get(i-3));
                 }
             }
         }
