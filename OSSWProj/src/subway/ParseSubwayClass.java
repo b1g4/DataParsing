@@ -80,8 +80,8 @@ public class ParseSubwayClass {
 		// 4~end : congestion, 00~23, no data about 01~04
 		
 		// to subwayInfo save data per two row ==> row % 2 == 0
-		// line : in arraylist, direction, stationName, durationTime
-		// station : in arraylist, stationName, transferLineNumber(need to calculate), congestion
+		// line : in arraylist, direction, transfer, stationName, durationTime
+		// station : in arraylist, lineNum, direction, stationName, transferLineNumber(need to calculate), congestion
 		if(this.csvFilevalues.isEmpty()){
 			System.out.println("need to read file");
 			return;
@@ -93,20 +93,34 @@ public class ParseSubwayClass {
 			String stationName = "";
 			String direction = "";
 			String durationTime = "";
+			boolean chk = true;
 			for(int i=0; i<this.csvFilevalues.size(); i++){
 				for(int j =0; j<this.csvFilevalues.get(i).size(); j++){
 					if (j == 0){
 						lineNum = this.csvFilevalues.get(i).get(j);
+						if(lineNum.equals("신정지선") || lineNum.equals("성수지선")){
+							chk = false;
+							break;
+						}
+						else{
+							chk = true;
+							stationInfo.add(lineNum);
+						}
 					}
 					else if (j == 1){
 						direction = this.csvFilevalues.get(i).get(j);
 						lineInfo.add(direction);
+						stationInfo.add(direction);
 					}
 					else if(j == 2) {
 						stationName = this.csvFilevalues.get(i).get(j);
+						// some station name format like 서울역(1)
+						// 서울역(1) -> 서울역, 1
 						lineInfo.add(stationName);
-						stationInfo.add(stationName);
-						// station transfer calculate
+						if(stationName.contains("(")){
+							String[] parseStationName = stationName.split("\\(");
+							stationName = parseStationName[0];
+						}
 					}
 					else if(j == 3) {
 						durationTime = this.csvFilevalues.get(i).get(j);
@@ -116,10 +130,17 @@ public class ParseSubwayClass {
 						stationInfo.add(this.csvFilevalues.get(i).get(j));
 					}
 				}
-				this.subwayInfo.addStationInfo(stationName, stationInfo);
-				this.subwayInfo.addLineInfo(lineNum, lineInfo);
+				if(chk){
+					this.subwayInfo.addStationInfo(stationName, stationInfo);
+					this.subwayInfo.addLineInfo(lineNum, lineInfo);
+					stationInfo.clear();
+					lineInfo.clear();
+				}
 			}
 		}
 		
+		for(int i=0; i<this.subwayInfo.getLineListInfo().size(); i++){
+
+		}
 	}
 }

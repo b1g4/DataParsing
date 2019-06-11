@@ -31,7 +31,8 @@ public class SubwayInfoClass {
     }
 
     private SubwayInfoClass(){
-
+        this.lineList = new HashMap<String, LineClass>();
+        this.stationList = new HashMap<String, StationClass>();
     }
 
     private HashMap<String, LineClass> lineList; // line number, line class instance
@@ -54,17 +55,19 @@ public class SubwayInfoClass {
     }
 
     public void addStationInfo(String stationName, ArrayList<String> stationInfo){
-        // stationInfo : stationName, transferLineNumber, congestionList
+        // stationInfo : lineNum, direction, stationName, transferLineNumber, congestionList
         if(this.isStationExist(stationName)){
             // 이미 추가된 정류장 정보가 존재
-            this.stationList.get(stationName).addTransferLineNum(stationInfo.get(1));
-            this.stationList.get(stationName).addCongestion((ArrayList<String>)stationInfo.subList(2, stationInfo.size()));
+            this.stationList.get(stationName).setDirection(direction.get(stationInfo.get(1)));
+            this.stationList.get(stationName).addTransferLineNum(stationInfo.get(0));
+            this.stationList.get(stationName).addCongestion(stationInfo.get(0), stationInfo.subList(3, stationInfo.size()));
         }
         else{
             // 처음 추가되는 정류장 정보
             StationClass station = new StationClass(stationName);
-            station.addTransferLineNum(stationInfo.get(1));
-            station.addCongestion((ArrayList<String>)stationInfo.subList(2, stationInfo.size()));
+            station.setDirection(direction.get(stationInfo.get(1)));
+            station.addTransferLineNum(stationInfo.get(0));
+            station.addCongestion(stationInfo.get(0), stationInfo.subList(3, stationInfo.size()));
             this.stationList.put(stationName, station);
         }        
     }

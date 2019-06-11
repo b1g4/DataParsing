@@ -35,14 +35,17 @@ public class LineClass {
     }
 
     public void addStationInfo(String stationName){
-        if(!this.isStationExist(stationName)){
-            if(stationName.contains("(")){
-                this.transferInfoList.add(true);
-            }
-            else {
-                this.transferInfoList.add(false);
-            }
+        boolean chk = false;
+        if(stationName.contains("(")){
+            chk = true;
+            stationName = stationName.split("\\(")[0];
+        }
+        else {
+            chk = false;
+        }
 
+        if(!this.isStationExist(stationName)){
+            this.transferInfoList.add(chk);
             this.stationList.add(stationName);
         }        
     }

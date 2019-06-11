@@ -1,6 +1,8 @@
 package subway;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * StationClass
@@ -8,52 +10,59 @@ import java.util.ArrayList;
 public class StationClass {
     public final String stationName;
 
-    public ArrayList<Double[]> congestionList;
+    public HashMap<String, ArrayList<Double[]>> congestionList;
     public ArrayList<String> transferLineNumList;
 
-    boolean isUpper;
+    private int isUpper;
 
     public StationClass(String stationName){
         this.stationName = stationName;
-        this.isUpper = true;
-        this.congestionList = new ArrayList<Double[]>();
+        this.isUpper = 0;
+        this.congestionList = new HashMap<String, ArrayList<Double[]>>();
+        this.transferLineNumList = new ArrayList<String>();
     }
 
-    public void addCongestion(ArrayList<String> congestionInTime) {
-        if(isUpper){
+    public void addCongestion(String lineNum, List<String> list) {
+        if(this.isUpper == 0){
             Double[] dArr = new Double[2];
-            for(String str : congestionInTime){
+            ArrayList<Double[]> tmpList = new ArrayList<Double[]>();
+            for(String str : list){
                 dArr[0] = Double.parseDouble(str);
-                this.congestionList.add(dArr);
+                tmpList.add(dArr);
             }
             Double[] dummy = new Double[2];
             dummy[0] = 0.0;
             dummy[1] = 0.0;
-            this.congestionList.add(1, dummy);
-            this.congestionList.add(2, dummy);
-            this.congestionList.add(3, dummy);
+            tmpList.add(1, dummy);
+            tmpList.add(2, dummy);
+            tmpList.add(3, dummy);
+            this.congestionList.put(lineNum, tmpList);
         }
-        else{
+        else if(this.isUpper == 1){
             for(int i=0; i<this.congestionList.size(); i++){
                 if(i == 0){
-                    this.congestionList.get(i)[1] = Double.parseDouble(congestionInTime.get(i));
+                    this.congestionList.get(lineNum).get(i)[1] = Double.parseDouble(list.get(i));
                 }
                 if(i == 1 || i == 2 || i == 3){
                     continue;
                 }
                 else{
-                    this.congestionList.get(i)[1] = Double.parseDouble(congestionInTime.get(i));
+                    this.congestionList.get(lineNum).get(i)[1] = Double.parseDouble(list.get(i));
                 }
             }
         }
     }
 
-    public ArrayList<Double[]> getConestionList(){
+    public void setDirection(int isUpper){
+        this.isUpper = isUpper;
+    }
+
+    public HashMap<String, ArrayList<Double[]>> getConestionList(){
         return this.congestionList;
     }
 
     public void addTransferLineNum(String lineNum){
-        if(lineNum.equals("")){
+        if(this.transferLineNumList.contains(lineNum)){
             return;
         }
         this.transferLineNumList.add(lineNum);
