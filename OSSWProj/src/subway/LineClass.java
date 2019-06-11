@@ -47,12 +47,13 @@ public class LineClass {
         }        
     }
 
-    public void addDuration(int time, int direction){
+    public void addDuration(String time, int direction){
+        int i_time = Integer.parseInt(time);
         if(direction == 0){
-            this.timeToUpperStation.add(time);
+            this.timeToUpperStation.add(i_time);
         }
         else if(direction == 1){
-            this.timeToLowerStation.add(time);
+            this.timeToLowerStation.add(i_time);
         }
         else{
 
