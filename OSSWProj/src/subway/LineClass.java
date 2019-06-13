@@ -62,6 +62,9 @@ public class LineClass {
 
         }
     }
+    public void setCurrentStation(String stationName){
+        this.index = this.stationList.indexOf(stationName);
+    }
 
     public ArrayList<String> getStationList(){
         return this.stationList;
