@@ -74,7 +74,29 @@ public class LineClass {
         return this.stationList.contains(stationName);
     }
 
-    public String getCurretnStationName(){
+    public boolean isCircular(){
+        return this.isCircular;
+    }
+
+    public boolean isFirst(String stationName){
+        if(this.stationList.indexOf(stationName) == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isLast(String stationName){
+        if(this.stationList.indexOf(stationName) == this.stationList.size()-1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public String getCurrentStationName(){
         return this.stationList.get(index);
     }
 

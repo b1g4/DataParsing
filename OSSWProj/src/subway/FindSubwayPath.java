@@ -31,7 +31,11 @@ public class FindSubwayPath {
             // 상행 탐색
             this.search(false, this.subwayInfo.getStationInfo(start_stationName), line, this.pathUp, 0);
             // 하행 탐색
-            this.search(true, this.subwayInfo.getStationInfo(end_stationName), line, this.pathDown, 0);
+            this.search(true, this.subwayInfo.getStationInfo(start_stationName), line, this.pathDown, 0);
+
+            for(int i=0; i<this.resultPath.size(); i++){
+                //System.out.println(this.resultPath.get(i));
+            }
         }
     }
 
@@ -39,7 +43,13 @@ public class FindSubwayPath {
         ArrayList<StationClass> tmpList = (ArrayList<StationClass>)path.clone();
         tmpList.add(currentStation);
 
-        String nextStationName = new String();
+        System.out.println(currentLine.lineNum + " : ");
+        for(int i=0; i<tmpList.size(); i++){
+            System.out.print(tmpList.get(i).stationName + " ");
+        }
+        System.out.println("");
+
+        int i_direction = direction ? 1 : 0;
         // 고려할 사항
         // 0. 현재 station과 line information이 도착지와 같다. ==> 경로탐색 종료. 경로 저장
         // 1. 현재 환승 횟수가 2회. ==> 추가로 환승해야 할 경우 탐색을 종료한다.
@@ -47,31 +57,120 @@ public class FindSubwayPath {
         // 3. 방향에 따라 종점 혹은 기점일 경우 특정 역을 2번 지나치므로 탐색을 종료한다. 
 
         // !0
-        if(currentLine.lineNum != this.end_lineNum){
+        StationClass next_station;
+        LineClass next_line;
+        if(!currentLine.lineNum.equals(this.end_lineNum)){
             if(currentLine.isTransfer(currentStation.stationName)){
                 // 현재 역에서의 환승이 가능함.
-                if(currentStation.stationName != this.end_stationName){
+                if(!currentStation.stationName.equals(this.end_stationName)){
                     // 현재 역과 도착 역의 이름이 다름 ==> 탐색 필요
                     // 환승 횟수가 0 : 환승 역의 호선 정보 상관없이 가능
                     // 환승 횟수가 1 : 환승했을 때 lineNum이 end_lineNum과 같아야만 환승 가능
                     // 환승 횟수가 2 : 더 이상 환승이 불가능
+                    
+                    ArrayList<String> transferList;
                     if(transferCount == 0){
-                        // search() : 현재 line에서 진행
-                        // search() : 환승 가능한 line에서 진행
+                        if(currentLine.moveNext(i_direction)){
+                            // 더 이상 이동 가능
+                            next_station = this.subwayInfo.getStationInfo(currentLine.getCurrentStationName());
+                            if(currentLine.isCircular()){
+                                if(currentLine.isFirst(next_station.stationName) || currentLine.isLast(next_station.stationName)){
+                                    return;
+                                }
+                            }
+                            // 현재 탐색중인 방향으로 다음 정류장 탐색
+                            search(direction, next_station, currentLine, tmpList, transferCount);
+                            transferList= currentStation.getTransferLineNumList();
+                            for(int i=1; i<transferList.size(); i++){
+                                next_line = this.subwayInfo.getLineInfo(transferList.get(i));
+                                next_line.setCurrentStation(currentStation.stationName);
+                                if(next_line.moveNext(i_direction)){
+                                    next_station = this.subwayInfo.getStationInfo(next_line.getCurrentStationName());
+                                    // 환승하여 새로 이동하는 호선에서 양방향으로 탐색 시작
+                                    if(next_line.isCircular()){
+                                        if(next_line.isFirst(next_station.stationName) || next_line.isLast(next_station.stationName)){
+                                            return;
+                                        }
+                                    }
+                                    search(direction, next_station, next_line, tmpList, transferCount+1);
+                                }
+                                else{
+                                    return;
+                                }
+                                if(next_line.moveNext(1- i_direction)){
+                                    next_station = this.subwayInfo.getStationInfo(next_line.getCurrentStationName());
+                                    if(next_line.isCircular()){
+                                        if(next_line.isFirst(next_station.stationName) || next_line.isLast(next_station.stationName)){
+                                            return;
+                                        }
+                                    }
+                                    search(!direction, next_station, next_line, tmpList, transferCount+1);
+                                }
+                                else{
+                                    return;
+                                }
+                            }
+                        }
+                        else{
+                            // 더 이상 이동 불가(종점 혹은 기점)
+                            return;
+                        }
                     }
                     else if(transferCount == 1){
                         // search()
-                        // if() 
-                            // true : search
-                        // else
-                            // return;
+                        if(currentLine.moveNext(i_direction)) {
+                            next_station = this.subwayInfo.getStationInfo(currentLine.getCurrentStationName());
+                            if(currentLine.isCircular()){
+                                if(currentLine.isFirst(next_station.stationName) || currentLine.isLast(next_station.stationName)){
+                                    return;
+                                }
+                            }
+                            search(direction, next_station, currentLine, tmpList, transferCount);
+                        }
+                        transferList = currentStation.getTransferLineNumList();
+                        for(int i=1; i<transferList.size(); i++){
+                            if(end_lineNum != transferList.get(i)){
+                                return;
+                            }
+                            else{
+                                next_line = this.subwayInfo.getLineInfo(transferList.get(i));
+                                next_line.setCurrentStation(currentStation.stationName);
+                                if(next_line.moveNext(i_direction)){
+                                    next_station = this.subwayInfo.getStationInfo(next_line.getCurrentStationName());
+                                    if(next_line.isCircular()){
+                                        if(next_line.isFirst(next_station.stationName) || next_line.isLast(next_station.stationName)){
+                                            return;
+                                        }
+                                    }
+                                    search(direction, next_station, next_line, tmpList, transferCount+1);
+                                }
+                                else{
+                                    return ;
+                                }
+
+                                if(next_line.moveNext(1-i_direction)){
+                                    next_station = this.subwayInfo.getStationInfo(next_line.getCurrentStationName());
+                                    if(next_line.isCircular()){
+                                        if(next_line.isFirst(next_station.stationName) || next_line.isLast(next_station.stationName)){
+                                            return;
+                                        }
+                                    }
+                                    search(direction, next_station, next_line, tmpList, transferCount+1);
+                                }
+                                else{
+                                    return;
+                                }
+                            }
+                        }
                     }
                     else if(transferCount == 2){
+                        // 더이상 탐색이 불필요.
+                        //  아마 실행되지 않을 부분
                         return;
                     }
 
                 }
-                else if(currentStation.stationName == this.end_stationName){
+                else if(currentStation.stationName.equals(this.end_stationName)){
                     // 현재 역과 도착역의 이름이 같음==> 도착
                     // 이미 추가된 경로인지 검사
                     if(this.resultPath.contains(tmpList)) return;
@@ -85,17 +184,40 @@ public class FindSubwayPath {
                 // 현재 역에서의 환승이 불가능함.
                 // 다음 역으로 진행
                 // search()
+                if(currentLine.moveNext(i_direction)){
+                    next_station = this.subwayInfo.getStationInfo(currentLine.getCurrentStationName());
+                    if(currentLine.isCircular()){
+                        if(currentLine.isFirst(next_station.stationName) || currentLine.isLast(next_station.stationName)){
+                            return;
+                        }
+                    }
+                    search(direction, next_station, currentLine, tmpList, transferCount);
+                }
+                else{
+                    return;
+                }
             }
         }
         // 0
-        else if(currentLine.lineNum == this.end_lineNum){
+        else if(currentLine.lineNum.equals(this.end_lineNum)){
             // 더 이상 환승하는 경로 필요없음
-            if(currentStation.stationName != this.end_stationName){
+            if(!currentStation.stationName.equals(this.end_stationName)){
                 // 다시 탐색 필요
-                // 2. next station이 start_stationName과 같다(방향에 따라 검사). ==> 순환중 = 더이상 진행하지 않는다.
-                // 3. 방향에 따른 종점 및 기점 여부 검사
+                // search(), 현재 방향으로 계속 진행. 종점이나 기점일 경우 종료되도록 작성.
+                if(currentLine.moveNext(i_direction)){
+                    next_station = this.subwayInfo.getStationInfo(currentLine.getCurrentStationName());
+                    if(currentLine.isCircular()){
+                        if(currentLine.isFirst(next_station.stationName) || currentLine.isLast(next_station.stationName)){
+                            return;
+                        }
+                    }
+                    search(direction, next_station, currentLine, tmpList, transferCount);
+                }
+                else{
+                    return;
+                }
             }
-            else if(currentStation.stationName == this.end_stationName){
+            else if(currentStation.stationName.equals(this.end_stationName)){
                 // 조건에 부합하는 경로
                 // 이미 추가된 경로인지 검사
                 if(this.resultPath.contains(tmpList)) return;
