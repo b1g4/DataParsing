@@ -138,50 +138,49 @@ public class RecommendPath {
 
 
 
-        //경로 사이의 모든 정류장의 '이름' 구하기
-        public ArrayList<String> getStationNames_on_Path(ArrayList<String> selectedPath) {
-            ArrayList<String> result=new ArrayList<>();
+    //경로 사이의 모든 정류장의 '이름' 구하기
+    public ArrayList<String> getStationNames_on_Path(ArrayList<String> selectedPath) {
+        ArrayList<String> result=new ArrayList<>();
 
-            this.transferNum = (selectedPath.size() / 5) - 1;
+        this.transferNum = (selectedPath.size() / 5) - 1;
     
-            String startSta = "";
-            String endSta = "";
-            String routeName = "";
+        String startSta = "";
+        String endSta = "";
+        String routeName = "";
     
-            for (int k = 0; k <= transferNum; k++) {
+        for (int k = 0; k <= transferNum; k++) {
     
-                startSta = selectedPath.get(5 * k);
-                endSta = selectedPath.get(5 * k + 3);
-                routeName = selectedPath.get(5 * k + 2);
+            startSta = selectedPath.get(5 * k);
+            endSta = selectedPath.get(5 * k + 3);
+            routeName = selectedPath.get(5 * k + 2);
     
-                RouteClass rta = businfo.getRouteInfo(routeName);
+            RouteClass rta = businfo.getRouteInfo(routeName);
     
-                for (int i = 0; i < rta.getStationList().size(); i++) {
-                    if (rta.getStationList().get(i).equals(startSta)) {
-                        for (int j = i; (!rta.getStationList().get(j).equals(endSta)); j++) {
-                            //stationListOnPath.add(rta.getStationList().get(j));
-                            //
-                            String stationName=businfo.getStationInfo(rta.getStationList().get(j)).stationName;
-                            System.out.println(stationName);
-                            result.add(stationName);
+            for (int i = 0; i < rta.getStationList().size(); i++) {
+                if (rta.getStationList().get(i).equals(startSta)) {
+                    for (int j = i; ; j++) {
+
+                        String stationName=businfo.getStationInfo(rta.getStationList().get(j)).stationName;
+                        String stationId=businfo.getStationInfo(rta.getStationList().get(j)).stationId;
+                        System.out.println("name="+stationName +" id="+stationId);
+                        result.add(stationName);
+
+                        if(rta.getStationList().get(j).equals(endSta)){
+                            break;
                         }
                     }
+
                 }
             }
-    
-            lastStop = selectedPath.get(5 * transferNum + 3);
-    
-           // stationListOnPath.add(endSta);
-            //
-            String stationName=businfo.getStationInfo(endSta).stationName;
-            System.out.println(stationName);
-            result.add(stationName);
-    
-            // 확인용 코드, 삭제 예정
-            //for (int i = 0; i < result.size(); i++) {
-            //    System.out.println(result.get(i));
-            //}
-
-            return result;
         }
+    
+        //lastStop = selectedPath.get(5 * transferNum + 3);
+    
+        // 확인용 코드, 삭제 예정
+        //for (int i = 0; i < result.size(); i++) {
+        //    System.out.println(result.get(i));
+        //}
+
+        return result;
+    }
 }

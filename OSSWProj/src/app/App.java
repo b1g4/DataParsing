@@ -26,8 +26,8 @@ public class App {
         String fileDir3 = currentPath + "\\OSSWProj\\data\\bus";
         ParseFileClass parse3= new ParseFileClass(fileDir3, false, true);
         */
+
        //routecsv.csv, stationcsv.csv, congestioncsv.csv 를 읽는 코드
-       
        BusInfoClass busInfo = BusInfoClass.getInstance();
        String currentPath = System.getProperty("user.dir");
 
@@ -40,14 +40,12 @@ public class App {
        String congestioncsvDir= currentPath+"/congestioncsv.csv";
        ParseFileClass parse_congestion= new ParseFileClass(congestioncsvDir,"congestion", true);
         
-
         //파일3개를 미리 읽고 정보를 저장한 상태로 client를 기다려야 한다
         TCPServer tcpServer=new TCPServer();
         tcpServer.setTCPSocket();
 
-       //test code
+        //test code
 /*
-
        System.out.println("\n====================================================================");
        System.out.println("================노량진에서 중앙대까지의 경로를 찾기 시작===============");
        System.out.println("====================================================================\n");
