@@ -23,6 +23,8 @@ public class LineClass {
     // 현재 가르키고 있는 정류장 정보
     private int index;
 
+    private String startStation;
+
     public LineClass(String lineNum, boolean isCircular){
         this.transferInfoList = new ArrayList<Boolean>();
         this.timeToUpperStation = new ArrayList<Integer>();
@@ -63,6 +65,22 @@ public class LineClass {
         }
     }
 
+    public int getDuration(String stationName, int direction){
+        int index = this.stationList.indexOf(stationName);
+        if(direction == 1){
+            return this.timeToLowerStation.get(index);
+        }
+        else if(direction == 0){
+            return this.timeToUpperStation.get(index);
+        }
+        else{
+            return -1;
+        }
+    }
+    public void setCurrentStation(String stationName){
+        this.index = this.stationList.indexOf(stationName);
+    }
+
     public ArrayList<String> getStationList(){
         return this.stationList;
     }
@@ -71,7 +89,24 @@ public class LineClass {
         return this.stationList.contains(stationName);
     }
 
-    public String getCurretnStationName(){
+    public boolean isCircular(){
+        return this.isCircular;
+    }
+
+    public void setFirst(String stationName){
+        this.startStation = stationName;
+    }
+
+    public boolean isFirst(String stationName){
+        if(this.startStation.equals(stationName)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public String getCurrentStationName(){
         return this.stationList.get(index);
     }
 

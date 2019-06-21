@@ -72,4 +72,5 @@ public class StationClass {
     public ArrayList<String> getTransferLineNumList(){
         return this.transferLineNumList;
     }
+
 }
