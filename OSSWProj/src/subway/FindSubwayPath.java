@@ -14,6 +14,9 @@ public class FindSubwayPath {
     private ArrayList<String> transferInfo = new ArrayList<String>();
     private ArrayList<ArrayList<String>> transferInfoList = new ArrayList<ArrayList<String>>();
 
+    private ArrayList<String> totalTime_notSorted = new ArrayList<String>();
+    private ArrayList<String> totalCongestion_notSorted = new ArrayList<String>();
+    
     private final String start_lineNum;
     private final String end_lineNum;
     private final String start_stationName;
@@ -46,6 +49,8 @@ public class FindSubwayPath {
             this.search_all(true, this.subwayInfo.getStationInfo(start_stationName), line, this.pathDown, this.transferInfo, 0);
 
             AnalysisPath path = new AnalysisPath(resultPath, transferInfoList);
+            this.totalTime_notSorted = path.getTotalTime();
+            this.totalCongestion_notSorted = path.getTotalCongestion();
             System.out.println("complete");  
         }
         else{
@@ -209,7 +214,11 @@ public class FindSubwayPath {
         search_all(direction, next_station, currentLine, tmpList, tmpList2, transferCount);
     }
 
-    private void calc_time(ArrayList<StationClass> path){
+    public ArrayList<String> getTimeList(){
+        return this.totalTime_notSorted;
+    }
 
+    public ArrayList<String> getCongestionList(){
+        return this.totalCongestion_notSorted;
     }
 }

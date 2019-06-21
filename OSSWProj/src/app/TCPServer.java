@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import bus.BusInfoClass;
 import findPath.RecommendPath;
 import findPath.SearchPath;
 
@@ -20,8 +21,8 @@ import findPath.SearchPath;
  */
 public class TCPServer{
 
-    public static final int ServerPort = 9999;
-    public static final String ServerIP = "xxx.xxx.xxx.xxxx";
+    public static final int ServerPort = 8000;
+    public static final String ServerIP = "xxx.xxx.xx.x";
  
     public void setTCPSocket(){
 
@@ -59,16 +60,17 @@ public class TCPServer{
                 output=socket.getOutputStream();
                 
                 //클라이언트가 보낸 메시지를 받아서 출력
-                BufferedReader reader=new BufferedReader(new InputStreamReader(input));
+                BufferedReader reader=new BufferedReader(new InputStreamReader(input,"utf-8"));
                 String clientMsg = reader.readLine();
                 System.out.println("S: Received: '" + clientMsg + "'");
 
                 //서버의 계산
                 String sendMsg=returnCalculateResult(clientMsg);
+                System.out.println("서버가 계산해서 나오는 결과 : "+sendMsg);
 
                 //클라이언트에게 메시지 전송
-                PrintWriter writer = new PrintWriter(new OutputStreamWriter(output), true);
-                writer.println("test==Server: send " + sendMsg);
+                PrintWriter writer = new PrintWriter(new OutputStreamWriter(output));
+                writer.println(sendMsg);
                 writer.flush();
                 
                 //close()
@@ -89,41 +91,56 @@ public class TCPServer{
 
         // 경로에 쓰인 단어개수 + 경로로로로로로 +   버정에 쓰인 단어개수+ 버스정류장목로고로고록
         private String returnCalculateResult(String clientMsg){
-            String result="";
+            String result="0";
             String[] values=clientMsg.split("\\s");
             
             //경로
             SearchPath s=new SearchPath(); 
             ArrayList<ArrayList<String>> str= s.getPathsFromStations(Double.parseDouble(values[0]),
-                                                                    Double.parseDouble(values[0]),
-                                                                    Double.parseDouble(values[0]),
-                                                                    Double.parseDouble(values[0]));
-            int cnt=0; //단어개수
-            for(int i=0;i<str.size();i++){
-                ArrayList<String> substr=str.get(i);
-                for(int j=0;j<substr.size();j++){
-                    result=result+substr.get(j)+" ";
-                    cnt++;
-                }
-            }
-            result=String.valueOf(cnt)+result; //단어개수+경로
+                                                                    Double.parseDouble(values[1]),
+                                                                    Double.parseDouble(values[2]),
+                                                                    Double.parseDouble(values[3]));
+            System.out.println("test=="+Double.parseDouble(values[0])+
+            Double.parseDouble(values[1])+
+            Double.parseDouble(values[2])+
+            Double.parseDouble(values[3]));
 
-            //버스정류장
-            int cnt2=0;
-            String stations="";
-            RecommendPath recommendPath=new RecommendPath();
-            for(int i=0;i<str.size();i++){
-                recommendPath.getStationListOnPath(str.get(i));//경로 사이의 모든 정류장 구하기
-                ArrayList<String> substation=recommendPath.returnStationList();
-                for(int j=0;j<substation.size();j++){
-                    stations=stations+substation.get(j)+" ";
-                    cnt2++;
-                }
-            }
-            result=String.valueOf(cnt2)+stations;//단어개수+경로 + 단어개수+정류장
-          
-           // return result;//==========================여기 추후 수정
-            return "hello !! b1g4!!!!";
+            System.out.println("test=====str.size"+str.size());
+            
+            if(str.size()==0){
+                result="0";
+            }else{
+                
+                result=String.valueOf(str.size())+" ";
+    
+                for(int i=0;i<str.size();i++){
+    
+                    String route="";
+                    int cnt=0; //단어개수
+                    ArrayList<String> substr=str.get(i);
+                    for(int j=0;j<substr.size();j++){
+                        route=route+substr.get(j)+" ";
+                        cnt++;
+                    }
+                    route=String.valueOf(cnt)+" "+route; //단어개수+경로
+    
+                    //버스정류장
+                    int cnt2=0;
+                    String stations="";
+                    RecommendPath recommendPath=new RecommendPath();
+                    ArrayList<String> substation= recommendPath.getStationNames_on_Path(str.get(i));
+                    for(int j=0;j<substation.size();j++){
+                        stations=stations+substation.get(j)+" ";
+                        cnt2++;
+                    }
+                    stations=String.valueOf(cnt2)+" "+stations;//단어개수+경로 + 단어개수+정류장
+    
+                    //client에 보낼 스트링
+                    result=str.size()+" "+route+stations+" ";
+                    //System.out.println(result);
+                }    
+            }     
+            return result;
         }
     } 
 }
