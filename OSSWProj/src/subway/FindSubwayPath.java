@@ -46,7 +46,7 @@ public class FindSubwayPath {
             this.search_all(true, this.subwayInfo.getStationInfo(start_stationName), line, this.pathDown, this.transferInfo, 0);
 
             AnalysisPath path = new AnalysisPath(resultPath, transferInfoList);
-            
+            System.out.println("complete");  
         }
         else{
             this.start_lineNum = "";
