@@ -221,4 +221,8 @@ public class FindSubwayPath {
     public ArrayList<String> getCongestionList(){
         return this.totalCongestion_notSorted;
     }
+
+    public ArrayList<StationClass> getSpecificPathInfo(int index){
+        return this.resultPath.get(index);
+    }
 }

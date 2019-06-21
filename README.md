@@ -41,6 +41,7 @@
 
 ------------------------------
 ## 시작하기
+## 버스
 #### 실행
  해당 서비스를 안드로이드 앱으로 구현하였으므로 앱을 설치 후 실행하면 된다. (앱은 출시 예정)
 #### 사용법
@@ -49,6 +50,15 @@
 3. 리스트에서 이용하고자 하는 길찾기 항목을 선택한다.
 4. 사용자는 해당 경로로 이동 중 실시간으로 혼잡도가 낮은 새로운 환승 경로를 추천받을 수 있다.
 5. 기존 경로가 아니라 추천받은 경로로 이동하고자 할 경우 해당 항목을 선택한다.
+
+## 지하철
+#### 실행
+  해당 서비스는 아직 안드로이드 앱과 연동이 안된 서비스임. 프로그램을 받아서 직접 수행해야 한다.
+#### 사용법
+1. 출발노선/출발역/도착노선/도착역 순서로 ArrayList에 값을 순서대로 저장
+2. FindSubwayPath class를 불러오면서 해당 Class에 초기화 인자로 위에서 초기화한 ArrayList를 입력해준다.
+3. 자동으로 모든 경로를 계산하고 FindSubwayPath에 있는 getTimeList(), getCongestionList()를 불러와서 계산이 완료된 경로들의 소요시간과 종합혼잡도를 확인한다.
+4. 이후 원하는 방식에 따라 특정 경로를 선택하고 getSpecificPathInfo(int index)를 불러 경로를 불러온 뒤 해당 경로를 앱으로 전송한다.
 
 ## Contribution Guidelines
 본 프로젝트에 Contribution을 하고자 할 경우 [CONTRIBUTING.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CONTRIBUTING.md)을 읽고 언급된 순서로 진행한다. 또한  [CODE_OF_CONDUCT.md](https://github.com/CAU-OSS-2019/team-project-team5/blob/master/CODE_OF_CONDUCT.md)을 반드시 숙지한다.
