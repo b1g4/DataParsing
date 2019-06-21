@@ -72,7 +72,7 @@ public class ReadCSVClass {
             }
             
             if(this.show){
-                //this.showAllData();
+                this.showAllData();
             } else {
                 System.out.println("파일 읽기 완료");
             }
@@ -113,7 +113,7 @@ public class ReadCSVClass {
      * data를 출력. 확인용도
      */
     public void showAllData(){
-        for(int i=0; i<10; i++){
+        for(int i=0; i<this.csvFileValues.size(); i++){
             for(int j=0; j<this.csvFileValues.get(i).size(); j++){
                // System.out.print(csvFileValues.get(i).get(j) + " ");
             }
