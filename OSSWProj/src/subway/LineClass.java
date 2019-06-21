@@ -64,6 +64,19 @@ public class LineClass {
 
         }
     }
+
+    public int getDuration(String stationName, int direction){
+        int index = this.stationList.indexOf(stationName);
+        if(direction == 1){
+            return this.timeToLowerStation.get(index);
+        }
+        else if(direction == 0){
+            return this.timeToUpperStation.get(index);
+        }
+        else{
+            return -1;
+        }
+    }
     public void setCurrentStation(String stationName){
         this.index = this.stationList.indexOf(stationName);
     }
